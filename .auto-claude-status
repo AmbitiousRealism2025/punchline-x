@@ -1,25 +1,25 @@
 {
   "active": true,
-  "spec": "012-codex-pr-fix-2",
+  "spec": "006-mobile-responsive-design",
   "state": "building",
   "subtasks": {
-    "completed": 2,
-    "total": 11,
+    "completed": 3,
+    "total": 19,
     "in_progress": 1,
     "failed": 0
   },
   "phase": {
-    "current": "Reproduce and Fetch Review Data",
+    "current": "Core Layout & Navigation",
     "id": null,
-    "total": 4
+    "total": 2
   },
   "workers": {
     "active": 0,
     "max": 1
   },
   "session": {
-    "number": 3,
-    "started_at": "2026-01-06T23:12:26.093287"
+    "number": 2,
+    "started_at": "2026-01-06T21:51:33.324172"
   },
-  "last_update": "2026-01-06T23:15:56.310507"
+  "last_update": "2026-01-06T21:53:46.695622"
 }

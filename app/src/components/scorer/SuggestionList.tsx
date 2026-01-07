@@ -34,25 +34,25 @@ export function SuggestionList() {
       <CardHeader className="pb-3">
         <CardTitle className="text-base">Suggestions</CardTitle>
       </CardHeader>
-      <CardContent className="space-y-3">
+      <CardContent className="space-y-2 sm:space-y-3">
         {warnings.map((warning, idx) => (
           <div
             key={`warning-${idx}`}
-            className="p-3 rounded-lg bg-red-500/10 border border-red-500/20"
+            className="p-2 sm:p-3 rounded-lg bg-red-500/10 border border-red-500/20"
           >
-            <p className="text-sm text-red-400">{warning}</p>
+            <p className="text-sm text-red-400 break-words">{warning}</p>
           </div>
         ))}
         {suggestions.map((suggestion, idx) => (
           <div
             key={`suggestion-${idx}`}
-            className="flex items-start gap-3 p-3 rounded-lg bg-card border border-border"
+            className="flex flex-col sm:flex-row items-start gap-2 sm:gap-3 p-2 sm:p-3 rounded-lg bg-card border border-border"
           >
             <Badge className={cn('shrink-0', priorityColors[suggestion.priority])}>
               {suggestion.priority}
             </Badge>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm text-foreground">{suggestion.message}</p>
+            <div className="flex-1 min-w-0 w-full">
+              <p className="text-sm text-foreground break-words">{suggestion.message}</p>
               <p className="text-xs text-primary mt-1">Impact: {suggestion.impact}</p>
             </div>
           </div>

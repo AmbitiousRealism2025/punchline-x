@@ -12,6 +12,7 @@ import {
 import { HookGenerator } from '@/components/ai/HookGenerator'
 import { TemplateGrid, TemplateEditor, TimingAdvisor } from '@/components/templates'
 import { AnalyticsDashboard, TweetHistory, DataExport } from '@/components/analytics'
+import { ThreadBuilder, ThreadScoreDisplay, ThreadSuggestions } from '@/components/threads'
 import { CommandPalette } from '@/components/CommandPalette'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import type { Template } from '@/lib/templates'
@@ -35,6 +36,7 @@ function App() {
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="mb-6">
             <TabsTrigger value="compose">Compose</TabsTrigger>
+            <TabsTrigger value="threads">Threads</TabsTrigger>
             <TabsTrigger value="templates">Templates</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
           </TabsList>
@@ -51,6 +53,19 @@ function App() {
                 <ScoreDisplay />
                 <ScoreBreakdown />
                 <SuggestionList />
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="threads">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="space-y-6">
+                <ThreadBuilder />
+              </div>
+
+              <div className="space-y-6">
+                <ThreadScoreDisplay />
+                <ThreadSuggestions />
               </div>
             </div>
           </TabsContent>

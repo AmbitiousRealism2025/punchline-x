@@ -21,7 +21,18 @@ export function TemplateCard({ template, onSelect }: TemplateCardProps) {
   const [minScore, maxScore] = template.expectedScore
 
   return (
-    <Card className="raycast-shine hover:border-primary/50 transition-colors cursor-pointer group">
+    <Card
+      className="raycast-shine hover:border-primary/50 active:border-primary active:scale-[0.98] transition-all cursor-pointer group touch-manipulation min-h-[120px]"
+      onClick={() => onSelect(template)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onSelect(template)
+        }
+      }}
+    >
       <CardHeader className="pb-2">
         <div className="flex items-start justify-between gap-2">
           <CardTitle className="text-base">{template.name}</CardTitle>
@@ -55,8 +66,11 @@ export function TemplateCard({ template, onSelect }: TemplateCardProps) {
         </div>
 
         <Button
-          onClick={() => onSelect(template)}
-          className="w-full opacity-0 group-hover:opacity-100 transition-opacity"
+          onClick={(e) => {
+            e.stopPropagation()
+            onSelect(template)
+          }}
+          className="w-full md:opacity-0 md:group-hover:opacity-100 transition-opacity"
           size="sm"
         >
           Use Template

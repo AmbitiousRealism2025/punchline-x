@@ -1,0 +1,4 @@
+{
+  "task_description": "# Expanded Template Library (30+ Templates)\n\nExpand the template library from 15 to 30+ proven templates covering more categories: Questions, Predictions, Unpopular Opinions, Case Studies, Before/After, Lessons Learned, Tool Reviews.\n\n## Rationale\nTemplates are a key differentiator - they provide immediate value and teach users what works. More variety means users find templates that match their content style.\n\n## User Stories\n- As a content creator, I want diverse templates so that I can find formats that match my content style\n- As a beginner, I want example tweets so that I understand how to use each template effectively\n\n## Acceptance Criteria\n- [ ] At least 30 templates available\n- [ ] Templates organized into 10+ categories\n- [ ] Each template shows expected score range\n- [ ] Templates include examples of successful tweets that used the format\n",
+  "workflow_type": "feature"
+}

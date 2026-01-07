@@ -11,4 +11,22 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          // Split node_modules into separate chunks
+          if (id.includes('node_modules')) {
+            // Split React into its own chunk
+            if (id.includes('react') || id.includes('react-dom')) {
+              return 'react-vendor'
+            }
+            // Other vendor dependencies
+            return 'vendor'
+          }
+        },
+      },
+    },
+    chunkSizeWarningLimit: 30,
+  },
 })

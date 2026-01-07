@@ -53,13 +53,14 @@ export function MediaToggles() {
             type="single"
             value={mediaType}
             onValueChange={(value) => value && setMediaType(value as MediaType)}
+            spacing={8}
             className="justify-start flex-wrap"
           >
             {mediaOptions.map((option) => (
               <ToggleGroupItem
                 key={option.value}
                 value={option.value}
-                className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+                className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground min-w-[44px] min-h-[44px]"
               >
                 {option.label}
               </ToggleGroupItem>
@@ -71,14 +72,14 @@ export function MediaToggles() {
           <Toggle
             pressed={hasLink}
             onPressedChange={setHasLink}
-            className="data-[state=on]:bg-destructive/20 data-[state=on]:text-destructive"
+            className="data-[state=on]:bg-destructive/20 data-[state=on]:text-destructive min-w-[44px] min-h-[44px]"
           >
             Has Link
           </Toggle>
           <Toggle
             pressed={isPremium}
             onPressedChange={setIsPremium}
-            className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground"
+            className="data-[state=on]:bg-primary data-[state=on]:text-primary-foreground min-w-[44px] min-h-[44px]"
           >
             Premium
           </Toggle>
