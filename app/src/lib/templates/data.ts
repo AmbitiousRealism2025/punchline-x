@@ -429,6 +429,146 @@ But Gen Z trusts individual creators over brands 3:1, and that gap is widening.
 
 Come back to this post in 2027.`,
   },
+  {
+    id: 'cs1-client-results',
+    name: 'Client Results Showcase',
+    category: 'case-study',
+    template: `Client results: {clientType}
+
+The challenge:
+{problem}
+
+What we did:
+{solution}
+
+The results:
+• {result1}
+• {result2}
+• {result3}
+
+Timeline: {timeline}
+
+{callToAction}`,
+    placeholders: [
+      { key: 'clientType', hint: 'Type of client or industry' },
+      { key: 'problem', hint: 'What problem they faced' },
+      { key: 'solution', hint: 'What you implemented (2-3 sentences)' },
+      { key: 'result1', hint: 'First quantifiable result' },
+      { key: 'result2', hint: 'Second quantifiable result' },
+      { key: 'result3', hint: 'Third quantifiable result' },
+      { key: 'timeline', hint: 'How long it took' },
+      { key: 'callToAction', hint: 'What you want readers to do' },
+    ],
+    expectedScore: [75, 90],
+    bestWith: ['image'],
+    example: `Client results: E-commerce brand
+
+The challenge:
+Email list of 50K but only 0.8% open rate and $2K/month in email revenue.
+
+What we did:
+Complete email strategy overhaul. Segmented by behavior, rewrote every automated sequence, A/B tested subject lines for 30 days.
+
+The results:
+• Open rate jumped to 42%
+• Click rate from 0.3% to 8.1%
+• Email revenue hit $47K/month
+
+Timeline: 90 days
+
+Want similar results? DM me "EMAIL" for a free audit.`,
+  },
+  {
+    id: 'cs2-before-after-stats',
+    name: 'Before/After Stats',
+    category: 'case-study',
+    template: `Case study: {project}
+
+BEFORE:
+{beforeStat1}
+{beforeStat2}
+{beforeStat3}
+
+AFTER:
+{afterStat1}
+{afterStat2}
+{afterStat3}
+
+What changed: {keyChange}
+
+{question}`,
+    placeholders: [
+      { key: 'project', hint: 'Project name or type' },
+      { key: 'beforeStat1', hint: 'First "before" metric' },
+      { key: 'beforeStat2', hint: 'Second "before" metric' },
+      { key: 'beforeStat3', hint: 'Third "before" metric' },
+      { key: 'afterStat1', hint: 'First "after" metric' },
+      { key: 'afterStat2', hint: 'Second "after" metric' },
+      { key: 'afterStat3', hint: 'Third "after" metric' },
+      { key: 'keyChange', hint: 'What made the difference' },
+      { key: 'question', hint: 'Engagement question' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['image'],
+    example: `Case study: LinkedIn profile optimization
+
+BEFORE:
+→ 2-3 profile views/week
+→ Zero inbound leads
+→ 800 connections
+
+AFTER:
+→ 150+ profile views/week
+→ 15-20 inbound DMs/month
+→ 3,200 connections
+
+What changed: Featured section showcasing results + headline optimization + posting 3x/week
+
+What's holding you back from optimizing your profile?`,
+  },
+  {
+    id: 'cs3-problem-solution-result',
+    name: 'Problem-Solution-Result',
+    category: 'case-study',
+    template: `Real case study from {timeframe}:
+
+❌ PROBLEM
+{problem}
+
+💡 SOLUTION
+{solution}
+
+✅ RESULT
+{result}
+
+Key lesson: {lesson}
+
+{question}`,
+    placeholders: [
+      { key: 'timeframe', hint: 'When this happened (last month, Q4 2025)' },
+      { key: 'problem', hint: 'The specific problem faced' },
+      { key: 'solution', hint: 'How you solved it (2-3 sentences)' },
+      { key: 'result', hint: 'Quantifiable outcome achieved' },
+      { key: 'lesson', hint: 'Main takeaway for readers' },
+      { key: 'question', hint: 'Call to action question' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['none'],
+    example: `Real case study from December 2025:
+
+❌ PROBLEM
+SaaS company had 10K trial signups/month but only 2% converting to paid. Churn analysis showed users weren't reaching "aha moment."
+
+💡 SOLUTION
+Rebuilt onboarding flow: removed 8 unnecessary steps, added interactive product tour, sent targeted email on day 3 based on user behavior.
+
+✅ RESULT
+Trial-to-paid conversion jumped from 2% to 11.5% in 45 days. Added $127K MRR.
+
+Key lesson: More features in onboarding = lower conversion. Simplify ruthlessly.
+
+What's your biggest conversion bottleneck?`,
+  },
 ]
 
 export const categoryLabels: Record<string, string> = {
