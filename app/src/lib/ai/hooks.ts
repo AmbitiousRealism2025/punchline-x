@@ -1,13 +1,19 @@
+import type { VoiceProfile } from '../store'
+
 export interface GeneratedHook {
   hook: string
   style: 'contrarian' | 'number' | 'story' | 'question' | 'interrupt'
 }
 
-export async function generateHooks(topic: string): Promise<GeneratedHook[]> {
+export async function generateHooks(
+  topic: string,
+  voiceProfile?: VoiceProfile,
+  exampleTweets?: string[]
+): Promise<GeneratedHook[]> {
   const response = await fetch('http://localhost:3001/api/generate-hooks', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ topic }),
+    body: JSON.stringify({ topic, voiceProfile, exampleTweets }),
   })
 
   if (!response.ok) {
