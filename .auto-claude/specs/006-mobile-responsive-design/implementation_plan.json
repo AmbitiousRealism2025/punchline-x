@@ -1,0 +1,582 @@
+{
+  "feature": "Mobile-Responsive Design",
+  "workflow_type": "feature",
+  "workflow_rationale": "Adding new mobile device support capability to existing desktop-optimized application. Requires implementing responsive layouts, touch interactions, and performance optimizations without changing core functionality.",
+
+  "phases": [
+    {
+      "id": "phase-1-foundation",
+      "name": "Mobile Infrastructure Foundation",
+      "type": "setup",
+      "description": "Configure viewport, Tailwind mobile breakpoints, touch utilities, and code splitting",
+      "depends_on": [],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-1-1",
+          "description": "Verify viewport meta tag exists in index.html",
+          "service": "punchline-x",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": ["app/index.html"],
+          "verification": {
+            "type": "command",
+            "command": "grep -q 'name=\"viewport\"' app/index.html && echo 'PASS' || echo 'FAIL'",
+            "expected": "PASS"
+          },
+          "status": "pending",
+          "notes": "Viewport meta tag already exists at line 6. No changes needed."
+        },
+        {
+          "id": "subtask-1-2",
+          "description": "Add mobile breakpoints and touch utilities to index.css @theme block",
+          "service": "punchline-x",
+          "files_to_modify": ["app/src/index.css"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/index.css"],
+          "verification": {
+            "type": "command",
+            "command": "grep -q '@theme inline' app/src/index.css && echo 'PASS' || echo 'FAIL'",
+            "expected": "PASS"
+          },
+          "status": "pending",
+          "notes": "Add custom breakpoints (if needed), touch-target size utilities, and active-state helpers in @theme inline block. Use rem units for any custom breakpoints."
+        },
+        {
+          "id": "subtask-1-3",
+          "description": "Configure Vite code splitting for bundles >30kb",
+          "service": "punchline-x",
+          "files_to_modify": ["app/vite.config.ts"],
+          "files_to_create": [],
+          "patterns_from": ["app/vite.config.ts"],
+          "verification": {
+            "type": "command",
+            "command": "npm run build && ls -lh app/dist/assets/*.js | wc -l",
+            "expected": "Multiple JS chunks created"
+          },
+          "status": "pending",
+          "notes": "Add build.rollupOptions.output.manualChunks to split vendor code from app code. Only split bundles exceeding 30kb to avoid excessive network requests."
+        }
+      ]
+    },
+    {
+      "id": "phase-2-layout",
+      "name": "Core Layout & Navigation",
+      "type": "implementation",
+      "description": "Make Shell header and App grid layouts mobile-responsive",
+      "depends_on": ["phase-1-foundation"],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-2-1",
+          "description": "Make Shell header responsive with mobile padding",
+          "service": "punchline-x",
+          "files_to_modify": ["app/src/components/layout/Shell.tsx"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/App.tsx"],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": [
+              "Header renders at 375px viewport",
+              "Logo and title fit without truncation",
+              "No horizontal scroll"
+            ]
+          },
+          "status": "pending",
+          "notes": "Adjust px-6 to responsive padding (px-4 md:px-6), ensure logo and title stack or shrink on mobile."
+        },
+        {
+          "id": "subtask-2-2",
+          "description": "Convert App.tsx grid layouts to mobile-first stacking",
+          "service": "punchline-x",
+          "files_to_modify": ["app/src/App.tsx"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/components/templates/TemplateGrid.tsx"],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": [
+              "Compose tab stacks vertically on mobile (375px)",
+              "Analytics grid becomes single column on mobile",
+              "Layouts expand to 2 columns on lg breakpoint (1024px)"
+            ]
+          },
+          "status": "pending",
+          "notes": "Change grid-cols-1 lg:grid-cols-2 for compose and analytics grids. Verify mobile-first pattern."
+        }
+      ]
+    },
+    {
+      "id": "phase-3-ui-primitives",
+      "name": "UI Primitives Touch Optimization",
+      "type": "implementation",
+      "description": "Update button, toggle, and tabs components for 44x44px touch targets and active states",
+      "depends_on": ["phase-1-foundation"],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-3-1",
+          "description": "Increase button size variants to meet 44x44px minimum",
+          "service": "punchline-x",
+          "files_to_modify": ["app/src/components/ui/button.tsx"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/components/ui/button.tsx"],
+          "verification": {
+            "type": "command",
+            "command": "grep 'h-11' app/src/components/ui/button.tsx && echo 'PASS' || echo 'FAIL'",
+            "expected": "PASS"
+          },
+          "status": "pending",
+          "notes": "Change default size from h-9 (36px) to h-11 (44px). Change icon size from size-9 to size-11. Add active:scale-95 for touch feedback."
+        },
+        {
+          "id": "subtask-3-2",
+          "description": "Add active states and increase touch targets in toggle.tsx",
+          "service": "punchline-x",
+          "files_to_modify": ["app/src/components/ui/toggle.tsx"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/components/ui/button.tsx"],
+          "verification": {
+            "type": "command",
+            "command": "grep 'active:' app/src/components/ui/toggle.tsx && echo 'PASS' || echo 'FAIL'",
+            "expected": "PASS"
+          },
+          "status": "pending",
+          "notes": "Change default h-9 to h-11, add active: states alongside hover:. Ensure min-w-11 for touch targets."
+        },
+        {
+          "id": "subtask-3-3",
+          "description": "Make tabs scrollable and increase touch height",
+          "service": "punchline-x",
+          "files_to_modify": ["app/src/components/ui/tabs.tsx"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/components/templates/TemplateGrid.tsx"],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": [
+              "Tabs scroll horizontally if needed on narrow viewport",
+              "Tab trigger height is 44px",
+              "Active state visible on tap"
+            ]
+          },
+          "status": "pending",
+          "notes": "Add overflow-x-auto to TabsList, increase h-9 to h-11 for TabsTrigger. Add active: states."
+        },
+        {
+          "id": "subtask-3-4",
+          "description": "Add horizontal scroll and touch spacing to toggle-group.tsx",
+          "service": "punchline-x",
+          "files_to_modify": ["app/src/components/ui/toggle-group.tsx"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/components/templates/TemplateGrid.tsx"],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": [
+              "Category toggles scroll horizontally on mobile",
+              "Toggle items are 44px height",
+              "Touch spacing prevents accidental taps"
+            ]
+          },
+          "status": "pending",
+          "notes": "Add overflow-x-auto wrapper, ensure toggle items meet 44x44px touch targets. Already has good structure."
+        }
+      ]
+    },
+    {
+      "id": "phase-4-scorer",
+      "name": "Scorer Components Mobile Optimization",
+      "type": "implementation",
+      "description": "Optimize tweet input, media toggles, score display, and suggestions for mobile",
+      "depends_on": ["phase-2-layout", "phase-3-ui-primitives"],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-4-1",
+          "description": "Optimize TweetInput buttons for touch and mobile keyboard",
+          "service": "punchline-x",
+          "files_to_modify": ["app/src/components/scorer/TweetInput.tsx"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/components/ui/button.tsx"],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": [
+              "Copy and Clear buttons are touch-friendly",
+              "Textarea doesn't get hidden by mobile keyboard",
+              "Button row stacks or stays visible on small screens"
+            ]
+          },
+          "status": "pending",
+          "notes": "Buttons already use Button component which will inherit touch target fixes. Verify layout on mobile viewport."
+        },
+        {
+          "id": "subtask-4-2",
+          "description": "Ensure MediaToggles meet 44x44px touch targets",
+          "service": "punchline-x",
+          "files_to_modify": ["app/src/components/scorer/MediaToggles.tsx"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/components/ui/toggle-group.tsx"],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": [
+              "Media toggle buttons are 44x44px",
+              "Toggles respond to touch with visual feedback",
+              "No accidental adjacent toggle activations"
+            ]
+          },
+          "status": "pending",
+          "notes": "Component uses ToggleGroup which will inherit touch optimizations from phase-3-4. Verify implementation."
+        },
+        {
+          "id": "subtask-4-3",
+          "description": "Ensure ScoreDisplay and ScoreBreakdown stack properly on mobile",
+          "service": "punchline-x",
+          "files_to_modify": [
+            "app/src/components/scorer/ScoreDisplay.tsx",
+            "app/src/components/scorer/ScoreBreakdown.tsx"
+          ],
+          "files_to_create": [],
+          "patterns_from": ["app/src/App.tsx"],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": [
+              "Score displays prominently on mobile",
+              "Breakdown metrics are readable",
+              "No horizontal overflow"
+            ]
+          },
+          "status": "pending",
+          "notes": "Components are in Card wrappers. Verify responsive stacking and readability on 375px viewport."
+        },
+        {
+          "id": "subtask-4-4",
+          "description": "Fix SuggestionList card layout for narrow viewports",
+          "service": "punchline-x",
+          "files_to_modify": ["app/src/components/scorer/SuggestionList.tsx"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/components/templates/TemplateGrid.tsx"],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": [
+              "Suggestion cards stack vertically on mobile",
+              "Text is readable without zoom",
+              "Cards fit viewport width"
+            ]
+          },
+          "status": "pending",
+          "notes": "If using grid layout, ensure it becomes single column on mobile. Verify card content doesn't overflow."
+        }
+      ]
+    },
+    {
+      "id": "phase-5-templates",
+      "name": "Templates Components Mobile Optimization",
+      "type": "implementation",
+      "description": "Optimize template grid, cards, and category filters for mobile touch interaction",
+      "depends_on": ["phase-2-layout", "phase-3-ui-primitives"],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-5-1",
+          "description": "Convert TemplateGrid to single-column mobile layout",
+          "service": "punchline-x",
+          "files_to_modify": ["app/src/components/templates/TemplateGrid.tsx"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/App.tsx"],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": [
+              "Template cards stack as single column on mobile",
+              "Category toggles scroll horizontally",
+              "Grid expands to multi-column on tablet/desktop"
+            ]
+          },
+          "status": "pending",
+          "notes": "Already has grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pattern. Verify it works correctly. ToggleGroup already has overflow-x-auto."
+        },
+        {
+          "id": "subtask-5-2",
+          "description": "Add touch targets and pressed states to TemplateCard",
+          "service": "punchline-x",
+          "files_to_modify": ["app/src/components/templates/TemplateCard.tsx"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/components/ui/button.tsx"],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": [
+              "Template cards respond to touch with visual feedback",
+              "Cards are large enough to tap easily",
+              "Pressed state visible on touch"
+            ]
+          },
+          "status": "pending",
+          "notes": "Add active: states to card interactive elements. Ensure card touch area is sufficiently large."
+        }
+      ]
+    },
+    {
+      "id": "phase-6-integration",
+      "name": "Integration Testing & Performance Verification",
+      "type": "integration",
+      "description": "End-to-end mobile testing, performance benchmarks, and cross-browser verification",
+      "depends_on": ["phase-4-scorer", "phase-5-templates"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-6-1",
+          "description": "Test complete mobile scoring flow on real devices",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "e2e",
+            "steps": [
+              "Open app on mobile viewport (375px)",
+              "Type tweet text in TweetInput",
+              "Toggle media options",
+              "Verify score displays and updates",
+              "Check suggestions render correctly",
+              "Rotate to landscape and verify layout"
+            ]
+          },
+          "status": "pending",
+          "notes": "Test on iOS Safari and Chrome Mobile. Verify no console errors, no horizontal scroll, all touch targets work."
+        },
+        {
+          "id": "subtask-6-2",
+          "description": "Test template browsing and editing on mobile",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "e2e",
+            "steps": [
+              "Navigate to Templates tab",
+              "Scroll category filters horizontally",
+              "Tap template card to select",
+              "Verify template editor opens and is usable",
+              "Test in both portrait and landscape"
+            ]
+          },
+          "status": "pending",
+          "notes": "Verify single-column layout on mobile, horizontal scroll for categories, touch-friendly interactions."
+        },
+        {
+          "id": "subtask-6-3",
+          "description": "Run Lighthouse mobile performance audit",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "npm run build && echo 'Run Lighthouse mobile audit in Chrome DevTools'",
+            "expected": "Performance >85, Accessibility >95"
+          },
+          "status": "pending",
+          "notes": "Use Chrome DevTools Lighthouse in mobile mode. Verify bundle size with: ls -lh app/dist/assets/*.js"
+        },
+        {
+          "id": "subtask-6-4",
+          "description": "Verify desktop functionality has no regressions",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": [
+              "Desktop layout (1920px) still works correctly",
+              "Two-column grid shows on large screens",
+              "No visual regressions in components",
+              "Hover states still work on desktop"
+            ]
+          },
+          "status": "pending",
+          "notes": "Critical regression check. Test at 1920px viewport to ensure mobile changes didn't break desktop."
+        }
+      ]
+    }
+  ],
+
+  "summary": {
+    "total_phases": 6,
+    "total_subtasks": 18,
+    "services_involved": ["punchline-x"],
+    "parallelism": {
+      "max_parallel_phases": 2,
+      "parallel_groups": [
+        {
+          "phases": ["phase-3-ui-primitives", "phase-2-layout"],
+          "reason": "Both depend only on phase-1-foundation, operate on different file sets (UI primitives vs layout components)"
+        },
+        {
+          "phases": ["phase-4-scorer", "phase-5-templates"],
+          "reason": "Both depend on phase-2 and phase-3, operate on different component sets (scorer vs templates)"
+        }
+      ],
+      "recommended_workers": 2,
+      "speedup_estimate": "1.4x faster than sequential execution"
+    },
+    "startup_command": "cd app && npm run dev"
+  },
+
+  "verification_strategy": {
+    "risk_level": "high",
+    "skip_validation": false,
+    "test_creation_phase": "post_implementation",
+    "test_types_required": ["unit", "integration", "e2e"],
+    "security_scanning_required": false,
+    "staging_deployment_required": false,
+    "acceptance_criteria": [
+      "All UI components render correctly on mobile viewports (320px-768px)",
+      "All interactive elements meet 44x44px minimum touch target",
+      "Portrait and landscape orientations work without layout issues",
+      "Code splitting configured for bundles >30kb",
+      "Mobile performance: initial load <3s on simulated 3G",
+      "Cross-browser testing passed: iOS Safari, Chrome Mobile",
+      "No console errors on mobile devices",
+      "Existing desktop functionality still works (no regressions)",
+      "Active/pressed states implemented for all touch interactions"
+    ],
+    "verification_steps": [
+      {
+        "name": "Mobile Viewport Tests (320px-768px)",
+        "command": "echo 'Use Chrome DevTools responsive mode to test 375px, 768px viewports'",
+        "expected_outcome": "All components render without horizontal scroll, touch targets are 44x44px",
+        "type": "manual",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "iOS Safari Testing",
+        "command": "echo 'Test on real iPhone or iOS Simulator'",
+        "expected_outcome": "All features work, no layout issues, keyboard doesn't break UI",
+        "type": "manual",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Chrome Mobile Testing",
+        "command": "echo 'Test on Android Chrome or Chrome DevTools mobile emulation'",
+        "expected_outcome": "All features work, touch interactions responsive",
+        "type": "manual",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Lighthouse Mobile Performance",
+        "command": "npm run build && echo 'Run Lighthouse in Chrome DevTools (mobile mode)'",
+        "expected_outcome": "Performance score >85, Accessibility >95",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Desktop Regression Check",
+        "command": "echo 'Test at 1920px viewport in Chrome'",
+        "expected_outcome": "No visual or functional regressions from mobile changes",
+        "type": "manual",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Orientation Change Test",
+        "command": "echo 'Rotate device/emulator between portrait and landscape'",
+        "expected_outcome": "Layout reflows smoothly, no broken layouts or content cutoff",
+        "type": "manual",
+        "required": true,
+        "blocking": false
+      }
+    ],
+    "reasoning": "High-risk cross-cutting UI change requires comprehensive validation. Manual testing critical due to touch interaction and cross-browser mobile differences. E2E tests needed to verify responsive behavior across multiple viewport sizes."
+  },
+
+  "qa_acceptance": {
+    "unit_tests": {
+      "required": false,
+      "commands": [],
+      "minimum_coverage": null,
+      "notes": "Unit tests for responsive CSS are not practical. Manual testing and visual regression checks are more appropriate."
+    },
+    "integration_tests": {
+      "required": false,
+      "commands": [],
+      "services_to_test": [],
+      "notes": "Integration tests for mobile responsiveness require browser automation. Manual testing more efficient for this visual/interaction-focused change."
+    },
+    "e2e_tests": {
+      "required": false,
+      "commands": [],
+      "flows": [],
+      "notes": "E2E tests would require Playwright or Cypress setup which doesn't exist. Manual testing on real devices is prioritized."
+    },
+    "browser_verification": {
+      "required": true,
+      "pages": [
+        {
+          "url": "http://localhost:5173",
+          "viewport": "375px (iPhone)",
+          "checks": [
+            "Compose tab renders without horizontal scroll",
+            "Tweet input and scoring work",
+            "Buttons are touch-friendly (44x44px)",
+            "No console errors"
+          ]
+        },
+        {
+          "url": "http://localhost:5173",
+          "viewport": "375px (iPhone)",
+          "checks": [
+            "Template grid is single column",
+            "Category filters scroll horizontally",
+            "Template cards are touch-friendly",
+            "Template editor works on mobile"
+          ]
+        },
+        {
+          "url": "http://localhost:5173",
+          "viewport": "1920px (Desktop)",
+          "checks": [
+            "Two-column layout still works",
+            "No visual regressions",
+            "Hover states functional"
+          ]
+        }
+      ]
+    },
+    "performance_verification": {
+      "required": true,
+      "checks": [
+        {
+          "name": "Bundle Size Analysis",
+          "command": "npm run build && ls -lh app/dist/assets/*.js",
+          "expected": "No single JS bundle exceeds 100kb (before gzip), multiple chunks created"
+        },
+        {
+          "name": "Lighthouse Mobile Score",
+          "tool": "Chrome DevTools Lighthouse (Mobile)",
+          "expected": "Performance >85, Accessibility >95"
+        },
+        {
+          "name": "3G Load Time",
+          "tool": "Chrome DevTools Network Throttling (Fast 3G)",
+          "expected": "Time to Interactive <3 seconds"
+        }
+      ]
+    }
+  },
+
+  "qa_signoff": null
+}
