@@ -1,0 +1,169 @@
+=== AUTO-BUILD PROGRESS ===
+
+Project: Punchline X - Score Explanation Cards
+Workspace: 003-score-explanation-cards
+Started: 2026-01-06
+
+Workflow Type: feature
+Rationale: Net-new feature adding educational UI layer to existing scoring system. Single-service (frontend-only), follows clear dependency order: types → component → content → integration. No backend or infrastructure changes required.
+
+Session 1 (Planner):
+- Completed deep codebase investigation
+- Identified 7 scoring factors: base, media, hook, engagement, timing, account, quality
+- Discovered tech stack: React 19 + TypeScript + Vite + Radix UI + Tailwind CSS
+- Created project_index.json with frontend service configuration
+- Created context.json with discovered patterns and 7 factor details
+- Created implementation_plan.json with 5 phases and 13 subtasks
+- Created init.sh for development environment setup
+- Phases: 5
+- Total subtasks: 13
+
+Phase Summary:
+- Phase 1 (Type Definitions & Data Structure): 1 subtask, no dependencies
+- Phase 2 (ExplanationCard Component): 1 subtask, depends on Phase 1
+- Phase 3 (Educational Content Creation): 7 subtasks (one per factor), depends on Phase 1
+- Phase 4 (UI Integration): 2 subtasks, depends on Phase 2 and Phase 3
+- Phase 5 (Quality Assurance & Polish): 3 subtasks, depends on Phase 4
+
+Services Involved:
+- frontend: React/TypeScript application, UI components, content display
+
+Parallelism Analysis:
+- Max parallel phases: 2
+- Recommended workers: 1
+- Parallel groups:
+  * Phase 2 (ExplanationCard Component) and Phase 3 (Educational Content Creation) can run in parallel
+  * Both depend only on Phase 1, work on different file sets
+- Speedup estimate: Minimal (~10% at best) - content creation is human authoring bottleneck
+
+Discovery Findings:
+- 7 Scoring Factors Identified:
+  1. base - Fixed 40 points starting value
+  2. media - Scores based on media type (image, video, gif, poll) and premium status
+  3. hook - Pattern analysis (pattern interrupt, curiosity gap, contrarian, story opener, questions, numbers)
+  4. engagement - CTAs, questions, emojis (1-3 good), caps (1-2 good), penalizes self-promo
+  5. timing - Weekday bonus +5, 8-11am +15, 12-2pm +10, night -10
+  6. account - Premium +20, Verified +10
+  7. quality - Content quality evaluation
+
+- UI Component Patterns:
+  * Dialog: Radix UI primitive for modals
+  * Card: Content structure component
+  * Tooltip: Hover hints component
+  * Button: Various variants (ghost, outline, etc.)
+  * Icons: lucide-react library (InfoIcon, HelpCircle available)
+
+- Files to Create:
+  * app/src/lib/scoring/explanation-types.ts - TypeScript interfaces
+  * app/src/lib/scoring/explanations.ts - Educational content data
+  * app/src/components/scorer/ExplanationCard.tsx - Reusable card component
+
+- Files to Modify:
+  * app/src/components/scorer/ScoreBreakdown.tsx - Add info icon triggers
+
+Implementation Strategy:
+1. Phase 1: Create type definitions for explanation card data structure
+2. Phase 2: Build reusable ExplanationCard component using Radix Dialog
+3. Phase 3: Author educational content for all 7 factors (parallel with Phase 2)
+4. Phase 4: Wire cards into ScoreBreakdown UI with info icon triggers
+5. Phase 5: QA testing, accessibility audit, content review
+
+=== STARTUP COMMAND ===
+
+To continue building this spec, run:
+
+  cd app && npm run dev
+
+For development environment with auto-reload:
+
+  ./.auto-claude/specs/003-score-explanation-cards/init.sh
+
+Or manually:
+
+  cd app
+  npm run dev
+  # Open http://localhost:3000
+
+=== VERIFICATION STRATEGY ===
+
+Risk Level: low
+Skip Validation: false
+Test Types Required: unit
+Security Scanning: not required
+Staging Deployment: not required
+
+Acceptance Criteria:
+- All 7 explanation cards render without errors
+- Content is accurate and matches scoring logic
+- Examples are clear and educational
+- Research links are valid and credible
+- UI integration is seamless and accessible
+- No regressions in existing scoring functionality
+- Mobile and desktop viewports both work
+- Keyboard navigation and screen readers work
+
+Verification Steps:
+1. Build Check: cd app && npm run build (must succeed)
+2. Browser Verification: All 7 cards display correctly, keyboard accessible
+3. Content Accuracy Review: Manual review against scoring logic files
+
+=== QA ACCEPTANCE ===
+
+Browser Verification Required:
+- Scoring results page loads
+- Score breakdown is expandable
+- Info icons appear next to all 7 factors
+- Clicking icon opens explanation card
+- Card displays complete content (principle, examples, research)
+- Card is mobile responsive
+- Card is keyboard accessible
+- No console errors
+
+Content Verification Required:
+- 7 factors covered: base, media, hook, engagement, timing, account, quality
+- Each factor has algorithm principle explanation (why + how)
+- Each factor has minimum 1 good example and 1 bad example
+- Each factor has at least 1 research link or credible citation
+- Content is educational and specific (not generic advice)
+- Research links are valid (no 404s) and credible sources
+- Tone is conversational but authoritative
+
+=== END SESSION 1 ===
+
+Next Session: Implementation Agent will execute subtasks sequentially starting with phase-1-types
+
+=== SESSION 2 (Implementation) ===
+
+Phase 1: Type Definitions & Data Structure
+Status: COMPLETED ✓
+- subtask-1-1: Created explanation-types.ts with TypeScript interfaces
+
+Phase 2: ExplanationCard Component
+Status: COMPLETED ✓
+- subtask-2-1: Created ExplanationCard.tsx component with Dialog wrapper
+
+Phase 3: Educational Content Creation
+Status: IN PROGRESS (1/7 completed)
+
+subtask-3-1: Create base score explanation content - COMPLETED ✓
+Date: 2026-01-07
+- Created app/src/lib/scoring/explanations.ts
+- Comprehensive educational content for base score factor (40-point starting value)
+- Algorithm Principle:
+  * Why: Explains baseline visibility threshold and algorithm testing
+  * How: Details initial distribution to 200-500 users for engagement measurement
+- Examples:
+  * 2 good examples: Realistic expectations for 40-point baseline, failure protection
+  * 2 bad examples: Relying solely on base score, misunderstanding guaranteed reach
+- Research Links (3):
+  * How Social Media Algorithms Test New Content (socialmediatoday.com)
+  * The Cold Start Problem in Recommendation Systems (arxiv.org)
+  * Understanding Platform Visibility Thresholds (buffer.com)
+- File structure includes placeholders for 6 remaining factors
+- Exports: explanations map, getExplanation(), getAllExplanations()
+- Verification: TypeScript compilation passes (pre-existing tinybase errors unrelated)
+- Git Commits:
+  * 9c36345 - Create base score explanation content
+  * 61b28b5 - Update implementation plan
+
+Next: Continue with remaining 6 content subtasks (media, hook, engagement, timing, account, quality)

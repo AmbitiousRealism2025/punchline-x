@@ -1,0 +1,4 @@
+{
+  "task_description": "# Score Explanation Cards\n\nAdd detailed explanation cards for each scoring factor that explain WHY it matters for the algorithm. Include tips, examples, and research backing.\n\n## Rationale\nAddresses the market gap where tools don't teach users WHY content performs. Creator Buddy's algorithm analyzer is criticized as generic - Punchline X can be specific and educational.\n\n## User Stories\n- As a creator, I want to understand WHY my hook score is low so that I can learn to write better hooks\n- As a learner, I want algorithm insights so that I improve over time instead of just following suggestions\n\n## Acceptance Criteria\n- [ ] Each of 7 scoring factors has an explanation card\n- [ ] Cards explain the algorithm principle behind the factor\n- [ ] Cards include good and bad examples\n- [ ] Cards link to relevant research or data\n",
+  "workflow_type": "feature"
+}
