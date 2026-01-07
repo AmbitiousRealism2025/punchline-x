@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { logTweet } from '@/lib/store'
 import { useScore } from '@/hooks/useScore'
+import { useRewriteTweet } from '@/hooks/useRewriteTweet'
 
 const MAX_CHARS = 280
 
@@ -15,6 +16,7 @@ export function TweetInput() {
   const mediaType = (useCell('currentTweet', 'draft', 'mediaType') as string) ?? 'none'
   const hasLink = (useCell('currentTweet', 'draft', 'hasLink') as boolean) ?? false
   const { total: score } = useScore()
+  const { rewrite, isLoading, error } = useRewriteTweet()
 
   const setText = useSetCellCallback(
     'currentTweet',
@@ -40,6 +42,15 @@ export function TweetInput() {
     setText('')
   }, [setText])
 
+  const handleRewrite = useCallback(async () => {
+    if (!text.trim() || text.length < 10) return
+    try {
+      await rewrite()
+    } catch (err) {
+      // Error is already handled by the hook
+    }
+  }, [text, rewrite])
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
@@ -57,6 +68,15 @@ export function TweetInput() {
         <div className="flex items-center justify-between">
           <CardTitle className="text-base">Compose Tweet</CardTitle>
           <div className="flex gap-2">
+            <Button
+              variant="default"
+              size="sm"
+              onClick={handleRewrite}
+              disabled={isLoading || !text.trim() || text.length < 10}
+              className="min-w-[120px]"
+            >
+              {isLoading ? 'Rewriting...' : 'Rewrite with AI'}
+            </Button>
             {text.trim() && (
               <Button variant="ghost" size="sm" onClick={handleClear}>
                 Clear
@@ -81,6 +101,13 @@ export function TweetInput() {
           onChange={(e) => setText(e.target.value)}
           className="min-h-[120px] resize-none bg-background border-border focus-visible:ring-primary/50"
         />
+
+        {error && (
+          <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20">
+            <p className="text-sm text-destructive">{error}</p>
+          </div>
+        )}
+
         <div className="flex items-center justify-between">
           <span className="text-xs text-muted-foreground">⌘+Enter to copy</span>
           <span
