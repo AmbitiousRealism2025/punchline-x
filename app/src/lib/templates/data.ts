@@ -336,6 +336,13 @@ export const categoryLabels: Record<string, string> = {
   question: 'Questions',
   milestone: 'Milestones',
   teaching: 'Teaching',
+  predictions: 'Predictions',
+  'case-study': 'Case Studies',
+  'before-after': 'Before/After',
+  'lessons-learned': 'Lessons Learned',
+  'tool-review': 'Tool Reviews',
+  comparison: 'Comparisons',
+  'unpopular-opinion': 'Unpopular Opinions',
 }
 
 export function getTemplatesByCategory(category: string): Template[] {

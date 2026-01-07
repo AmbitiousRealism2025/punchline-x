@@ -15,16 +15,21 @@
           "id": "subtask-1-1",
           "description": "Add new category types to TemplateCategory union",
           "service": "frontend",
-          "files_to_modify": ["./app/src/lib/templates/types.ts"],
+          "files_to_modify": [
+            "./app/src/lib/templates/types.ts"
+          ],
           "files_to_create": [],
-          "patterns_from": ["./app/src/lib/templates/types.ts"],
+          "patterns_from": [
+            "./app/src/lib/templates/types.ts"
+          ],
           "verification": {
             "type": "command",
             "command": "cd app && npm run build",
             "expected": "Build completes with no TypeScript errors"
           },
-          "status": "pending",
-          "notes": "Add 7 new categories to type union: predictions, case-study, before-after, lessons-learned, tool-review, comparison, and one more variation. This must be done before adding templates to ensure type safety."
+          "status": "completed",
+          "notes": "Successfully added 7 new category types to TemplateCategory union: predictions, case-study, before-after, lessons-learned, tool-review, comparison, and unpopular-opinion. Build verified with no TypeScript errors. Also installed missing tinybase dependency.",
+          "updated_at": "2026-01-07T02:36:03.182000+00:00"
         }
       ]
     },
@@ -33,16 +38,22 @@
       "name": "Category Label Mapping",
       "type": "implementation",
       "description": "Add display labels for new template categories",
-      "depends_on": ["phase-1-type-system"],
+      "depends_on": [
+        "phase-1-type-system"
+      ],
       "parallel_safe": true,
       "subtasks": [
         {
           "id": "subtask-2-1",
           "description": "Add new category labels to categoryLabels object",
           "service": "frontend",
-          "files_to_modify": ["./app/src/lib/templates/data.ts"],
+          "files_to_modify": [
+            "./app/src/lib/templates/data.ts"
+          ],
           "files_to_create": [],
-          "patterns_from": ["./app/src/lib/templates/data.ts"],
+          "patterns_from": [
+            "./app/src/lib/templates/data.ts"
+          ],
           "verification": {
             "type": "command",
             "command": "cd app && npm run build",
@@ -58,16 +69,22 @@
       "name": "New Template Content",
       "type": "implementation",
       "description": "Create 15+ new templates across new and existing categories",
-      "depends_on": ["phase-2-category-labels"],
+      "depends_on": [
+        "phase-2-category-labels"
+      ],
       "parallel_safe": true,
       "subtasks": [
         {
           "id": "subtask-3-1",
           "description": "Add 2-3 Predictions templates",
           "service": "frontend",
-          "files_to_modify": ["./app/src/lib/templates/data.ts"],
+          "files_to_modify": [
+            "./app/src/lib/templates/data.ts"
+          ],
           "files_to_create": [],
-          "patterns_from": ["./app/src/lib/templates/data.ts"],
+          "patterns_from": [
+            "./app/src/lib/templates/data.ts"
+          ],
           "verification": {
             "type": "command",
             "command": "cd app && npm run build",
@@ -80,9 +97,13 @@
           "id": "subtask-3-2",
           "description": "Add 2-3 Case Study templates",
           "service": "frontend",
-          "files_to_modify": ["./app/src/lib/templates/data.ts"],
+          "files_to_modify": [
+            "./app/src/lib/templates/data.ts"
+          ],
           "files_to_create": [],
-          "patterns_from": ["./app/src/lib/templates/data.ts"],
+          "patterns_from": [
+            "./app/src/lib/templates/data.ts"
+          ],
           "verification": {
             "type": "command",
             "command": "cd app && npm run build",
@@ -95,9 +116,13 @@
           "id": "subtask-3-3",
           "description": "Add 2 Before/After templates",
           "service": "frontend",
-          "files_to_modify": ["./app/src/lib/templates/data.ts"],
+          "files_to_modify": [
+            "./app/src/lib/templates/data.ts"
+          ],
           "files_to_create": [],
-          "patterns_from": ["./app/src/lib/templates/data.ts"],
+          "patterns_from": [
+            "./app/src/lib/templates/data.ts"
+          ],
           "verification": {
             "type": "command",
             "command": "cd app && npm run build",
@@ -110,9 +135,13 @@
           "id": "subtask-3-4",
           "description": "Add 2 Lessons Learned templates",
           "service": "frontend",
-          "files_to_modify": ["./app/src/lib/templates/data.ts"],
+          "files_to_modify": [
+            "./app/src/lib/templates/data.ts"
+          ],
           "files_to_create": [],
-          "patterns_from": ["./app/src/lib/templates/data.ts"],
+          "patterns_from": [
+            "./app/src/lib/templates/data.ts"
+          ],
           "verification": {
             "type": "command",
             "command": "cd app && npm run build",
@@ -125,9 +154,13 @@
           "id": "subtask-3-5",
           "description": "Add 2 Tool Review templates",
           "service": "frontend",
-          "files_to_modify": ["./app/src/lib/templates/data.ts"],
+          "files_to_modify": [
+            "./app/src/lib/templates/data.ts"
+          ],
           "files_to_create": [],
-          "patterns_from": ["./app/src/lib/templates/data.ts"],
+          "patterns_from": [
+            "./app/src/lib/templates/data.ts"
+          ],
           "verification": {
             "type": "command",
             "command": "cd app && npm run build",
@@ -140,9 +173,13 @@
           "id": "subtask-3-6",
           "description": "Add 2 Comparison templates",
           "service": "frontend",
-          "files_to_modify": ["./app/src/lib/templates/data.ts"],
+          "files_to_modify": [
+            "./app/src/lib/templates/data.ts"
+          ],
           "files_to_create": [],
-          "patterns_from": ["./app/src/lib/templates/data.ts"],
+          "patterns_from": [
+            "./app/src/lib/templates/data.ts"
+          ],
           "verification": {
             "type": "command",
             "command": "cd app && npm run build",
@@ -155,9 +192,13 @@
           "id": "subtask-3-7",
           "description": "Add 5-7 templates to existing categories",
           "service": "frontend",
-          "files_to_modify": ["./app/src/lib/templates/data.ts"],
+          "files_to_modify": [
+            "./app/src/lib/templates/data.ts"
+          ],
           "files_to_create": [],
-          "patterns_from": ["./app/src/lib/templates/data.ts"],
+          "patterns_from": [
+            "./app/src/lib/templates/data.ts"
+          ],
           "verification": {
             "type": "command",
             "command": "cd app && npm run build",
@@ -173,7 +214,9 @@
       "name": "Integration Verification",
       "type": "integration",
       "description": "Verify all new templates render correctly in the UI and pass quality checks",
-      "depends_on": ["phase-3-new-templates"],
+      "depends_on": [
+        "phase-3-new-templates"
+      ],
       "parallel_safe": false,
       "subtasks": [
         {
@@ -218,7 +261,9 @@
   "summary": {
     "total_phases": 4,
     "total_subtasks": 9,
-    "services_involved": ["frontend"],
+    "services_involved": [
+      "frontend"
+    ],
     "parallelism": {
       "max_parallel_phases": 1,
       "parallel_groups": [],
@@ -231,7 +276,10 @@
     "risk_level": "medium",
     "skip_validation": false,
     "test_creation_phase": "post_implementation",
-    "test_types_required": ["unit", "integration"],
+    "test_types_required": [
+      "unit",
+      "integration"
+    ],
     "security_scanning_required": false,
     "staging_deployment_required": false,
     "acceptance_criteria": [
@@ -276,13 +324,19 @@
   "qa_acceptance": {
     "unit_tests": {
       "required": true,
-      "commands": ["cd app && npm run build"],
+      "commands": [
+        "cd app && npm run build"
+      ],
       "minimum_coverage": null
     },
     "integration_tests": {
       "required": true,
-      "commands": ["cd app && npm run dev"],
-      "services_to_test": ["frontend"]
+      "commands": [
+        "cd app && npm run dev"
+      ],
+      "services_to_test": [
+        "frontend"
+      ]
     },
     "e2e_tests": {
       "required": false,
@@ -311,5 +365,6 @@
       "checks": []
     }
   },
-  "qa_signoff": null
+  "qa_signoff": null,
+  "last_updated": "2026-01-07T02:36:03.182009+00:00"
 }
