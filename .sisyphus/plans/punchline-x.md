@@ -1,19 +1,21 @@
-# Tweet Optimizer — Master Execution Plan
+# Punchline X — Master Execution Plan
+
+> **Note**: This is the original execution plan. Phases 1-3 are complete.
+> See `feature-enhancements.md` for the Phase 4 AI roadmap.
 
 ## Overview
-Build a personal tweet optimization tool with real-time scoring, AI hook generation, 
-and a Raycast-inspired dark UI.
+AI-powered post optimization for X. Score before you post.
 
-## Stack (Finalized)
+## Stack (Current)
 | Layer | Technology | Version |
 |-------|------------|---------|
 | Runtime | Bun | latest |
-| Build | Vite | 6.x |
+| Build | Vite | 7.x |
 | Frontend | React | 19.x |
 | Styling | Tailwind CSS | v4 (Vite plugin) |
 | UI | shadcn/ui + cmdk | latest |
 | Database | TinyBase + localStorage | 7.x |
-| AI | @anthropic-ai/sdk (Opus) | latest |
+| AI | ZAI GLM 4.7 (via OpenAI SDK) | latest |
 
 ## Design System
 - **Theme**: Dark only

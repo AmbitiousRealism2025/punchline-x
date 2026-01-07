@@ -1,91 +1,168 @@
-# Tweet Optimizer Package
+# Punchline X
 
-## Overview
+AI-powered post optimization for X. **Score before you post.**
 
-This package contains everything you need to optimize your X (Twitter) content for maximum reach and impressions, plus a complete blueprint for building an AI-assisted tweet optimization tool.
-
-**Created:** January 2026  
-**Based on:** Analysis of Creator Buddy ($315K ARR) and current X algorithm research
+[![GitHub](https://img.shields.io/github/license/AmbitiousRealism2025/punchline-x)](https://github.com/AmbitiousRealism2025/punchline-x)
 
 ---
 
-## Package Contents
+## What is Punchline X?
 
-### Strategy Documents
+A lightweight tool that scores your posts against X's algorithm factors before you hit publish. Get real-time feedback, AI-generated hooks, and data-driven suggestions to maximize your reach.
 
-| File | Description |
-|------|-------------|
-| `Tweet_Strategy_Guide.md` | Complete optimization strategy based on 2025 algorithm factors |
-| `Content_Templates.md` | 10+ proven tweet templates with scoring guidance |
-| `Tracking_Template.csv` | Manual tracking spreadsheet for performance analysis |
-
-### Technical Specifications
-
-| File | Description |
-|------|-------------|
-| `App_Master_Plan.md` | Full product specification for the Tweet Optimizer app |
-| `Scoring_System_Spec.md` | Detailed scoring algorithm with weights and rules |
-| `Technical_Architecture.md` | Tech stack, database schema, and implementation guide |
+**Core features:**
+- Real-time scoring engine (7 factors, <100ms)
+- 15 proven tweet templates with fill-in-the-blank editor
+- AI hook generation (ZAI GLM 4.7)
+- Analytics dashboard with history tracking
+- Command palette (⌘K) and keyboard shortcuts
+- Dark Raycast-style theme
 
 ---
 
 ## Quick Start
 
-### Phase 1: Manual Optimization (Start Here)
+```bash
+# Clone the repo
+git clone https://github.com/AmbitiousRealism2025/punchline-x.git
+cd punchline-x/app
 
-1. Read `Tweet_Strategy_Guide.md` for algorithm fundamentals
-2. Use templates from `Content_Templates.md` for your posts
-3. Track results in `Tracking_Template.csv` for 2 weeks
-4. Identify your personal patterns and peak times
+# Install dependencies
+bun install
 
-### Phase 2: Build the Tool
+# Set up environment (ZAI API key)
+echo "ZAI_API_KEY=your-key-here" > .env.local
 
-1. Review `App_Master_Plan.md` for feature scope
-2. Study `Scoring_System_Spec.md` for the scoring logic
-3. Follow `Technical_Architecture.md` for implementation
+# Start dev server (port 5173)
+bun run dev
 
----
+# Start AI proxy (port 3001) - separate terminal
+bun src/server/ai-proxy.ts
+```
 
-## Key Insights Summary
-
-### Algorithm Priorities (2025)
-
-1. **First 30 minutes are critical** - Early engagement determines distribution
-2. **Premium = 4x visibility boost** - Consider the $8/month investment
-3. **Links kill reach** - Non-Premium link posts get near-zero engagement
-4. **Video > Image > Text** - Rich media gets algorithmic preference
-5. **Timing matters** - 8-11am PST consistently outperforms
-
-### Scoring Target
-
-- **50+ score** = Safe to post
-- **80+ score** = High probability of good reach
-- **Below 40** = Rework before posting
+Open http://localhost:5173
 
 ---
 
-## Build Timeline
+## Project Structure
 
-| Week | Focus | Deliverable |
-|------|-------|-------------|
-| 1 | Manual system | Validated scoring intuition |
-| 2 | Core UI | Tweet input + real-time scoring |
-| 3 | Templates | Template library + suggestions |
-| 4 | Analytics | Performance tracking dashboard |
+```
+punchline-x/
+├── app/                        # The application
+│   ├── src/
+│   │   ├── components/         # React components
+│   │   ├── lib/                # Scoring engine, templates, store
+│   │   ├── hooks/              # Custom React hooks
+│   │   └── server/             # Bun AI proxy
+│   ├── package.json
+│   └── README.md               # App-specific docs
+│
+├── feature-enhancements.md     # AI feature roadmap (15 features)
+├── naming-options.md           # Brand naming research
+│
+│   # Original planning docs (reference)
+├── Scoring_System_Spec.md      # Scoring algorithm specification
+├── Content_Templates.md        # Tweet template library
+├── Tweet_Strategy_Guide.md     # X algorithm strategy guide
+├── App_Master_Plan.md          # Product specification
+├── Quick_Reference_Card.md     # Cheat sheet
+└── AGENTS.md                   # AI agent configuration
+```
 
 ---
 
-## Contact & Attribution
+## Tech Stack
 
-This package was created as part of a vibecoding workflow analysis.
+| Layer | Technology |
+|-------|------------|
+| Runtime | Bun |
+| Build | Vite 7 |
+| Frontend | React 19 + TypeScript |
+| Styling | Tailwind CSS v4 |
+| UI | shadcn/ui (New York, dark) |
+| State | TinyBase + localStorage |
+| AI | ZAI GLM 4.7 |
 
-Based on research into:
-- Creator Buddy by Alex Finn
-- X algorithm open-source code analysis
-- 2025 algorithm documentation updates
+---
+
+## Scoring Algorithm
+
+Posts start at base 40, modified by:
+
+| Factor | Range | Notes |
+|--------|-------|-------|
+| Media | +15 to +40 | Video best, images good |
+| Hook strength | -5 to +25 | Pattern interrupts, questions, numbers |
+| Engagement signals | -15 to +25 | CTAs, questions, debate invitations |
+| Timing | -10 to +20 | Peak hours 8-11am PST |
+| Account status | 0 to +30 | Premium + Verified bonuses |
+| Content quality | -10 to +15 | Length, formatting, hashtags |
+| Link penalty | -20 to -50 | Links hurt without Premium |
+
+**Score thresholds:**
+- 85+ = Excellent (post with confidence)
+- 70-84 = Good (should perform well)
+- 55-69 = Fair (consider improvements)
+- 40-54 = Poor (rework needed)
+- <40 = Critical (do not post)
+
+---
+
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `⌘K` | Open command palette |
+| `⌘1` | Go to Compose tab |
+| `⌘2` | Go to Templates tab |
+| `⌘3` | Go to Analytics tab |
+| `⌘N` | New post (clear input) |
+| `⌘Enter` | Copy to clipboard |
+
+---
+
+## Roadmap
+
+See [`feature-enhancements.md`](./feature-enhancements.md) for the full AI feature roadmap, including:
+
+- Deep Hook Analysis (psychological breakdown)
+- Intelligent Rewriter (AI rewrites with explanations)
+- Thread Architect (AI-planned thread structure)
+- Viral Anatomy Explainer (learn from viral posts)
+- A/B Variant Generator
+- And 10 more...
+
+---
+
+## Development
+
+```bash
+cd app
+
+# Dev server
+bun run dev
+
+# Type check
+bun run tsc --noEmit
+
+# Build
+bun run build
+
+# Add shadcn component
+bun x shadcn@latest add [component]
+```
 
 ---
 
 ## License
 
-This documentation is provided for personal and educational use. The strategies and insights are derived from publicly available information about the X platform algorithm.
+MIT
+
+---
+
+## Acknowledgments
+
+Based on research into:
+- Creator Buddy by Alex Finn
+- X algorithm open-source code analysis
+- 2025/2026 algorithm documentation

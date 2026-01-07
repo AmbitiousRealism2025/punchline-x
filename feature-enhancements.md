@@ -1,16 +1,16 @@
-# Tweet Optimizer — AI-Powered Feature Enhancements
+# Punchline X — AI-Powered Feature Enhancements
 
-> **Leveraging GLM-4.7 Capabilities for Next-Level Tweet Optimization**
+> **Leveraging GLM-4.7 Capabilities for Next-Level Post Optimization**
 >
 > GLM-4.7 brings deep reasoning, 200K context windows, and exceptional creative writing abilities.
-> This document outlines features that exploit these strengths to transform the Tweet Optimizer
+> This document outlines features that exploit these strengths to transform Punchline X
 > from a scoring tool into an intelligent content strategist.
 
 ---
 
 ## Executive Summary
 
-The current Tweet Optimizer handles **scoring** and **template application** well. The next evolution
+The current Punchline X handles **scoring** and **template application** well. The next evolution
 uses GLM-4.7's reasoning capabilities to answer the deeper questions:
 
 - **Why** does this hook work (or not)?
