@@ -37,6 +37,7 @@ function App() {
             <TabsTrigger value="compose">Compose</TabsTrigger>
             <TabsTrigger value="templates">Templates</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
+            <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
 
           <TabsContent value="compose">
@@ -78,6 +79,12 @@ function App() {
                 <TweetHistory />
                 <DataExport />
               </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="settings">
+            <div className="space-y-6">
+              {/* Settings components will be added here */}
             </div>
           </TabsContent>
         </Tabs>
