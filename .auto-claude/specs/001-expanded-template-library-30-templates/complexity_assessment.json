@@ -1,0 +1,70 @@
+{
+  "complexity": "standard",
+  "workflow_type": "feature",
+  "confidence": 0.85,
+  "reasoning": "Expanding template library from 15 to 30+ templates with new categories and metadata. Moderate scope affecting 5-8 files in single service. No external integrations or infrastructure changes, but requires understanding existing template structure and patterns.",
+
+  "analysis": {
+    "scope": {
+      "estimated_files": 7,
+      "estimated_services": 1,
+      "is_cross_cutting": false,
+      "notes": "Template data files, category organization, UI components for display/filtering. Contained to template system within single service."
+    },
+    "integrations": {
+      "external_services": [],
+      "new_dependencies": [],
+      "research_needed": false,
+      "notes": "No external APIs or services. This is content/data expansion work, not technical integration."
+    },
+    "infrastructure": {
+      "docker_changes": false,
+      "database_changes": false,
+      "config_changes": false,
+      "notes": "Templates likely stored as static data (JSON/code). No infrastructure impact expected."
+    },
+    "knowledge": {
+      "patterns_exist": true,
+      "research_required": false,
+      "unfamiliar_tech": [],
+      "notes": "Existing 15 templates provide clear patterns to follow. Need to understand current structure (data schema, category system, UI rendering) but no external research required."
+    },
+    "risk": {
+      "level": "medium",
+      "concerns": [
+        "Templates are 'key differentiator' - quality matters",
+        "New category system must integrate with existing UI",
+        "Score ranges and examples need consistent structure",
+        "Could affect UX if categorization is poorly designed"
+      ],
+      "notes": "Medium risk due to product importance, but no technical risk. Main concern is ensuring new templates follow existing patterns and enhance rather than complicate UX."
+    }
+  },
+
+  "recommended_phases": [
+    "discovery",
+    "requirements",
+    "context",
+    "spec_writing",
+    "planning",
+    "validation"
+  ],
+
+  "flags": {
+    "needs_research": false,
+    "needs_self_critique": false,
+    "needs_infrastructure_setup": false
+  },
+
+  "validation_recommendations": {
+    "risk_level": "medium",
+    "skip_validation": false,
+    "minimal_mode": false,
+    "test_types_required": ["unit", "integration"],
+    "security_scan_required": false,
+    "staging_deployment_required": false,
+    "reasoning": "Templates are a key product feature requiring proper validation. Need unit tests for template data structure and integration tests for UI rendering/filtering. No security concerns, but UX quality matters."
+  },
+
+  "created_at": "2026-01-06T00:00:00Z"
+}
