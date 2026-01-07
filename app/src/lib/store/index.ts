@@ -72,7 +72,13 @@ export function getTweetHistory(): Array<TweetLogEntry & { id: string }> {
 }
 
 export function setVoiceProfile(profile: VoiceProfile): void {
-  store.setRow('voiceProfile', 'user', profile)
+  store.setRow('voiceProfile', 'user', {
+    tone: profile.tone,
+    formality: profile.formality,
+    humorLevel: profile.humorLevel,
+    emojiUsage: profile.emojiUsage,
+    topicPreferences: profile.topicPreferences ? JSON.stringify(profile.topicPreferences) : '',
+  })
 }
 
 export function getVoiceProfile(): VoiceProfile | null {
@@ -80,12 +86,23 @@ export function getVoiceProfile(): VoiceProfile | null {
   if (!row || Object.keys(row).length === 0) {
     return null
   }
+
+  let topicPreferences: string[] | undefined
+  if (row.topicPreferences && typeof row.topicPreferences === 'string') {
+    try {
+      const parsed = JSON.parse(row.topicPreferences)
+      topicPreferences = Array.isArray(parsed) ? parsed : undefined
+    } catch {
+      topicPreferences = undefined
+    }
+  }
+
   return {
     tone: row.tone as VoiceProfile['tone'],
     formality: row.formality as VoiceProfile['formality'],
     humorLevel: row.humorLevel as VoiceProfile['humorLevel'],
     emojiUsage: row.emojiUsage as VoiceProfile['emojiUsage'],
-    topicPreferences: row.topicPreferences as string[] | undefined,
+    topicPreferences,
   }
 }
 

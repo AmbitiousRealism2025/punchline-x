@@ -42,7 +42,18 @@ export function VoiceProfileForm() {
   const formality = (useCell('voiceProfile', 'user', 'formality') as VoiceProfile['formality']) ?? 'neutral'
   const humorLevel = (useCell('voiceProfile', 'user', 'humorLevel') as VoiceProfile['humorLevel']) ?? 'medium'
   const emojiUsage = (useCell('voiceProfile', 'user', 'emojiUsage') as VoiceProfile['emojiUsage']) ?? 'rarely'
-  const topicPreferences = (useCell('voiceProfile', 'user', 'topicPreferences') as string[] | undefined) ?? []
+  const topicPreferencesString = (useCell('voiceProfile', 'user', 'topicPreferences') as string) ?? ''
+
+  // Parse topicPreferences from JSON string
+  let topicPreferences: string[] = []
+  if (topicPreferencesString) {
+    try {
+      const parsed = JSON.parse(topicPreferencesString)
+      topicPreferences = Array.isArray(parsed) ? parsed : []
+    } catch {
+      topicPreferences = []
+    }
+  }
 
   const [newExampleTweet, setNewExampleTweet] = useState('')
   const [exampleTweets, setExampleTweets] = useState(getExampleTweets())
@@ -84,7 +95,7 @@ export function VoiceProfileForm() {
     'voiceProfile',
     'user',
     'topicPreferences',
-    (value: string[]) => value,
+    (value: string) => value,
     []
   )
 
@@ -97,7 +108,7 @@ export function VoiceProfileForm() {
       .split(',')
       .map((t) => t.trim())
       .filter((t) => t.length > 0)
-    setTopicPreferences(topics)
+    setTopicPreferences(JSON.stringify(topics))
   }
 
   const handleAddExampleTweet = () => {

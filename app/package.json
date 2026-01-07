@@ -24,7 +24,8 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "string-similarity-js": "^2.1.4",
-    "tailwind-merge": "^3.4.0"
+    "tailwind-merge": "^3.4.0",
+    "tinybase": "^5.4.9"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
