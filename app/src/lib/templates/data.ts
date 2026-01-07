@@ -324,6 +324,111 @@ I see this constantly. Don't be that person.`,
     expectedScore: [65, 80],
     bestWith: ['image'],
   },
+  {
+    id: 'pr1-bold-prediction',
+    name: 'Bold Prediction',
+    category: 'predictions',
+    template: `My prediction for {timeframe}:
+
+{prediction}
+
+Why I believe this:
+
+• {reason1}
+• {reason2}
+• {reason3}
+
+Screenshot this. Let's revisit in {timeframe}.`,
+    placeholders: [
+      { key: 'timeframe', hint: 'Time period (2025, next year, 6 months)' },
+      { key: 'prediction', hint: 'Your bold prediction' },
+      { key: 'reason1', hint: 'First supporting reason' },
+      { key: 'reason2', hint: 'Second supporting reason' },
+      { key: 'reason3', hint: 'Third supporting reason' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['image'],
+    example: `My prediction for 2026:
+
+AI won't replace content creators. It will replace those who don't use AI.
+
+Why I believe this:
+
+• Every platform is prioritizing AI-assisted creation
+• Early adopters are already 10x-ing their output
+• The gap between users and non-users is exponential
+
+Screenshot this. Let's revisit in 2026.`,
+  },
+  {
+    id: 'pr2-trend-forecast',
+    name: 'Trend Forecast',
+    category: 'predictions',
+    template: `{number} trends I'm watching in {industry}:
+
+1. {trend1}
+2. {trend2}
+3. {trend3}
+
+If I'm right, {outcome}.
+
+If I'm wrong, {alternative}.
+
+What am I missing?`,
+    placeholders: [
+      { key: 'number', hint: 'Number of trends (3-5)' },
+      { key: 'industry', hint: 'Industry or field' },
+      { key: 'trend1', hint: 'First emerging trend' },
+      { key: 'trend2', hint: 'Second emerging trend' },
+      { key: 'trend3', hint: 'Third emerging trend' },
+      { key: 'outcome', hint: 'What happens if you\'re right' },
+      { key: 'alternative', hint: 'What happens if you\'re wrong' },
+    ],
+    expectedScore: [65, 80],
+    bestWith: ['image'],
+    example: `3 trends I'm watching in social media:
+
+1. Short-form video fatigue setting in
+2. Return to long-form, in-depth content
+3. Private communities over public feeds
+
+If I'm right, we'll see a massive shift back to blogs and newsletters.
+
+If I'm wrong, TikTok will dominate for another decade.
+
+What am I missing?`,
+  },
+  {
+    id: 'pr3-mark-my-words',
+    name: 'Mark My Words',
+    category: 'predictions',
+    template: `Mark my words:
+
+{prediction}
+
+Everyone thinks {commonBelief}.
+
+But {contraryEvidence}.
+
+Come back to this post in {timeframe}.`,
+    placeholders: [
+      { key: 'prediction', hint: 'Your confident prediction' },
+      { key: 'commonBelief', hint: 'What most people currently believe' },
+      { key: 'contraryEvidence', hint: 'Evidence supporting your prediction' },
+      { key: 'timeframe', hint: 'When to check back (6 months, a year)' },
+    ],
+    expectedScore: [60, 75],
+    bestWith: ['none'],
+    example: `Mark my words:
+
+Personal brands will matter more than company logos within 3 years.
+
+Everyone thinks big corporations have the trust advantage.
+
+But Gen Z trusts individual creators over brands 3:1, and that gap is widening.
+
+Come back to this post in 2027.`,
+  },
 ]
 
 export const categoryLabels: Record<string, string> = {
