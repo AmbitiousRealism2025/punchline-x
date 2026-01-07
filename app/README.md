@@ -30,12 +30,43 @@ bun src/server/ai-proxy.ts
 bun run build
 ```
 
-## Environment
+## Environment Setup
 
-Create `.env.local` or set in shell profile:
+### 1. Get Your ZAI API Key
+
+1. Visit [https://api.z.ai](https://api.z.ai)
+2. Sign up or log in to your account
+3. Navigate to the API Keys section in your dashboard
+4. Generate a new API key for this project
+5. Copy the API key
+
+### 2. Configure Environment Variables
+
+Create a `.env.local` file in the root directory:
+
+```bash
+cp .env.local.example .env.local
 ```
-ZAI_API_KEY=your-key-here
+
+Then edit `.env.local` and replace `your-key-here` with your actual ZAI API key:
+
 ```
+ZAI_API_KEY=your-actual-zai-api-key
+```
+
+**Important:** Never commit `.env.local` to version control! This file is already in `.gitignore`.
+
+### 3. Verify Setup
+
+Start the AI proxy server to verify your API key is working:
+
+```bash
+bun run server
+```
+
+You should see: `AI proxy server running on http://localhost:3001`
+
+The API endpoint should respond within 10 seconds when generating alternatives.
 
 ## Project Structure
 
