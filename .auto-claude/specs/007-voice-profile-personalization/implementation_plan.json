@@ -1,0 +1,457 @@
+{
+  "feature": "Voice Profile & Personalization",
+  "workflow_type": "feature",
+  "workflow_rationale": "This introduces new capability for voice-aware AI content generation. Requires new data models (voice profiles, example tweets), new UI components (settings interface), enhanced AI generation logic with prompt engineering, and a voice matching scoring system. This is a significant feature addition that changes how users interact with AI suggestions.",
+  "phases": [
+    {
+      "id": "phase-1-data-layer",
+      "name": "Data Layer - Voice Profile Storage",
+      "type": "implementation",
+      "description": "Create TinyBase schema for voice profiles and example tweets with TypeScript interfaces and CRUD functions",
+      "depends_on": [],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-1-1",
+          "description": "Add voice profile schema and interfaces to TinyBase store",
+          "service": "frontend",
+          "files_to_modify": ["app/src/lib/store/index.ts"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/lib/store/index.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd app && bun run build",
+            "expected": "Build completes without TypeScript errors"
+          },
+          "status": "pending",
+          "notes": "Add VoiceProfile and ExampleTweet interfaces, create voiceProfile and exampleTweets tables, implement CRUD helper functions (setVoiceProfile, getVoiceProfile, addExampleTweet, getExampleTweets, deleteExampleTweet). Extend TweetLogEntry with optional voiceMatchScore field."
+        },
+        {
+          "id": "subtask-1-2",
+          "description": "Install string-similarity-js dependency",
+          "service": "frontend",
+          "files_to_modify": ["app/package.json"],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd app && bun add string-similarity-js && grep -q 'string-similarity-js' package.json && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending",
+          "notes": "Install string-similarity-js (NOT string-similarity which is deprecated) for voice match scoring calculations."
+        },
+        {
+          "id": "subtask-1-3",
+          "description": "Install @radix-ui/react-slider for tone control",
+          "service": "frontend",
+          "files_to_modify": ["app/package.json"],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd app && bun add @radix-ui/react-slider && grep -q '@radix-ui/react-slider' package.json && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending",
+          "notes": "Install Radix UI slider component for tone (1-5) slider control in settings UI."
+        }
+      ]
+    },
+    {
+      "id": "phase-2-ui-components",
+      "name": "Settings UI - Voice Profile Configuration",
+      "type": "implementation",
+      "description": "Build Settings tab with voice profile form including tone slider, formality toggles, emoji/humor selects, and example tweet inputs",
+      "depends_on": ["phase-1-data-layer"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-2-1",
+          "description": "Create slider UI component wrapper",
+          "service": "frontend",
+          "files_to_modify": [],
+          "files_to_create": ["app/src/components/ui/slider.tsx"],
+          "patterns_from": ["app/src/components/ui/toggle.tsx"],
+          "verification": {
+            "type": "command",
+            "command": "cd app && bun run build",
+            "expected": "Build completes without TypeScript errors"
+          },
+          "status": "pending",
+          "notes": "Create Radix UI Slider wrapper component following existing UI component patterns (forwardRef, cn utility, proper typing)."
+        },
+        {
+          "id": "subtask-2-2",
+          "description": "Create VoiceProfileForm component",
+          "service": "frontend",
+          "files_to_modify": [],
+          "files_to_create": ["app/src/components/settings/VoiceProfileForm.tsx"],
+          "patterns_from": ["app/src/components/scorer/MediaToggles.tsx", "app/src/components/ai/HookGenerator.tsx"],
+          "verification": {
+            "type": "command",
+            "command": "cd app && bun run build",
+            "expected": "Build completes without TypeScript errors"
+          },
+          "status": "pending",
+          "notes": "Create voice profile configuration form with: tone slider (1-5), formality toggle group (formal/neutral/casual), humor level select (none/low/medium/high), emoji usage select (never/rarely/often/always), topic preferences input. Use TinyBase hooks for auto-save. Include 2-3 textarea inputs for example tweets with add/remove functionality."
+        },
+        {
+          "id": "subtask-2-3",
+          "description": "Add Settings tab to App.tsx",
+          "service": "frontend",
+          "files_to_modify": ["app/src/App.tsx"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/App.tsx"],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": ["Settings tab appears in navigation", "Tab switches correctly", "No console errors"]
+          },
+          "status": "pending",
+          "notes": "Add Settings TabsTrigger and TabsContent to existing Tabs component. Import and render VoiceProfileForm component."
+        }
+      ]
+    },
+    {
+      "id": "phase-3-ai-integration",
+      "name": "AI Integration - Voice-Aware Prompt Engineering",
+      "type": "implementation",
+      "description": "Enhance AI proxy server with voice profile injection into system prompts and few-shot learning using example tweets",
+      "depends_on": ["phase-1-data-layer"],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-3-1",
+          "description": "Add voice prompt helper functions to AI proxy",
+          "service": "ai-proxy",
+          "files_to_modify": ["app/src/server/ai-proxy.ts"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/server/ai-proxy.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd app && bun run build",
+            "expected": "Build completes without TypeScript errors"
+          },
+          "status": "pending",
+          "notes": "Create buildVoiceSystemPrompt(voiceProfile) function to generate system message incorporating tone, formality, humor, emoji parameters. Create buildFewShotMessages(exampleTweets) function to format example tweets as user/assistant message pairs for few-shot learning."
+        },
+        {
+          "id": "subtask-3-2",
+          "description": "Enhance /api/generate-hooks endpoint with voice awareness",
+          "service": "ai-proxy",
+          "files_to_modify": ["app/src/server/ai-proxy.ts"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/server/ai-proxy.ts"],
+          "verification": {
+            "type": "api",
+            "method": "POST",
+            "url": "http://localhost:3001/api/generate-hooks",
+            "body": {"topic": "AI testing", "voiceProfile": {"tone": 3, "formality": "neutral", "humorLevel": "medium", "emojiUsage": "often"}, "exampleTweets": []},
+            "expected_status": 200
+          },
+          "status": "pending",
+          "notes": "Modify existing /api/generate-hooks endpoint to accept optional voiceProfile and exampleTweets parameters. If provided, use multi-message structure: system message (voice prompt) + few-shot examples + user request. Increase temperature to 0.8 when voice profile is present (vs 0.7 default)."
+        },
+        {
+          "id": "subtask-3-3",
+          "description": "Update client-side generateHooks function",
+          "service": "frontend",
+          "files_to_modify": ["app/src/lib/ai/hooks.ts"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/lib/ai/hooks.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd app && bun run build",
+            "expected": "Build completes without TypeScript errors"
+          },
+          "status": "pending",
+          "notes": "Extend generateHooks function to accept optional voiceProfile and exampleTweets parameters. Read voice profile from TinyBase store and include in API request body."
+        }
+      ]
+    },
+    {
+      "id": "phase-4-voice-scoring",
+      "name": "Voice Match Scoring System",
+      "type": "implementation",
+      "description": "Implement voice match scoring algorithm using string similarity and style metrics, display score in UI",
+      "depends_on": ["phase-2-ui-components", "phase-3-ai-integration"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-4-1",
+          "description": "Create voice match scoring algorithm",
+          "service": "frontend",
+          "files_to_modify": [],
+          "files_to_create": ["app/src/lib/ai/voiceMatch.ts"],
+          "patterns_from": ["app/src/lib/scoring/calculator.ts"],
+          "verification": {
+            "type": "command",
+            "command": "cd app && bun run build",
+            "expected": "Build completes without TypeScript errors"
+          },
+          "status": "pending",
+          "notes": "Create calculateVoiceMatchScore(generatedText, exampleTweets, voiceProfile) function. Calculate: (1) String similarity using string-similarity-js comparing to example tweets, (2) Style metrics (emoji frequency, sentence length, punctuation patterns), (3) Composite score 0-100%. Handle edge cases (no examples, short text, empty profile)."
+        },
+        {
+          "id": "subtask-4-2",
+          "description": "Integrate voice scoring into hook generation",
+          "service": "frontend",
+          "files_to_modify": ["app/src/components/ai/HookGenerator.tsx"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/components/ai/HookGenerator.tsx"],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": ["Voice match scores appear with generated hooks", "Scores are reasonable (0-100%)", "No console errors"]
+          },
+          "status": "pending",
+          "notes": "After generating hooks, calculate voice match score for each hook. Display score alongside existing hook data. Store voice profile and match score when user selects a hook."
+        },
+        {
+          "id": "subtask-4-3",
+          "description": "Display voice match score in TweetInput",
+          "service": "frontend",
+          "files_to_modify": ["app/src/components/scorer/TweetInput.tsx"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/components/scorer/TweetInput.tsx"],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": ["Voice match score displays in tweet composer", "Score updates when text changes", "Score format is clear (0-100% or similar)"]
+          },
+          "status": "pending",
+          "notes": "Add voice match score display near character count. Calculate score in real-time as user types (with debouncing). Show voice match percentage with appropriate styling."
+        },
+        {
+          "id": "subtask-4-4",
+          "description": "Store voice match scores in tweet log",
+          "service": "frontend",
+          "files_to_modify": ["app/src/components/scorer/TweetInput.tsx"],
+          "files_to_create": [],
+          "patterns_from": ["app/src/lib/store/index.ts"],
+          "verification": {
+            "type": "manual",
+            "instructions": "Generate hook, copy tweet to clipboard, check localStorage 'tweet-optimizer' → tweetLog entries contain voiceMatchScore field"
+          },
+          "status": "pending",
+          "notes": "When logTweet is called in handleCopy, include voiceMatchScore in the logged entry. Retrieve current voice match score from state."
+        }
+      ]
+    },
+    {
+      "id": "phase-5-integration",
+      "name": "Integration & Testing",
+      "type": "integration",
+      "description": "End-to-end verification of voice profile system, edge case handling, and performance testing",
+      "depends_on": ["phase-4-voice-scoring"],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-5-1",
+          "description": "End-to-end voice profile flow verification",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "e2e",
+            "steps": [
+              "Navigate to Settings tab",
+              "Configure voice profile (set tone=5, formality=casual, humor=high, emoji=often)",
+              "Add 2 example tweets with casual tone and emojis",
+              "Navigate to Compose tab",
+              "Generate hooks for topic 'productivity'",
+              "Verify generated hooks match casual style with emojis",
+              "Verify voice match scores appear (should be 60-100%)",
+              "Copy tweet and verify voiceMatchScore stored in localStorage",
+              "Refresh browser and verify profile persists",
+              "Generate new hooks and verify consistency"
+            ]
+          },
+          "status": "pending",
+          "notes": "Full end-to-end test of voice profile creation → AI generation → scoring → persistence. Verify no regressions in existing features (templates, analytics, basic hook generation)."
+        },
+        {
+          "id": "subtask-5-2",
+          "description": "Edge case testing and validation",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "manual",
+            "instructions": "Test: (1) No voice profile set - AI uses default, (2) Partial profile - missing fields use defaults, (3) No example tweets - scoring still works, (4) Empty text - score handles gracefully, (5) Very short text - score calculation doesn't crash"
+          },
+          "status": "pending",
+          "notes": "Verify edge cases: no profile, partial data, empty examples, short text, missing fields. Ensure sensible defaults and no crashes."
+        },
+        {
+          "id": "subtask-5-3",
+          "description": "Performance and UX validation",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "manual",
+            "instructions": "Verify: (1) Voice match scoring completes in <100ms, (2) UI remains responsive during AI generation, (3) Profile save feedback is clear, (4) No console errors or warnings, (5) Generated hooks feel authentic to configured voice"
+          },
+          "status": "pending",
+          "notes": "Performance testing: scoring speed, UI responsiveness, AI generation latency. UX validation: profile save feedback, error messages, loading states. Manual quality check of voice matching accuracy."
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_phases": 5,
+    "total_subtasks": 15,
+    "services_involved": ["frontend", "ai-proxy"],
+    "parallelism": {
+      "max_parallel_phases": 2,
+      "parallel_groups": [
+        {
+          "phases": ["phase-2-ui-components", "phase-3-ai-integration"],
+          "reason": "Both depend only on phase-1-data-layer, modify different file sets, can run independently"
+        }
+      ],
+      "recommended_workers": 1,
+      "speedup_estimate": "Limited parallelism due to integration dependencies. Phase 2 & 3 can overlap but phase 4 requires both. Sequential execution recommended for clarity."
+    },
+    "startup_command": "cd .auto-claude && source .venv/bin/activate && python run.py --spec 007 --parallel 1"
+  },
+  "verification_strategy": {
+    "risk_level": "high",
+    "skip_validation": false,
+    "test_creation_phase": "post_implementation",
+    "test_types_required": ["unit", "integration", "e2e"],
+    "security_scanning_required": false,
+    "staging_deployment_required": false,
+    "acceptance_criteria": [
+      "All existing tests pass",
+      "Voice profile UI fully functional (Settings tab)",
+      "AI generation adapts to voice parameters",
+      "Voice match scores accurate and displayed correctly",
+      "Profile persistence works (survives browser refresh)",
+      "No regressions in existing features",
+      "No console errors or warnings",
+      "Performance acceptable (scoring <100ms, generation reasonable)"
+    ],
+    "verification_steps": [
+      {
+        "name": "TypeScript Compilation",
+        "command": "cd app && bun run build",
+        "expected_outcome": "Build completes without errors",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Unit Tests",
+        "command": "cd app && bun test",
+        "expected_outcome": "All unit tests pass",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Voice Profile CRUD",
+        "command": "manual verification",
+        "expected_outcome": "Voice profile can be created, read, updated, deleted via Settings UI",
+        "type": "integration",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Voice Match Scoring",
+        "command": "manual verification",
+        "expected_outcome": "Scores calculated correctly (0-100%), displayed in UI, reasonable values",
+        "type": "integration",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "AI Voice Adaptation",
+        "command": "manual verification",
+        "expected_outcome": "Generated content matches configured voice parameters (tone, formality, emoji usage)",
+        "type": "e2e",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Profile Persistence",
+        "command": "manual verification",
+        "expected_outcome": "Voice profile and example tweets persist after browser refresh",
+        "type": "e2e",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "No Regressions",
+        "command": "manual verification",
+        "expected_outcome": "All existing features (composer, templates, analytics) still work correctly",
+        "type": "e2e",
+        "required": true,
+        "blocking": true
+      }
+    ],
+    "reasoning": "High risk feature affecting all AI outputs. Requires comprehensive testing across data layer, UI, AI integration, and scoring. Manual verification needed for voice matching quality (subjective). No security scan required (user data local only). Staging deployment not needed (local development)."
+  },
+  "qa_acceptance": {
+    "unit_tests": {
+      "required": true,
+      "commands": ["cd app && bun test"],
+      "minimum_coverage": null
+    },
+    "integration_tests": {
+      "required": true,
+      "commands": ["manual verification"],
+      "services_to_test": ["frontend", "ai-proxy"]
+    },
+    "e2e_tests": {
+      "required": true,
+      "commands": ["manual verification"],
+      "flows": [
+        "voice-profile-creation",
+        "voice-aware-generation",
+        "voice-match-scoring",
+        "profile-persistence"
+      ]
+    },
+    "browser_verification": {
+      "required": true,
+      "pages": [
+        {
+          "url": "http://localhost:5173",
+          "checks": [
+            "Settings tab renders correctly",
+            "Voice profile form functional",
+            "Example tweet inputs work",
+            "Profile saves and loads",
+            "No console errors"
+          ]
+        },
+        {
+          "url": "http://localhost:5173",
+          "checks": [
+            "Compose tab still works",
+            "Voice match scores display",
+            "Generated hooks match voice profile",
+            "Scores are reasonable (0-100%)",
+            "No console errors"
+          ]
+        }
+      ]
+    },
+    "database_verification": {
+      "required": true,
+      "checks": [
+        "voiceProfile table exists in localStorage",
+        "exampleTweets table exists in localStorage",
+        "tweetLog entries include voiceMatchScore field",
+        "Data structure matches TypeScript interfaces"
+      ]
+    }
+  },
+  "qa_signoff": null
+}

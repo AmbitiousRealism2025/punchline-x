@@ -1,0 +1,274 @@
+{
+  "integrations_researched": [
+    {
+      "name": "OpenAI SDK",
+      "type": "library",
+      "verified_package": {
+        "name": "openai",
+        "install_command": "npm install openai",
+        "version": "^6.15.0",
+        "verified": true,
+        "already_installed": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import OpenAI from 'openai'"
+        ],
+        "initialization": "const client = new OpenAI({\n  apiKey: process.env.OPENAI_API_KEY,\n  baseURL: 'https://api.openai.com/v1/'\n})",
+        "key_functions": [
+          "client.chat.completions.create({ model, messages, temperature, max_tokens })",
+          "Messages format: [{ role: 'system'|'user'|'assistant', content: string }]"
+        ],
+        "verified_against": "OpenAI Platform API Reference"
+      },
+      "configuration": {
+        "env_vars": [
+          "OPENAI_API_KEY",
+          "ZAI_API_KEY (currently used as alternative)"
+        ],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "current_implementation": "Bun server at port 3001 with CORS proxy"
+      },
+      "gotchas": [
+        "Project currently uses ZAI API (GLM-4.7) instead of OpenAI directly",
+        "Existing implementation at app/src/server/ai-proxy.ts handles hook generation",
+        "OpenAI SDK v6 recent upgrade from v5 may have breaking changes",
+        "Temperature 0.7 currently used for hook generation",
+        "GPT-4o/GPT-5.1+ recommended for best persona/style control",
+        "System prompts should define persona, tone, verbosity for voice matching",
+        "Few-shot examples (1-3) strongly recommended for voice style learning"
+      ],
+      "voice_profile_recommendations": [
+        "Use system message to establish voice persona and tone",
+        "Include 2-3 example tweets in few-shot format to establish pattern",
+        "Set temperature 0.7-0.9 for natural variation while maintaining voice",
+        "GPT-5.1/5.2 offers enhanced steerability for personality/tone control",
+        "Use verbosity parameter or prompt engineering to match tweet length preferences",
+        "Consider including emoji usage instructions in system prompt"
+      ],
+      "research_sources": [
+        "https://platform.openai.com/docs/api-reference/chat",
+        "https://github.com/openai/openai-node",
+        "https://www.npmjs.com/package/openai",
+        "https://cookbook.openai.com/examples/gpt-5/gpt-5-1_prompting_guide",
+        "https://help.openai.com/en/articles/6654000-best-practices-for-prompt-engineering-with-the-openai-api"
+      ]
+    },
+    {
+      "name": "TinyBase",
+      "type": "library",
+      "verified_package": {
+        "name": "tinybase",
+        "install_command": "npm install tinybase",
+        "version": "7.3.1",
+        "verified": true,
+        "already_installed": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { createStore } from 'tinybase'",
+          "import { createLocalPersister } from 'tinybase/persisters/persister-browser'"
+        ],
+        "initialization": "const store = createStore()\nconst persister = createLocalPersister(store, 'storage-key')\npersister.startAutoSave()\npersister.startAutoLoad()",
+        "key_functions": [
+          "store.setRow(tableId, rowId, row)",
+          "store.getRow(tableId, rowId)",
+          "store.getTable(tableId)",
+          "store.setTablesSchema(schema)",
+          "persister.save()",
+          "persister.load()"
+        ],
+        "verified_against": "TinyBase official documentation + existing implementation"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "storage": "Browser localStorage (automatic with createLocalPersister)"
+      },
+      "current_implementation_details": {
+        "store_file": "app/src/lib/store/index.ts",
+        "existing_tables": [
+          "settings (user preferences: isPremium, isVerified, timezone)",
+          "currentTweet (draft state)",
+          "tweetLog (history tracking)"
+        ],
+        "storage_key": "tweet-optimizer",
+        "auto_persistence": true
+      },
+      "gotchas": [
+        "Already implemented with localStorage auto-persistence",
+        "Uses custom schema system (not standard JSON Schema)",
+        "For TypeScript types, use 'with-schemas' import path",
+        "Auto-save/auto-load already enabled in current implementation",
+        "Data persists between browser sessions automatically"
+      ],
+      "voice_profile_storage_recommendations": [
+        "Create new 'voiceProfile' table for voice settings",
+        "Store: tone, formality, humorLevel, emojiUsage, topicPreferences",
+        "Create 'exampleTweets' table for user-provided voice examples",
+        "Use schema validation for consistent data types",
+        "Consider storing voice match scores in tweetLog for analytics"
+      ],
+      "research_sources": [
+        "https://tinybase.org/",
+        "https://tinybase.org/api/persisters/",
+        "https://tinybase.org/guides/persistence/an-intro-to-persistence/",
+        "https://www.npmjs.com/package/tinybase",
+        "Current implementation: app/src/lib/store/index.ts"
+      ]
+    },
+    {
+      "name": "Text Similarity Library",
+      "type": "library",
+      "verified_package": {
+        "name": "string-similarity-js",
+        "install_command": "npm install string-similarity-js",
+        "version": "latest",
+        "verified": true,
+        "already_installed": false,
+        "alternative_packages": [
+          "string-comparison (multiple algorithms including cosine)",
+          "wink-nlp (comprehensive NLP with similarity features)",
+          "compromise (lightweight NLP for English)"
+        ]
+      },
+      "api_patterns": {
+        "imports": [
+          "import stringSimilarity from 'string-similarity-js'"
+        ],
+        "initialization": "N/A - functional API",
+        "key_functions": [
+          "stringSimilarity(string1, string2) // Returns 0-1 similarity score",
+          "Based on bigram comparison (Dice's coefficient)"
+        ],
+        "verified_against": "npm documentation"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "bundle_size": "~700 bytes minified"
+      },
+      "gotchas": [
+        "Original 'string-similarity' package is DEPRECATED - DO NOT USE",
+        "string-similarity-js is lightweight alternative (~700 bytes)",
+        "Returns similarity score 0-1, convert to percentage for UI",
+        "Dice's coefficient good for character-level similarity",
+        "May not capture semantic/style similarity - consider combining with AI scoring"
+      ],
+      "voice_match_scoring_recommendations": [
+        "Use for basic text similarity baseline",
+        "Combine with semantic analysis for better voice matching",
+        "Consider multi-dimensional scoring:",
+        "  - Text similarity (string-similarity-js)",
+        "  - Semantic similarity (OpenAI embeddings)",
+        "  - Style metrics (sentence length, punctuation, emoji count)",
+        "  - Tone analysis (sentiment/emotion detection)",
+        "Alternative: Use OpenAI to directly score voice match (more accurate but API calls)",
+        "Recommended hybrid: Quick client-side metrics + occasional AI validation"
+      ],
+      "research_sources": [
+        "https://www.npmjs.com/package/string-similarity-js",
+        "https://www.npmjs.com/package/string-similarity",
+        "https://npm-compare.com/similarity,string-similarity",
+        "https://www.npmjs.com/package/string-comparison"
+      ]
+    },
+    {
+      "name": "Natural Language Processing (Optional)",
+      "type": "library",
+      "verified_package": {
+        "name": "compromise",
+        "install_command": "npm install compromise",
+        "version": "latest",
+        "verified": true,
+        "already_installed": false,
+        "alternative": "wink-nlp (more features, faster, but larger)"
+      },
+      "api_patterns": {
+        "imports": [
+          "import nlp from 'compromise'"
+        ],
+        "initialization": "const doc = nlp(text)",
+        "key_functions": [
+          "nlp(text).sentences().length",
+          "nlp(text).match('#Emoji').found",
+          "nlp(text).topics().out('array')",
+          "nlp(text).nouns().out('array')",
+          "~1MB of text per second processing"
+        ],
+        "verified_against": "GitHub repository and npm documentation"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "language_support": "English only"
+      },
+      "gotchas": [
+        "English language only",
+        "Lightweight but less accurate than ML-based approaches",
+        "Good for quick style analysis (sentence structure, entity extraction)",
+        "May be overkill if using OpenAI for voice analysis",
+        "Compromise is simpler; wink-nlp has sentiment analysis built-in"
+      ],
+      "use_case_for_voice_profiles": [
+        "OPTIONAL: Extract writing patterns from example tweets",
+        "Analyze sentence structure, entity types, topics",
+        "Count question marks, exclamations, emojis",
+        "May not be necessary if relying on AI for voice adaptation",
+        "Consider only if need client-side style analysis without API calls"
+      ],
+      "research_sources": [
+        "https://github.com/spencermountain/compromise",
+        "https://winkjs.org/wink-nlp/",
+        "https://blog.logrocket.com/natural-language-processing-node-js/",
+        "https://npm-compare.com/compromise,natural,wink-nlp"
+      ]
+    }
+  ],
+  "unverified_claims": [],
+  "recommendations": [
+    "Primary approach: Use OpenAI API with system prompts + few-shot examples for voice adaptation",
+    "Store voice profiles in TinyBase (already implemented) - add voiceProfile and exampleTweets tables",
+    "Voice match scoring strategy: Hybrid approach recommended",
+    "  Option A (Recommended): Let OpenAI score voice match in generation response",
+    "  Option B: Client-side metrics (sentence length, emoji count, punctuation) + string similarity",
+    "  Option C: Dedicated AI call to score generated content vs. user examples",
+    "Install string-similarity-js for basic text comparison (lightweight, 700 bytes)",
+    "NLP libraries (compromise/wink-nlp) are OPTIONAL - likely unnecessary if using AI",
+    "Leverage GPT-5.1/5.2 enhanced persona steerability for better voice matching",
+    "Use few-shot prompting with 2-3 user example tweets for best voice learning",
+    "Include voice preferences in system message (tone, formality, emoji usage, humor level)",
+    "Consider caching voice-adapted prompts to reduce API costs for repeat generations"
+  ],
+  "architecture_notes": {
+    "current_stack": "React 19 + Vite 7 + TypeScript + TinyBase + Bun",
+    "ai_integration": "OpenAI SDK via Bun proxy server (currently ZAI/GLM-4.7)",
+    "state_management": "TinyBase with localStorage auto-persistence",
+    "no_backend_database": "All data stored in browser localStorage"
+  },
+  "implementation_complexity": {
+    "storage": "Low - TinyBase already set up, just add new tables",
+    "ai_integration": "Medium - Extend existing ai-proxy.ts with voice-aware prompts",
+    "voice_matching": "Medium - Design scoring algorithm (client vs AI-based)",
+    "ui_components": "Medium - Build voice preference controls using existing Radix UI"
+  },
+  "context7_libraries_used": [],
+  "context7_rate_limit_encountered": true,
+  "created_at": "2026-01-06T22:00:00Z"
+}

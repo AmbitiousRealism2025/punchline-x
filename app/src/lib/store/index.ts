@@ -15,6 +15,13 @@ store.setRow('currentTweet', 'draft', {
   hasLink: false,
 })
 
+store.setRow('voiceProfile', 'user', {
+  tone: 3,
+  formality: 'neutral',
+  humorLevel: 'medium',
+  emojiUsage: 'rarely',
+})
+
 export interface TweetLogEntry {
   text: string
   score: number
@@ -22,6 +29,21 @@ export interface TweetLogEntry {
   hasLink: boolean
   templateId?: string
   copiedAt: number
+  voiceMatchScore?: number
+}
+
+export interface VoiceProfile {
+  tone: 1 | 2 | 3 | 4 | 5
+  formality: 'formal' | 'neutral' | 'casual'
+  humorLevel: 'none' | 'low' | 'medium' | 'high'
+  emojiUsage: 'never' | 'rarely' | 'often' | 'always'
+  topicPreferences?: string[]
+}
+
+export interface ExampleTweet {
+  id: string
+  text: string
+  addedAt: number
 }
 
 export function logTweet(entry: Omit<TweetLogEntry, 'copiedAt'>): string {
@@ -44,8 +66,51 @@ export function getTweetHistory(): Array<TweetLogEntry & { id: string }> {
       hasLink: row.hasLink as boolean,
       templateId: row.templateId as string | undefined,
       copiedAt: row.copiedAt as number,
+      voiceMatchScore: row.voiceMatchScore as number | undefined,
     }))
     .sort((a, b) => b.copiedAt - a.copiedAt)
+}
+
+export function setVoiceProfile(profile: VoiceProfile): void {
+  store.setRow('voiceProfile', 'user', profile)
+}
+
+export function getVoiceProfile(): VoiceProfile | null {
+  const row = store.getRow('voiceProfile', 'user')
+  if (!row || Object.keys(row).length === 0) {
+    return null
+  }
+  return {
+    tone: row.tone as VoiceProfile['tone'],
+    formality: row.formality as VoiceProfile['formality'],
+    humorLevel: row.humorLevel as VoiceProfile['humorLevel'],
+    emojiUsage: row.emojiUsage as VoiceProfile['emojiUsage'],
+    topicPreferences: row.topicPreferences as string[] | undefined,
+  }
+}
+
+export function addExampleTweet(text: string): string {
+  const id = `example_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`
+  store.setRow('exampleTweets', id, {
+    text,
+    addedAt: Date.now(),
+  })
+  return id
+}
+
+export function getExampleTweets(): ExampleTweet[] {
+  const rows = store.getTable('exampleTweets')
+  return Object.entries(rows)
+    .map(([id, row]) => ({
+      id,
+      text: row.text as string,
+      addedAt: row.addedAt as number,
+    }))
+    .sort((a, b) => a.addedAt - b.addedAt)
+}
+
+export function deleteExampleTweet(id: string): void {
+  store.delRow('exampleTweets', id)
 }
 
 const persister = createLocalPersister(store, 'tweet-optimizer')

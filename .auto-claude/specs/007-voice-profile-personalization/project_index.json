@@ -1,0 +1,35 @@
+{
+  "project_root": "/Users/ambrealismwork/Desktop/Coding-Projects/punchline-x",
+  "project_type": "single",
+  "services": {
+    "frontend": {
+      "path": "./app",
+      "tech_stack": ["typescript", "react", "vite", "tinybase", "radix-ui", "tailwindcss"],
+      "port": 5173,
+      "dev_command": "bun run dev",
+      "test_command": "bun test",
+      "build_command": "bun run build"
+    },
+    "ai-proxy": {
+      "path": "./app/src/server",
+      "tech_stack": ["typescript", "bun", "openai-sdk"],
+      "port": 3001,
+      "dev_command": "bun run ai-proxy.ts",
+      "test_command": null,
+      "build_command": null
+    }
+  },
+  "infrastructure": {
+    "docker": false,
+    "database": "tinybase-localstorage",
+    "ci_cd": false
+  },
+  "conventions": {
+    "linter": "eslint",
+    "formatter": null,
+    "testing": "bun-test",
+    "state_management": "tinybase",
+    "ui_library": "radix-ui",
+    "styling": "tailwindcss"
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "critique_completed": true,
+  "issues_found": [
+    {
+      "severity": "medium",
+      "category": "accuracy",
+      "description": "AI API pattern showed embedding system prompt in user message instead of using proper 'system' role message",
+      "location": "Lines 146-212 (AI API Integration Pattern section)",
+      "fix_applied": "Updated pattern to show proper multi-message structure: (1) Added OpenAI import statement, (2) Showed both current legacy pattern and recommended voice-aware pattern, (3) Demonstrated proper system role message usage with buildVoiceSystemPrompt() and buildFewShotMessages() helpers, (4) Added clear comments explaining the difference between patterns",
+      "verified": true,
+      "research_alignment": "Research explicitly recommends 'Use system message to establish voice persona and tone' and 'Messages format: [{ role: 'system'|'user'|'assistant', content: string }]'. The original pattern concatenated prompts in a single user message, which doesn't follow best practices for voice profile implementation."
+    },
+    {
+      "severity": "medium",
+      "category": "completeness",
+      "description": "Missing concrete implementation examples for voice profile helper functions",
+      "location": "Phase 3: AI Integration (lines 414-447)",
+      "fix_applied": "Added complete TypeScript implementation examples for buildVoiceSystemPrompt(profile) and buildFewShotMessages(examples) with proper type signatures, tone mapping, and message structure",
+      "verified": true,
+      "research_alignment": "Research recommends 'Include 2-3 example tweets in few-shot format' and 'System prompts should define persona, tone, verbosity'. Added examples show exactly how to implement these recommendations."
+    },
+    {
+      "severity": "low",
+      "category": "completeness",
+      "description": "Missing TypeScript interface definitions for VoiceProfile and ExampleTweet",
+      "location": "Phase 1: Data Layer (lines 399-419)",
+      "fix_applied": "Added complete interface definitions specifying: VoiceProfile (tone: 1-5, formality, humorLevel, emojiUsage, topicPreferences) and ExampleTweet (id, text, addedAt). Also added getExampleTweets() to CRUD functions list.",
+      "verified": true,
+      "research_alignment": "Research specifies storing 'tone, formality, humorLevel, emojiUsage, topicPreferences' in voiceProfile table. Interface now matches these exact fields with proper types."
+    },
+    {
+      "severity": "low",
+      "category": "completeness",
+      "description": "Missing OpenAI import statement in AI pattern example",
+      "location": "Lines 148-152 (AI API Integration Pattern)",
+      "fix_applied": "Added 'import OpenAI from \"openai\"' at the beginning of the pattern code block with clear comment indicating it's for server-side usage",
+      "verified": true,
+      "research_alignment": "Research shows correct import as 'import OpenAI from \"openai\"'. Now explicitly documented in pattern."
+    },
+    {
+      "severity": "low",
+      "category": "consistency",
+      "description": "Temperature recommendation inconsistent between sections (0.7 vs 0.7-0.9 vs 0.8)",
+      "location": "Lines 210, 287, 539 (Pattern section, Implementation Notes, Architecture diagram)",
+      "fix_applied": "Standardized on temperature 0.8 as primary recommendation with note that 0.7-0.9 range is acceptable. Updated all three locations to specify '0.8 recommended' or '0.8' for consistency.",
+      "verified": true,
+      "research_alignment": "Research recommends 'Set temperature 0.7-0.9 for natural variation while maintaining voice' with 0.8 being the midpoint for good balance."
+    }
+  ],
+  "issues_fixed": true,
+  "no_issues_found": false,
+  "critique_summary": "Found 5 issues (2 medium, 3 low severity) related to technical accuracy, completeness, and consistency. Primary issue was AI message pattern not following OpenAI best practices for voice profile implementation - pattern showed embedding system prompt in user message instead of using proper 'system' role messages. Also missing were concrete TypeScript interface definitions and helper function implementations. All issues have been fixed with proper system message pattern, complete interface definitions, implementation examples, and consistent temperature recommendations throughout the spec.",
+  "confidence_level": "high",
+  "recommendations": [
+    "Consider adding a note in Phase 3 about optionally migrating the existing /api/generate-hooks endpoint to use the new voice-aware pattern for consistency",
+    "When implementing, ensure the buildVoiceSystemPrompt and buildFewShotMessages helpers handle null/undefined gracefully for users without profiles",
+    "The spec correctly follows research by using lightweight string-similarity-js and avoiding heavy NLP libraries - maintain this approach during implementation",
+    "Consider adding voiceMatchScore to the QA verification section's localStorage checks to ensure the field is properly stored"
+  ],
+  "spec_strengths": [
+    "Comprehensive edge case coverage (no profile, partial data, empty examples)",
+    "Well-structured implementation plan with clear phases",
+    "Proper alignment with existing codebase patterns (TinyBase, React component structure)",
+    "Detailed QA acceptance criteria with specific verification steps",
+    "Architecture diagram clearly illustrates the multi-message voice-aware flow",
+    "Correctly identifies deprecated packages and recommends alternatives"
+  ],
+  "research_alignment_verified": true,
+  "technical_accuracy_verified": true,
+  "created_at": "2026-01-06T22:15:00Z"
+}

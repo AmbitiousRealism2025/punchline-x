@@ -1,0 +1,4 @@
+{
+  "task_description": "# Voice Profile & Personalization\n\nAllow users to define their voice profile (formal/casual, humor level, emoji usage, topics). AI suggestions adapt to match their personal style.\n\n## Rationale\nMajor competitor pain point: AI content requires heavy editing to match personal tone. Voice profiles solve this by personalizing all AI outputs.\n\n## User Stories\n- As a creator with a specific brand voice, I want AI to match my style so that suggestions feel authentic\n- As a user, I want my voice profile saved so that I don't have to re-specify every time\n\n## Acceptance Criteria\n- [ ] Users can set voice preferences (tone, formality, emoji usage)\n- [ ] Users can provide example tweets that represent their voice\n- [ ] AI suggestions adapt to the voice profile\n- [ ] Voice match score shown for AI-generated content\n",
+  "workflow_type": "feature"
+}
