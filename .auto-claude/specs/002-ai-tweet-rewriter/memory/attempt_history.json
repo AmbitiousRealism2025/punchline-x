@@ -71,11 +71,35 @@
         }
       ],
       "status": "completed"
+    },
+    "subtask-4-3": {
+      "attempts": [
+        {
+          "session": 7,
+          "timestamp": "2026-01-06T22:05:27.323154",
+          "approach": "Implemented: Implement selection mechanism to replace tweet text",
+          "success": true,
+          "error": null
+        }
+      ],
+      "status": "completed"
+    },
+    "subtask-4-4": {
+      "attempts": [
+        {
+          "session": 8,
+          "timestamp": "2026-01-06T22:13:38.993158",
+          "approach": "Implemented: Add loading and error states to UI",
+          "success": true,
+          "error": null
+        }
+      ],
+      "status": "completed"
     }
   },
   "stuck_subtasks": [],
   "metadata": {
     "created_at": "2026-01-06T21:51:36.773492",
-    "last_updated": "2026-01-06T22:03:40.167122"
+    "last_updated": "2026-01-06T22:13:38.993163"
   }
 }
