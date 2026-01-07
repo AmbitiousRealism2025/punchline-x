@@ -831,6 +831,86 @@ Worth it? 100%. Cal.com does everything Calendly does, but with more flexibility
 
 What scheduling tool do you use?`,
   },
+  {
+    id: 'cm1-old-way-new-way',
+    name: 'Old Way vs New Way',
+    category: 'comparison',
+    template: `Old way of {topic}:
+{oldWay}
+
+New way:
+{newWay}
+
+The difference? {impact}
+
+{question}`,
+    placeholders: [
+      { key: 'topic', hint: 'What you\'re comparing' },
+      { key: 'oldWay', hint: 'How it used to be done (2-3 sentences)' },
+      { key: 'newWay', hint: 'How it\'s done now (2-3 sentences)' },
+      { key: 'impact', hint: 'Why the new way is better (1-2 sentences)' },
+      { key: 'question', hint: 'Engagement question' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['image'],
+    example: `Old way of content creation:
+Spend 3 hours perfecting one post. Overthink every word. Post once and pray for engagement. Wonder why it flopped.
+
+New way:
+Create 10 variations in 30 minutes using templates. Test what works. Double down on winners. Iterate based on data.
+
+The difference? I went from 2 posts/week with 50 impressions to 5 posts/week with 50K+ impressions.
+
+Still doing it the old way?`,
+  },
+  {
+    id: 'cm2-side-by-side',
+    name: 'Side-by-Side Comparison',
+    category: 'comparison',
+    template: `{optionA} vs {optionB}
+
+{optionA}:
+✅ {proA1}
+✅ {proA2}
+❌ {conA}
+
+{optionB}:
+✅ {proB1}
+✅ {proB2}
+❌ {conB}
+
+My take: {verdict}
+
+Which do you prefer?`,
+    placeholders: [
+      { key: 'optionA', hint: 'First option/approach' },
+      { key: 'optionB', hint: 'Second option/approach' },
+      { key: 'proA1', hint: 'First benefit of option A' },
+      { key: 'proA2', hint: 'Second benefit of option A' },
+      { key: 'conA', hint: 'Main drawback of option A' },
+      { key: 'proB1', hint: 'First benefit of option B' },
+      { key: 'proB2', hint: 'Second benefit of option B' },
+      { key: 'conB', hint: 'Main drawback of option B' },
+      { key: 'verdict', hint: 'Your recommendation (1-2 sentences)' },
+    ],
+    expectedScore: [75, 90],
+    bestWith: ['image', 'poll'],
+    example: `Posting daily vs Posting 3x/week
+
+Posting daily:
+✅ Stays top of mind with your audience
+✅ More data to learn what works
+❌ Easy to burn out or sacrifice quality
+
+Posting 3x/week:
+✅ Time to craft higher-quality content
+✅ Sustainable long-term
+❌ Slower growth and testing cycles
+
+My take: Start with 3x/week until you have a system. Then scale to daily if you want faster growth.
+
+Which do you prefer?`,
+  },
 ]
 
 export const categoryLabels: Record<string, string> = {
