@@ -1,0 +1,122 @@
+=== AUTO-BUILD PROGRESS ===
+
+Project: AI Tweet Rewriter
+Spec Number: 002
+Workspace: /Users/ambrealismwork/Desktop/Coding-Projects/punchline-x
+Started: 2026-01-07T05:35:00.000Z
+
+Workflow Type: feature
+Rationale: New feature addition introducing AI-powered tweet rewriting with backend API endpoint,
+TinyBase state management, and frontend UI components. Follows service dependency order: backend
+API first (can be tested independently), then state management, then frontend UI, and finally
+integration testing.
+
+Session 1 (Planner):
+- Created implementation_plan.json
+- Phases: 5
+- Total subtasks: 14
+- Created init.sh
+- Updated project_index.json
+- Updated context.json
+
+Phase Summary:
+- Phase 1 (Backend API Endpoint): 3 subtasks, no dependencies, parallel_safe
+  * Add /api/rewrite-tweet POST endpoint to Bun server
+  * Implement prompt engineering for voice preservation
+  * Add error handling and response validation for API
+
+- Phase 2 (TinyBase State Management): 2 subtasks, no dependencies, parallel_safe
+  * Add 'alternatives' table schema to TinyBase store
+  * Create helper functions for alternatives serialization
+
+- Phase 3 (Frontend API Hook): 2 subtasks, depends on [phase-1, phase-2]
+  * Create useRewriteTweet custom hook
+  * Integrate scoring engine for each alternative
+
+- Phase 4 (UI Components): 4 subtasks, depends on [phase-3]
+  * Create AlternativesList component to display 3-5 alternatives
+  * Add 'Rewrite with AI' button to TweetInput component
+  * Implement selection mechanism to replace tweet text
+  * Add loading and error states to UI
+
+- Phase 5 (Integration & Testing): 3 subtasks, depends on [phase-4]
+  * End-to-end flow verification
+  * Edge case testing
+  * Voice preservation verification (CRITICAL)
+
+Services Involved:
+- frontend: User interface for displaying alternatives and selection (React 19 + Vite)
+- bun-proxy: API endpoint for secure ZAI API communication (Bun runtime)
+
+Parallelism Analysis:
+- Max parallel phases: 2
+- Recommended workers: 2
+- Parallel groups:
+  * Phase 1 (Backend API) + Phase 2 (State Management) can run in parallel
+  * Reason: No dependencies, different layers, backend testable via curl independently
+- Speedup estimate: 1.3x faster than sequential
+
+Critical Patterns Discovered:
+- AI Proxy Pattern: Bun server with OpenAI client using custom ZAI baseURL
+- TinyBase Pattern: Tables -> Rows -> Cells (primitives only), auto-persistence to localStorage
+- Component Pattern: Card components, useCell/useSetCellCallback hooks, loading states
+- Scoring Pattern: calculateScore(input) returns ScoreResult with total/breakdown/suggestions
+
+Key Files to Modify:
+- app/src/server/ai-proxy.ts (add /api/rewrite-tweet endpoint)
+- app/src/lib/store/index.ts (add alternatives table)
+- app/src/components/scorer/TweetInput.tsx (add rewrite button)
+
+New Files to Create:
+- app/src/hooks/useRewriteTweet.ts (API call hook)
+- app/src/components/ai/AlternativesList.tsx (display component)
+
+Reference Patterns:
+- app/src/server/ai-proxy.ts (existing /api/generate-hooks)
+- app/src/lib/ai/hooks.ts (generateHooks function)
+- app/src/components/ai/HookGenerator.tsx (UI pattern)
+- app/src/lib/scoring/calculator.ts (scoring integration)
+
+Risk Level: HIGH
+- Voice preservation is critical brand differentiator
+- AI outputs unpredictable, requires manual review
+- Security: ZAI_API_KEY must never be exposed in frontend
+
+Verification Strategy:
+- Unit tests: Required (API endpoint, hooks, state management)
+- Integration tests: Required (frontend <-> Bun <-> ZAI API flow)
+- E2E tests: Required (manual testing of complete user flow)
+- Security scan: Required (verify API key not exposed)
+- Manual review: CRITICAL (voice preservation with 10+ diverse tweets)
+
+=== STARTUP COMMAND ===
+
+To continue building this spec, run:
+
+  cd /Users/ambrealismwork/Desktop/Coding-Projects/punchline-x
+  source auto-claude/.venv/bin/activate
+  python auto-claude/run.py --spec 002 --parallel 2
+
+Or manually start services:
+
+  cd app
+  bun run src/server/ai-proxy.ts &
+  npm run dev
+
+Service URLs:
+- Frontend: http://localhost:5173
+- Bun Proxy: http://localhost:3001
+
+=== END SESSION 1 (PLANNING) ===
+
+Status: Ready for implementation
+Next Session: Coder Agent will implement subtasks following dependency order
+Implementation will start with Phase 1 and Phase 2 (can run in parallel)
+
+IMPORTANT NOTES:
+- Voice preservation is the #1 priority - it's the competitive differentiator
+- Prompt engineering must emphasize preservation over creativity
+- All alternatives must be scored using existing calculateScore() function
+- TinyBase cells must contain primitives only (flatten objects)
+- API key must stay server-side (never expose in frontend)
+- Manual testing of voice preservation is non-negotiable

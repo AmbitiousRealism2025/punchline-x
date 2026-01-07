@@ -24,6 +24,21 @@ export interface TweetLogEntry {
   copiedAt: number
 }
 
+export interface AlternativesEntry {
+  originalText: string
+  version1?: string
+  score1?: number
+  version2?: string
+  score2?: number
+  version3?: string
+  score3?: number
+  version4?: string
+  score4?: number
+  version5?: string
+  score5?: number
+  createdAt: number
+}
+
 export function logTweet(entry: Omit<TweetLogEntry, 'copiedAt'>): string {
   const id = `tweet_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`
   store.setRow('tweetLog', id, {
@@ -46,6 +61,36 @@ export function getTweetHistory(): Array<TweetLogEntry & { id: string }> {
       copiedAt: row.copiedAt as number,
     }))
     .sort((a, b) => b.copiedAt - a.copiedAt)
+}
+
+export function saveAlternatives(entry: Omit<AlternativesEntry, 'createdAt'>): string {
+  const id = `alt_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`
+  store.setRow('alternatives', id, {
+    ...entry,
+    createdAt: Date.now(),
+  })
+  return id
+}
+
+export function getAlternatives(): Array<AlternativesEntry & { id: string }> {
+  const rows = store.getTable('alternatives')
+  return Object.entries(rows)
+    .map(([id, row]) => ({
+      id,
+      originalText: row.originalText as string,
+      version1: row.version1 as string | undefined,
+      score1: row.score1 as number | undefined,
+      version2: row.version2 as string | undefined,
+      score2: row.score2 as number | undefined,
+      version3: row.version3 as string | undefined,
+      score3: row.score3 as number | undefined,
+      version4: row.version4 as string | undefined,
+      score4: row.score4 as number | undefined,
+      version5: row.version5 as string | undefined,
+      score5: row.score5 as number | undefined,
+      createdAt: row.createdAt as number,
+    }))
+    .sort((a, b) => b.createdAt - a.createdAt)
 }
 
 const persister = createLocalPersister(store, 'tweet-optimizer')

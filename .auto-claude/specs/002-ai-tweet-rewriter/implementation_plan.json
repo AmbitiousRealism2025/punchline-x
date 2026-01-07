@@ -1,0 +1,502 @@
+{
+  "feature": "AI Tweet Rewriter",
+  "workflow_type": "feature",
+  "workflow_rationale": "This is a new feature addition that introduces AI-powered tweet rewriting capabilities. It follows a feature workflow because it requires building new API endpoints (backend), state management (TinyBase), and UI components (frontend) that integrate with existing infrastructure (ZAI API, scoring engine). The phases follow service dependency order: backend API first (can be tested independently), then state management, then frontend UI, and finally integration testing.",
+  "phases": [
+    {
+      "id": "phase-1-backend-api",
+      "name": "Backend API Endpoint",
+      "type": "implementation",
+      "description": "Create the /api/rewrite-tweet endpoint in Bun proxy server to generate 3-5 tweet alternatives using ZAI GLM 4.7",
+      "depends_on": [],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-1-1",
+          "description": "Add /api/rewrite-tweet POST endpoint to Bun server",
+          "service": "bun-proxy",
+          "files_to_modify": [
+            "app/src/server/ai-proxy.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "app/src/server/ai-proxy.ts (existing /api/generate-hooks endpoint)"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "curl -X POST http://localhost:3001/api/rewrite-tweet -H 'Content-Type: application/json' -d '{\"text\":\"Test tweet\",\"mediaType\":\"none\",\"hasLink\":false}' | grep -q 'alternatives' && echo 'OK' || echo 'FAIL'",
+            "expected": "OK"
+          },
+          "status": "completed",
+          "notes": "Implemented /api/rewrite-tweet POST endpoint following the pattern from /api/generate-hooks. Added REWRITE_PROMPT emphasizing voice preservation. Includes comprehensive error handling for empty/invalid input. Returns { alternatives: [...] } with 3-5 tweet variations. **NOTE: Server must be manually restarted with 'cd app && bun run server' for changes to take effect. Verification should be done after restart.**",
+          "updated_at": "2026-01-07T02:43:43.203370+00:00"
+        },
+        {
+          "id": "subtask-1-2",
+          "description": "Implement prompt engineering for voice preservation",
+          "service": "bun-proxy",
+          "files_to_modify": [
+            "app/src/server/ai-proxy.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "app/src/server/ai-proxy.ts (HOOK_PROMPT structure)"
+          ],
+          "verification": {
+            "type": "manual",
+            "instructions": "Review prompt to ensure it emphasizes: (1) Preserve core message, (2) Maintain user voice, (3) Optimize for engagement. Test with 5+ sample tweets and verify alternatives preserve intent."
+          },
+          "status": "completed",
+          "notes": "Enhanced REWRITE_PROMPT with comprehensive voice preservation engineering: (1) Explicit core message preservation with no topic drift, (2) 6 specific voice markers to maintain (vocabulary, sentence structure, punctuation, emoji usage, capitalization, slang/jargon), (3) 5 engagement optimization techniques that preserve voice. Follows HOOK_PROMPT structural pattern with clear sections, specific criteria, and detailed DO NOTs.",
+          "updated_at": "2026-01-07T02:45:33.066621+00:00"
+        },
+        {
+          "id": "subtask-1-3",
+          "description": "Add error handling and response validation for API",
+          "service": "bun-proxy",
+          "files_to_modify": [
+            "app/src/server/ai-proxy.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "app/src/server/ai-proxy.ts (existing error handling)"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "curl -X POST http://localhost:3001/api/rewrite-tweet -H 'Content-Type: application/json' -d '{\"text\":\"\"}' | grep -q 'error' && echo 'OK' || echo 'FAIL'",
+            "expected": "OK"
+          },
+          "status": "completed",
+          "notes": "Added comprehensive error handling and response validation including: helper functions for consistent error responses, JSON parsing validation, input validation (type, empty, length), AI response structure validation, and specific error messages for all failure cases",
+          "updated_at": "2026-01-07T02:48:15.338059+00:00"
+        }
+      ]
+    },
+    {
+      "id": "phase-2-state-management",
+      "name": "TinyBase State Management",
+      "type": "implementation",
+      "description": "Add TinyBase table structure for storing tweet alternatives with scores",
+      "depends_on": [],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-2-1",
+          "description": "Add 'alternatives' table schema to TinyBase store",
+          "service": "frontend",
+          "files_to_modify": [
+            "app/src/lib/store/index.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "app/src/lib/store/index.ts (existing tweetLog table)"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending",
+          "notes": "Store alternatives as: {version1, score1, version2, score2, ...}. Cell values must be primitives (strings/numbers)."
+        },
+        {
+          "id": "subtask-2-2",
+          "description": "Create helper functions for alternatives serialization",
+          "service": "frontend",
+          "files_to_modify": [
+            "app/src/lib/store/index.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "app/src/lib/store/index.ts (logTweet helper function)"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending",
+          "notes": "Functions: saveAlternatives(alternatives[]), getAlternatives(tweetId). Row ID format: 'alt_${Date.now()}_${random}'."
+        }
+      ]
+    },
+    {
+      "id": "phase-3-api-hook",
+      "name": "Frontend API Hook",
+      "type": "implementation",
+      "description": "Create custom hook for calling the rewrite API and managing loading/error states",
+      "depends_on": [
+        "phase-1-backend-api",
+        "phase-2-state-management"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-3-1",
+          "description": "Create useRewriteTweet custom hook",
+          "service": "frontend",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/src/hooks/useRewriteTweet.ts"
+          ],
+          "patterns_from": [
+            "app/src/lib/ai/hooks.ts (generateHooks function)"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending",
+          "notes": "Hook should: call /api/rewrite-tweet, handle loading/error states, calculate scores for each alternative using existing scoring engine, save to TinyBase."
+        },
+        {
+          "id": "subtask-3-2",
+          "description": "Integrate scoring engine for each alternative",
+          "service": "frontend",
+          "files_to_modify": [
+            "app/src/hooks/useRewriteTweet.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "app/src/lib/scoring/calculator.ts",
+            "app/src/hooks/useScore.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build && echo 'OK'",
+            "expected": "OK"
+          },
+          "status": "pending",
+          "notes": "Call calculateScore() for each alternative immediately after API returns. Include mediaType and hasLink from original tweet."
+        }
+      ]
+    },
+    {
+      "id": "phase-4-ui-components",
+      "name": "UI Components",
+      "type": "implementation",
+      "description": "Build UI components for displaying alternatives and enabling selection",
+      "depends_on": [
+        "phase-3-api-hook"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-4-1",
+          "description": "Create AlternativesList component to display 3-5 alternatives",
+          "service": "frontend",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/src/components/ai/AlternativesList.tsx"
+          ],
+          "patterns_from": [
+            "app/src/components/ai/HookGenerator.tsx (hooks display pattern)"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": [
+              "AlternativesList component renders",
+              "Shows 3-5 cards with tweet text and scores",
+              "No console errors"
+            ]
+          },
+          "status": "pending",
+          "notes": "Each card shows: alternative text, predicted score, 'Use this' button. Use Card, CardContent, Badge components."
+        },
+        {
+          "id": "subtask-4-2",
+          "description": "Add 'Rewrite with AI' button to TweetInput component",
+          "service": "frontend",
+          "files_to_modify": [
+            "app/src/components/scorer/TweetInput.tsx"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "app/src/components/ai/HookGenerator.tsx (Generate button pattern)"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": [
+              "Button appears in TweetInput",
+              "Button is disabled when text is empty or <10 chars",
+              "Button shows loading state during API call"
+            ]
+          },
+          "status": "pending",
+          "notes": "Button should be disabled for empty or very short tweets (<10 chars). Show 'Rewriting...' during API call."
+        },
+        {
+          "id": "subtask-4-3",
+          "description": "Implement selection mechanism to replace tweet text",
+          "service": "frontend",
+          "files_to_modify": [
+            "app/src/components/ai/AlternativesList.tsx"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "app/src/components/ai/HookGenerator.tsx (handleUseHook pattern)"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": [
+              "Clicking alternative updates main tweet text",
+              "Alternatives remain visible after selection",
+              "Selected alternative is visually highlighted"
+            ]
+          },
+          "status": "pending",
+          "notes": "Use useSetCellCallback to update 'currentTweet' -> 'draft' -> 'text'. Consider using React 19's useOptimistic for instant feedback."
+        },
+        {
+          "id": "subtask-4-4",
+          "description": "Add loading and error states to UI",
+          "service": "frontend",
+          "files_to_modify": [
+            "app/src/components/ai/AlternativesList.tsx"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "app/src/components/ai/HookGenerator.tsx (loading and error display)"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": [
+              "Loading indicator shows during API call",
+              "Error message displays on API failure",
+              "User can retry after error"
+            ]
+          },
+          "status": "pending",
+          "notes": "Loading: Show spinner and disable button. Error: Display user-friendly message and retain original tweet."
+        }
+      ]
+    },
+    {
+      "id": "phase-5-integration",
+      "name": "Integration & Testing",
+      "type": "integration",
+      "description": "Wire all components together and perform end-to-end verification",
+      "depends_on": [
+        "phase-4-ui-components"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-5-1",
+          "description": "End-to-end flow verification",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "e2e",
+            "steps": [
+              "Start Bun proxy server (port 3001)",
+              "Start React dev server (port 5173)",
+              "Open browser to http://localhost:5173",
+              "Type a test tweet (>10 chars)",
+              "Click 'Rewrite with AI' button",
+              "Verify 3-5 alternatives appear with scores",
+              "Click on an alternative",
+              "Verify main tweet text updates",
+              "Verify alternatives remain visible",
+              "Refresh page and verify alternatives persist via TinyBase localStorage"
+            ]
+          },
+          "status": "pending",
+          "notes": "This is the critical integration test. All components must work together seamlessly."
+        },
+        {
+          "id": "subtask-5-2",
+          "description": "Edge case testing",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "manual",
+            "instructions": "Test: (1) Empty input - button disabled, (2) Short input (<10 chars) - button disabled, (3) Network failure - error message, (4) Slow API - loading indicator, (5) Duplicate alternatives - filtered to 3-5 distinct"
+          },
+          "status": "pending",
+          "notes": "Focus on edge cases from spec: empty input, API failures, slow responses, duplicates, score calculation errors."
+        },
+        {
+          "id": "subtask-5-3",
+          "description": "Voice preservation verification",
+          "all_services": true,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "manual",
+            "instructions": "Test with 10+ diverse tweets (professional, casual, humorous, technical). Verify each alternative: (1) Preserves core message, (2) Maintains similar tone, (3) Doesn't contradict original intent. Document any failures."
+          },
+          "status": "pending",
+          "notes": "CRITICAL: Voice preservation is the key differentiator. Manual review is essential."
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_phases": 5,
+    "total_subtasks": 14,
+    "services_involved": [
+      "frontend",
+      "bun-proxy"
+    ],
+    "parallelism": {
+      "max_parallel_phases": 2,
+      "parallel_groups": [
+        {
+          "phases": [
+            "phase-1-backend-api",
+            "phase-2-state-management"
+          ],
+          "reason": "Backend API and TinyBase state management have no dependencies and work on different layers. Backend can be tested with curl independently of frontend state."
+        }
+      ],
+      "recommended_workers": 2,
+      "speedup_estimate": "1.3x faster than sequential (phases 1-2 can run in parallel)"
+    },
+    "startup_command": "cd app && bun run server & npm run dev"
+  },
+  "verification_strategy": {
+    "risk_level": "high",
+    "skip_validation": false,
+    "test_creation_phase": "post_implementation",
+    "test_types_required": [
+      "unit",
+      "integration",
+      "e2e"
+    ],
+    "security_scanning_required": true,
+    "staging_deployment_required": false,
+    "acceptance_criteria": [
+      "All existing tests pass",
+      "API endpoint returns 3-5 valid alternatives",
+      "Each alternative has a predicted score (0-100)",
+      "Voice preservation verified through manual review (10+ examples)",
+      "No ZAI_API_KEY exposed in frontend code",
+      "Loading states work correctly",
+      "Error handling works for network failures",
+      "TinyBase persistence works across page refreshes"
+    ],
+    "verification_steps": [
+      {
+        "name": "Unit Tests",
+        "command": "cd app && npm test",
+        "expected_outcome": "All unit tests pass",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Integration Tests",
+        "command": "cd app && npm run test:integration",
+        "expected_outcome": "API calls and TinyBase integration work",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "E2E Tests",
+        "command": "Manual testing of complete user flow",
+        "expected_outcome": "User can generate, view, and select alternatives",
+        "type": "e2e",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Security Scan",
+        "command": "grep -r 'ZAI_API_KEY' app/src --exclude-dir=server && echo 'FAIL: API key exposed' || echo 'OK'",
+        "expected_outcome": "API key only in server directory",
+        "type": "security",
+        "required": true,
+        "blocking": true
+      }
+    ],
+    "reasoning": "High risk due to AI unpredictability and voice preservation being a critical brand differentiator. Requires comprehensive testing including manual review of AI outputs. Security scan essential to prevent API key exposure."
+  },
+  "qa_acceptance": {
+    "unit_tests": {
+      "required": true,
+      "commands": [
+        "cd app && npm test"
+      ],
+      "minimum_coverage": null
+    },
+    "integration_tests": {
+      "required": true,
+      "commands": [
+        "cd app && npm run test:integration"
+      ],
+      "services_to_test": [
+        "frontend",
+        "bun-proxy"
+      ]
+    },
+    "e2e_tests": {
+      "required": true,
+      "commands": [
+        "Manual E2E testing"
+      ],
+      "flows": [
+        "Generate alternatives",
+        "Select alternative",
+        "Blend ideas",
+        "Error handling",
+        "Loading states"
+      ]
+    },
+    "browser_verification": {
+      "required": true,
+      "pages": [
+        {
+          "url": "http://localhost:5173",
+          "checks": [
+            "Rewrite button visible",
+            "Alternatives display with scores",
+            "Selection updates main tweet",
+            "Alternatives persist after refresh",
+            "No console errors"
+          ]
+        }
+      ]
+    },
+    "api_verification": {
+      "required": true,
+      "endpoints": [
+        {
+          "method": "POST",
+          "url": "http://localhost:3001/api/rewrite-tweet",
+          "expected_status": 200,
+          "checks": [
+            "Returns 3-5 alternatives",
+            "Each alternative is distinct",
+            "Response time <10s"
+          ]
+        }
+      ]
+    },
+    "database_verification": {
+      "required": true,
+      "checks": [
+        "alternatives table exists in TinyBase",
+        "Alternatives persist in localStorage",
+        "Data structure follows primitives-only pattern"
+      ]
+    }
+  },
+  "qa_signoff": null,
+  "created_at": "2026-01-07T02:22:29.392Z",
+  "updated_at": "2026-01-07T02:51:36.273Z",
+  "status": "in_progress",
+  "last_updated": "2026-01-07T02:48:15.338068+00:00",
+  "planStatus": "in_progress",
+  "recoveryNote": "Task recovered from stuck state at 2026-01-07T02:51:36.273Z"
+}

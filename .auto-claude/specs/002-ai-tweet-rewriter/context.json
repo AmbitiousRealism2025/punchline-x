@@ -1,0 +1,34 @@
+{
+  "task_description": "# AI Tweet Rewriter\n\nAdd AI-powered tweet rewriting that takes the current tweet and generates 3-5 improved versions. Maintains the core message while optimizing for engagement.\n\n## Rationale\nAI content generation is expected in 2024+ but competitor AI is criticized for not matching user voice. Position as an 'improvement' tool rather than 'replacement'.\n\n## User Stories\n- As a creator, I want AI to suggest improved versions so that I can choose the best one\n- As a time-constrained user, I want quick alternatives so that I don't have to rewrite from scratch\n\n## Acceptance Criteria\n- [ ] Generates 3-5 alternative versions of any tweet\n- [ ] Each version shows its predicted score\n- [ ] Users can select a version or blend ideas\n- [ ] Rewriting preserves the core message and intent\n",
+  "scoped_services": ["frontend", "bun-proxy"],
+  "files_to_modify": [
+    "app/src/server/ai-proxy.ts",
+    "app/src/lib/store/index.ts",
+    "app/src/components/scorer/TweetInput.tsx"
+  ],
+  "files_to_reference": [
+    "app/src/server/ai-proxy.ts",
+    "app/src/lib/store/index.ts",
+    "app/src/lib/ai/hooks.ts",
+    "app/src/components/ai/HookGenerator.tsx",
+    "app/src/components/scorer/TweetInput.tsx",
+    "app/src/lib/scoring/calculator.ts"
+  ],
+  "patterns": {
+    "ai_proxy_pattern": "Bun server with OpenAI client using custom baseURL for ZAI API. JSON response extraction with regex. CORS configured for localhost:5173.",
+    "tinybase_pattern": "Tables with rows containing primitive cells. Helper functions for logging entries. Row IDs: 'tweet_${Date.now()}_${random}'. Auto-persistence to localStorage.",
+    "component_pattern": "Card components with CardHeader/CardContent. useCell and useSetCellCallback from TinyBase. Button variants (ghost, secondary). Loading states with disabled buttons.",
+    "api_call_pattern": "Frontend hooks call localhost:3001 API endpoints. Loading/error states managed locally. Response parsing with JSON extraction.",
+    "scoring_pattern": "calculateScore(input: ScoreInput) returns ScoreResult with total, breakdown, suggestions, warnings, grade."
+  },
+  "existing_implementations": {
+    "description": "Found existing AI hook generator feature using same ZAI API pattern. Scoring engine already implemented with calculateScore function.",
+    "relevant_files": [
+      "app/src/server/ai-proxy.ts",
+      "app/src/lib/ai/hooks.ts",
+      "app/src/components/ai/HookGenerator.tsx",
+      "app/src/lib/scoring/calculator.ts"
+    ]
+  },
+  "created_at": "2026-01-06T21:31:27.084320"
+}

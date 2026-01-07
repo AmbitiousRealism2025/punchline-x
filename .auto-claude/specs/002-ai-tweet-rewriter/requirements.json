@@ -1,0 +1,4 @@
+{
+  "task_description": "# AI Tweet Rewriter\n\nAdd AI-powered tweet rewriting that takes the current tweet and generates 3-5 improved versions. Maintains the core message while optimizing for engagement.\n\n## Rationale\nAI content generation is expected in 2024+ but competitor AI is criticized for not matching user voice. Position as an 'improvement' tool rather than 'replacement'.\n\n## User Stories\n- As a creator, I want AI to suggest improved versions so that I can choose the best one\n- As a time-constrained user, I want quick alternatives so that I don't have to rewrite from scratch\n\n## Acceptance Criteria\n- [ ] Generates 3-5 alternative versions of any tweet\n- [ ] Each version shows its predicted score\n- [ ] Users can select a version or blend ideas\n- [ ] Rewriting preserves the core message and intent\n",
+  "workflow_type": "feature"
+}
