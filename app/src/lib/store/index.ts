@@ -15,6 +15,11 @@ store.setRow('currentTweet', 'draft', {
   hasLink: false,
 })
 
+store.setRow('activeThread', 'current', {
+  threadId: null,
+  isEditing: false,
+})
+
 export interface TweetLogEntry {
   text: string
   score: number
@@ -22,6 +27,23 @@ export interface TweetLogEntry {
   hasLink: boolean
   templateId?: string
   copiedAt: number
+}
+
+export interface Thread {
+  id: string
+  title: string
+  createdAt: number
+  updatedAt: number
+  tweetCount: number
+}
+
+export interface ThreadTweet {
+  id: string
+  threadId: string
+  text: string
+  position: number
+  mediaType: string
+  hasLink: boolean
 }
 
 export function logTweet(entry: Omit<TweetLogEntry, 'copiedAt'>): string {
