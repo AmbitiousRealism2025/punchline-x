@@ -725,6 +725,112 @@ I sell the idea first. Get 10 paying customers before writing a single line of c
 
 Learn from my mistakes. Validate before you create.`,
   },
+  {
+    id: 'tr1-honest-review',
+    name: 'Honest Tool Review',
+    category: 'tool-review',
+    template: `I've been using {toolName} for {duration}.
+
+Here's my honest review:
+
+✅ WHAT'S GREAT:
+• {pro1}
+• {pro2}
+• {pro3}
+
+❌ WHAT'S NOT:
+• {con1}
+• {con2}
+
+VERDICT: {verdict}
+
+Best for: {bestFor}
+
+{question}`,
+    placeholders: [
+      { key: 'toolName', hint: 'Name of the tool' },
+      { key: 'duration', hint: 'How long you\'ve used it (3 months, 1 year)' },
+      { key: 'pro1', hint: 'First major benefit' },
+      { key: 'pro2', hint: 'Second major benefit' },
+      { key: 'pro3', hint: 'Third major benefit' },
+      { key: 'con1', hint: 'First drawback' },
+      { key: 'con2', hint: 'Second drawback' },
+      { key: 'verdict', hint: 'Overall recommendation (1-2 sentences)' },
+      { key: 'bestFor', hint: 'Who should use this tool' },
+      { key: 'question', hint: 'Engagement question' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['image'],
+    example: `I've been using Notion for 2 years.
+
+Here's my honest review:
+
+✅ WHAT'S GREAT:
+• All-in-one workspace (notes, tasks, databases)
+• Incredibly flexible and customizable
+• Beautiful, intuitive interface
+
+❌ WHAT'S NOT:
+• Can be slow with large databases
+• Steep learning curve for advanced features
+
+VERDICT: Best productivity tool I've used, but overkill if you just need simple notes.
+
+Best for: People who want one tool for everything and don't mind spending time setting it up.
+
+What's your go-to productivity tool?`,
+  },
+  {
+    id: 'tr2-tool-replacement',
+    name: 'Tool Replacement Story',
+    category: 'tool-review',
+    template: `I replaced {oldTool} with {newTool}.
+
+Why I switched:
+{reason}
+
+What I gained:
+• {benefit1}
+• {benefit2}
+• {benefit3}
+
+What I miss:
+{tradeoff}
+
+Worth it? {verdict}
+
+{question}`,
+    placeholders: [
+      { key: 'oldTool', hint: 'Tool you stopped using' },
+      { key: 'newTool', hint: 'Tool you switched to' },
+      { key: 'reason', hint: 'Main reason for switching (1-2 sentences)' },
+      { key: 'benefit1', hint: 'First improvement' },
+      { key: 'benefit2', hint: 'Second improvement' },
+      { key: 'benefit3', hint: 'Third improvement' },
+      { key: 'tradeoff', hint: 'What you gave up or miss (1 sentence)' },
+      { key: 'verdict', hint: 'Was it worth switching? (1 sentence)' },
+      { key: 'question', hint: 'Engagement question' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['image'],
+    example: `I replaced Calendly with Cal.com.
+
+Why I switched:
+Calendly's branding on the free tier felt unprofessional, and I wanted more control over my scheduling page design.
+
+What I gained:
+• Full white-label customization
+• Open-source and self-hostable option
+• Advanced workflow automation
+• Better integration with my existing stack
+
+What I miss:
+Calendly's slightly cleaner mobile experience.
+
+Worth it? 100%. Cal.com does everything Calendly does, but with more flexibility and no branding limitations.
+
+What scheduling tool do you use?`,
+  },
 ]
 
 export const categoryLabels: Record<string, string> = {
