@@ -1,5 +1,6 @@
-import { Card, CardContent } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
+import { useThreadScore } from '@/hooks/useThreadScore'
 import type { Grade } from '@/lib/scoring'
 
 const gradeColors: Record<Grade, string> = {
@@ -26,18 +27,17 @@ const gradeRingColors: Record<Grade, string> = {
   critical: 'stroke-red-400',
 }
 
-interface ThreadScoreDisplayProps {
-  total: number
-  grade: Grade
-}
-
-export function ThreadScoreDisplay({ total, grade }: ThreadScoreDisplayProps) {
+export function ThreadScoreDisplay() {
+  const { total, grade, breakdown } = useThreadScore()
   const circumference = 2 * Math.PI * 45
   const strokeDashoffset = circumference - (total / 100) * circumference
 
   return (
     <Card className="raycast-shine">
-      <CardContent className="pt-6 flex flex-col items-center gap-4">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-base">Thread Score</CardTitle>
+      </CardHeader>
+      <CardContent className="flex flex-col items-center gap-4">
         <div className="relative w-32 h-32">
           <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
             <circle
@@ -72,6 +72,24 @@ export function ThreadScoreDisplay({ total, grade }: ThreadScoreDisplayProps) {
         <span className={cn('text-sm font-medium', gradeColors[grade])}>
           {gradeLabels[grade]}
         </span>
+        <div className="w-full pt-4 border-t border-border space-y-2">
+          <div className="flex justify-between text-xs">
+            <span className="text-muted-foreground">Avg Individual</span>
+            <span className="text-foreground font-medium">{breakdown.averageIndividual.toFixed(0)}</span>
+          </div>
+          <div className="flex justify-between text-xs">
+            <span className="text-muted-foreground">Flow Coherence</span>
+            <span className="text-foreground font-medium">{breakdown.flowCoherence.toFixed(0)}</span>
+          </div>
+          <div className="flex justify-between text-xs">
+            <span className="text-muted-foreground">Pacing</span>
+            <span className="text-foreground font-medium">{breakdown.pacing.toFixed(0)}</span>
+          </div>
+          <div className="flex justify-between text-xs">
+            <span className="text-muted-foreground">Consistency</span>
+            <span className="text-foreground font-medium">{breakdown.consistency.toFixed(0)}</span>
+          </div>
+        </div>
       </CardContent>
     </Card>
   )

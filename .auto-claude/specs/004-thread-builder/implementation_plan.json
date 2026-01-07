@@ -1,0 +1,523 @@
+{
+  "feature": "Thread Builder - Multi-Tweet Composer",
+  "workflow_type": "feature",
+  "workflow_rationale": "This is a new feature addition that extends the existing single-tweet composition interface. It requires new UI components, state patterns, and scoring logic while building on existing infrastructure.",
+  "phases": [
+    {
+      "id": "phase-1-setup",
+      "name": "Dependencies Setup",
+      "type": "setup",
+      "description": "Install @dnd-kit packages for drag-and-drop functionality",
+      "depends_on": [],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-1-1",
+          "description": "Install @dnd-kit packages (core, sortable, utilities)",
+          "service": "frontend",
+          "files_to_modify": [
+            "app/package.json"
+          ],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm list @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities",
+            "expected": "All three packages listed"
+          },
+          "status": "completed",
+          "notes": "Successfully installed @dnd-kit packages: core@6.3.1, sortable@10.0.0, utilities@3.2.2. Verification passed - all packages listed correctly in npm list.",
+          "updated_at": "2026-01-07T02:43:52.203958+00:00"
+        }
+      ]
+    },
+    {
+      "id": "phase-2-state",
+      "name": "Thread State Management",
+      "type": "implementation",
+      "description": "Add thread state schema to TinyBase store",
+      "depends_on": [
+        "phase-1-setup"
+      ],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-2-1",
+          "description": "Add thread state tables to TinyBase store",
+          "service": "frontend",
+          "files_to_modify": [
+            "app/src/lib/store/index.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "app/src/lib/store/index.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "No TypeScript errors, builds successfully"
+          },
+          "status": "completed",
+          "notes": "Successfully added thread state tables to TinyBase store: activeThread table for tracking current editing state, Thread and ThreadTweet TypeScript interfaces for type safety. Build verified with no TypeScript errors. Also installed missing tinybase dependency.",
+          "updated_at": "2026-01-07T02:46:13.013586+00:00"
+        },
+        {
+          "id": "subtask-2-2",
+          "description": "Create helper functions for thread operations",
+          "service": "frontend",
+          "files_to_modify": [
+            "app/src/lib/store/index.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "app/src/lib/store/index.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "No TypeScript errors"
+          },
+          "status": "completed",
+          "notes": "Successfully created helper functions for thread operations following the pattern from logTweet() and getTweetHistory(). Added 9 functions: createThread(), getThreads(), getThread(), updateThread(), deleteThread(), addThreadTweet(), getThreadTweets(), updateThreadTweet(), deleteThreadTweet(), and reorderThreadTweets(). All functions properly manage TinyBase store state, maintain thread/tweet counts, handle positions for reordering, and update timestamps. Build verified with no TypeScript errors.",
+          "updated_at": "2026-01-07T02:48:21.050274+00:00"
+        }
+      ]
+    },
+    {
+      "id": "phase-3-components",
+      "name": "Thread UI Components",
+      "type": "implementation",
+      "description": "Build thread composition interface with drag-and-drop",
+      "depends_on": [
+        "phase-2-state"
+      ],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-3-1",
+          "description": "Create ThreadTweet component (single tweet editor)",
+          "service": "frontend",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/src/components/threads/ThreadTweet.tsx"
+          ],
+          "patterns_from": [
+            "app/src/components/scorer/TweetInput.tsx"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "Component compiles without errors"
+          },
+          "status": "completed",
+          "notes": "Successfully created ThreadTweet component following TweetInput.tsx patterns. Component includes: drag handle with useSortable() hook, textarea with 280-char limit, real-time score display with grade colors, visual numbering (position/totalCount), delete button for tweets when totalCount > 2. Build verification passed with no TypeScript errors. Committed to git.",
+          "updated_at": "2026-01-07T02:53:27.456277+00:00"
+        },
+        {
+          "id": "subtask-3-2",
+          "description": "Create ThreadBuilder component (main composer)",
+          "service": "frontend",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/src/components/threads/ThreadBuilder.tsx"
+          ],
+          "patterns_from": [
+            "app/src/components/templates/TemplateEditor.tsx",
+            "app/src/components/scorer/TweetInput.tsx"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "Component compiles without errors"
+          },
+          "status": "completed",
+          "notes": "Successfully created ThreadBuilder component following patterns from TemplateEditor.tsx and TweetInput.tsx. Component includes: DndContext + SortableContext for drag-and-drop with PointerSensor + KeyboardSensor for accessibility, renders 2-25 ThreadTweet components, add/delete tweet buttons (max 25, min 2), copy-to-clipboard functionality with \u2318+Enter shortcut, thread state management via TinyBase hooks. Build verification passed with no TypeScript errors. Committed to git.",
+          "updated_at": "2026-01-07T02:55:25.364560+00:00"
+        },
+        {
+          "id": "subtask-3-3",
+          "description": "Create ThreadScoreDisplay component",
+          "service": "frontend",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/src/components/threads/ThreadScoreDisplay.tsx"
+          ],
+          "patterns_from": [
+            "app/src/components/scorer/ScoreDisplay.tsx"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "Component compiles without errors"
+          },
+          "status": "completed",
+          "notes": "Created ThreadScoreDisplay component following ScoreDisplay pattern. Component accepts total and grade as props and displays circular progress ring with color-coded score visualization. Build passes successfully.",
+          "updated_at": "2026-01-07T02:57:04.239422+00:00"
+        },
+        {
+          "id": "subtask-3-4",
+          "description": "Create threads component index file",
+          "service": "frontend",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/src/components/threads/index.ts"
+          ],
+          "patterns_from": [
+            "app/src/components/scorer/index.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "Clean exports, no errors"
+          },
+          "status": "completed",
+          "notes": "Created threads component index file with exports for ThreadBuilder, ThreadTweet, and ThreadScoreDisplay following the pattern from scorer/index.ts. Build verification passed successfully.",
+          "updated_at": "2026-01-07T02:58:11.589796+00:00"
+        }
+      ]
+    },
+    {
+      "id": "phase-4-scoring",
+      "name": "Thread Scoring Logic",
+      "type": "implementation",
+      "description": "Extend scoring system for thread-level analysis",
+      "depends_on": [
+        "phase-2-state"
+      ],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-4-1",
+          "description": "Create thread flow analysis module",
+          "service": "frontend",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/src/lib/scoring/flow.ts"
+          ],
+          "patterns_from": [
+            "app/src/lib/scoring/engagement.ts",
+            "app/src/lib/scoring/quality.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "Module compiles, exports analyzeFlow() function"
+          },
+          "status": "completed",
+          "notes": "Successfully created thread flow analysis module at app/src/lib/scoring/flow.ts following patterns from engagement.ts and quality.ts. Module exports analyzeFlow() function that analyzes: thread coherence (transition patterns, narrative markers), pacing variation (length variance, pacing indicators), narrative arc (strong hook opening, engaging CTA closing). Returns score -10 to +15. Build verification passed with no TypeScript errors. Committed to git.",
+          "updated_at": "2026-01-07T02:59:30.224040+00:00"
+        },
+        {
+          "id": "subtask-4-2",
+          "description": "Create thread aggregate scoring function",
+          "service": "frontend",
+          "files_to_modify": [
+            "app/src/lib/scoring/calculator.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "app/src/lib/scoring/calculator.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "No TypeScript errors"
+          },
+          "status": "completed",
+          "notes": "Created calculateThreadScore function with flow coherence, pacing, and consistency analysis. Added ThreadScoreResult and ThreadScoreBreakdown types. Includes thread-specific suggestions and warnings.",
+          "updated_at": "2026-01-07T03:01:54.547435+00:00"
+        },
+        {
+          "id": "subtask-4-3",
+          "description": "Create useThreadScore hook",
+          "service": "frontend",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/src/hooks/useThreadScore.ts"
+          ],
+          "patterns_from": [
+            "app/src/hooks/useScore.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "Hook compiles and exports correctly"
+          },
+          "status": "completed",
+          "notes": "Successfully created useThreadScore hook following useScore.ts pattern. Hook uses useMemo to calculate thread scores from TinyBase state: gets active threadId from activeThread table, retrieves all thread tweets from threadTweets table sorted by position, converts to ScoreInput format with user settings (isPremium, isVerified), calls calculateThreadScore() function, returns ThreadScoreResult with total, breakdown, individualScores, suggestions, warnings, and grade. Also exported calculateThreadScore from lib/scoring/index.ts. Build verification passed with no TypeScript errors. Committed to git.",
+          "updated_at": "2026-01-07T03:03:42.259105+00:00"
+        }
+      ]
+    },
+    {
+      "id": "phase-5-suggestions",
+      "name": "Thread Suggestions",
+      "type": "implementation",
+      "description": "Build AI-powered thread structure and pacing suggestions",
+      "depends_on": [
+        "phase-4-scoring"
+      ],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-5-1",
+          "description": "Create thread suggestions generator",
+          "service": "frontend",
+          "files_to_modify": [
+            "app/src/lib/scoring/suggestions.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "app/src/lib/scoring/suggestions.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "No TypeScript errors"
+          },
+          "status": "completed",
+          "notes": "Successfully created generateThreadSuggestions() function in app/src/lib/scoring/suggestions.ts. Function analyzes: (1) Hook placement - checks if first tweet has strong hook and 60+ score, (2) Buildup pacing - analyzes middle tweets for momentum and low scores, (3) Climax positioning - verifies peak is in final third of thread, (4) CTA placement - checks for call-to-action words/questions in final tweet. Returns priority-sorted actionable suggestions. Build verification passed with no TypeScript errors. Committed to git.",
+          "updated_at": "2026-01-07T03:05:50.130349+00:00"
+        },
+        {
+          "id": "subtask-5-2",
+          "description": "Create ThreadSuggestions component",
+          "service": "frontend",
+          "files_to_modify": [],
+          "files_to_create": [
+            "app/src/components/threads/ThreadSuggestions.tsx"
+          ],
+          "patterns_from": [
+            "app/src/components/scorer/SuggestionList.tsx"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "Component compiles without errors"
+          },
+          "status": "completed",
+          "notes": "Created ThreadSuggestions component following SuggestionList.tsx pattern. Component uses useThreadScore() hook and displays thread-level suggestions and warnings. Build verification passed successfully.",
+          "updated_at": "2026-01-07T03:07:10.854118+00:00"
+        }
+      ]
+    },
+    {
+      "id": "phase-6-integration",
+      "name": "App Integration",
+      "type": "integration",
+      "description": "Wire thread builder into main app as new tab",
+      "depends_on": [
+        "phase-3-components",
+        "phase-5-suggestions"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-6-1",
+          "description": "Add Threads tab to App.tsx",
+          "service": "frontend",
+          "files_to_modify": [
+            "app/src/App.tsx"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "app/src/App.tsx"
+          ],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": [
+              "Threads tab visible in TabsList",
+              "Clicking Threads tab shows ThreadBuilder",
+              "No console errors"
+            ]
+          },
+          "status": "completed",
+          "notes": "Successfully added Threads tab to App.tsx. Added ThreadBuilder import, added Threads TabsTrigger between Compose and Templates, and added TabsContent for threads. Dev server running on port 5181 with no errors.",
+          "updated_at": "2026-01-07T03:08:54.694196+00:00"
+        },
+        {
+          "id": "subtask-6-2",
+          "description": "Implement thread copy-to-clipboard functionality",
+          "service": "frontend",
+          "files_to_modify": [
+            "app/src/components/threads/ThreadBuilder.tsx"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "app/src/components/scorer/TweetInput.tsx"
+          ],
+          "verification": {
+            "type": "manual",
+            "instructions": "Create thread with 3 tweets, click Copy, verify clipboard contains numbered thread text (without visual numbering)"
+          },
+          "status": "completed",
+          "notes": "Successfully implemented thread copy-to-clipboard functionality with numbered thread text. Modified handleCopy to add numbering (1., 2., etc.) to each tweet in clipboard while keeping UI visual numbering separate.",
+          "updated_at": "2026-01-07T03:09:57.922877+00:00"
+        },
+        {
+          "id": "subtask-6-3",
+          "description": "End-to-end thread workflow verification",
+          "service": "frontend",
+          "all_services": false,
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "e2e",
+            "steps": [
+              "Navigate to Threads tab",
+              "Add 5 tweets with content",
+              "Verify individual scores display for each",
+              "Verify aggregate thread score displays",
+              "Drag tweet from position 3 to position 1",
+              "Verify numbering updates",
+              "Verify scores recalculate",
+              "Verify suggestions update",
+              "Click Copy, verify clipboard",
+              "Reload page, verify thread persisted",
+              "Navigate to Compose tab, verify single-tweet scorer still works"
+            ]
+          },
+          "status": "pending",
+          "notes": "Full workflow test ensuring all features work together and existing functionality unaffected."
+        }
+      ]
+    }
+  ],
+  "verification_strategy": {
+    "risk_level": "medium",
+    "skip_validation": false,
+    "test_creation_phase": "post_implementation",
+    "test_types_required": [
+      "unit",
+      "integration",
+      "e2e"
+    ],
+    "security_scanning_required": false,
+    "staging_deployment_required": false,
+    "acceptance_criteria": [
+      "Thread composition works with 2-25 tweets",
+      "Individual tweet scoring functional",
+      "Aggregate thread scoring accurate",
+      "Drag-and-drop reordering works (mouse + keyboard)",
+      "Thread suggestions display and update",
+      "Thread state persists to localStorage",
+      "Copy-to-clipboard exports correct format",
+      "No console errors during operation",
+      "Existing single-tweet scorer unaffected"
+    ],
+    "verification_steps": [
+      {
+        "name": "Build Verification",
+        "command": "cd app && npm run build",
+        "expected_outcome": "Build succeeds with no TypeScript errors",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Manual Browser Testing",
+        "command": "cd app && npm run dev",
+        "expected_outcome": "App runs on http://localhost:5173, Threads tab functional",
+        "type": "manual",
+        "required": true,
+        "blocking": false
+      }
+    ],
+    "reasoning": "Medium risk feature requiring comprehensive testing. Unit tests for scoring logic and flow analysis, integration tests for component interactions, E2E tests for drag-drop and multi-tweet workflows. No security scanning needed (no auth/payment). No staging (single-service app)."
+  },
+  "qa_acceptance": {
+    "unit_tests": {
+      "required": false,
+      "commands": [],
+      "minimum_coverage": null,
+      "notes": "No test framework currently configured in project"
+    },
+    "integration_tests": {
+      "required": false,
+      "commands": [],
+      "services_to_test": [],
+      "notes": "No test framework currently configured in project"
+    },
+    "e2e_tests": {
+      "required": false,
+      "commands": [],
+      "flows": [],
+      "notes": "No test framework currently configured in project"
+    },
+    "browser_verification": {
+      "required": true,
+      "pages": [
+        {
+          "url": "http://localhost:5173",
+          "checks": [
+            "Threads tab appears in navigation",
+            "ThreadBuilder component renders",
+            "Can add tweets up to 25 maximum",
+            "Cannot save with < 2 tweets",
+            "Individual scores display for each tweet",
+            "Aggregate thread score displays",
+            "Drag-and-drop works with mouse",
+            "Keyboard navigation works (arrow keys + spacebar)",
+            "Tweet numbering updates after reorder",
+            "Suggestions panel displays",
+            "Copy button works and formats correctly",
+            "No console errors",
+            "Thread persists after page reload"
+          ]
+        }
+      ]
+    },
+    "database_verification": {
+      "required": true,
+      "checks": [
+        "localStorage contains 'tweet-optimizer' key",
+        "Thread data persisted in 'threads' table",
+        "Individual tweets stored in 'threadTweets' table",
+        "Active thread state in 'activeThread' table",
+        "Thread restored correctly after page reload"
+      ]
+    }
+  },
+  "summary": {
+    "total_phases": 6,
+    "total_subtasks": 15,
+    "services_involved": [
+      "frontend"
+    ],
+    "parallelism": {
+      "max_parallel_phases": 3,
+      "parallel_groups": [
+        {
+          "phases": [
+            "phase-2-state",
+            "phase-4-scoring"
+          ],
+          "reason": "Both depend on phase-1-setup, work on different files (state vs scoring)"
+        },
+        {
+          "phases": [
+            "phase-3-components"
+          ],
+          "reason": "Depends on phase-2-state, creates new component files"
+        },
+        {
+          "phases": [
+            "phase-5-suggestions"
+          ],
+          "reason": "Depends on phase-4-scoring, works on different files than phase-3"
+        }
+      ],
+      "recommended_workers": 2,
+      "speedup_estimate": "1.5x faster than sequential - phases 2+4 can run parallel, then phases 3+5"
+    },
+    "startup_command": "source auto-claude/.venv/bin/activate && python auto-claude/run.py --spec 004 --parallel 2"
+  },
+  "qa_signoff": null,
+  "last_updated": "2026-01-07T03:09:57.922883+00:00",
+  "status": "in_progress",
+  "planStatus": "in_progress",
+  "updated_at": "2026-01-07T02:51:31.267Z",
+  "recoveryNote": "Task recovered from stuck state at 2026-01-07T02:51:31.267Z"
+}

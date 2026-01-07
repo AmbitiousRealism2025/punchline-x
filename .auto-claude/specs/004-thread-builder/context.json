@@ -1,0 +1,33 @@
+{
+  "task_description": "Thread Builder - Multi-tweet composition interface with individual and aggregate scoring",
+  "scoped_services": ["frontend"],
+  "files_to_modify": {
+    "frontend": [
+      "app/src/App.tsx",
+      "app/src/lib/store/index.ts",
+      "app/package.json"
+    ]
+  },
+  "files_to_reference": [
+    "app/src/components/scorer/TweetInput.tsx",
+    "app/src/lib/scoring/calculator.ts",
+    "app/src/lib/store/index.ts",
+    "app/src/components/templates/TemplateEditor.tsx",
+    "app/src/App.tsx"
+  ],
+  "patterns": {
+    "state_management": "TinyBase - use setRow() to init, useCell() to read, useSetCellCallback() to update. Auto-persists to localStorage.",
+    "component_structure": "Radix UI Card components with Tailwind CSS. Keep state in TinyBase not useState. Use nullish coalescing for defaults.",
+    "scoring_system": "Modular scoring with separate files (engagement, quality, hooks). calculateScore() is main entry point.",
+    "drag_drop": "Use @dnd-kit library with DndContext + SortableContext + useSortable(). Requires PointerSensor + KeyboardSensor for accessibility."
+  },
+  "existing_implementations": {
+    "description": "Single-tweet scorer exists with TinyBase state, Radix UI components, and modular scoring system. Tab-based navigation in App.tsx.",
+    "relevant_files": [
+      "app/src/components/scorer/TweetInput.tsx",
+      "app/src/lib/scoring/calculator.ts",
+      "app/src/lib/store/index.ts"
+    ]
+  },
+  "created_at": "2026-01-06T21:30:59.258179"
+}
