@@ -8,6 +8,13 @@ export type TemplateCategory =
   | 'question'
   | 'milestone'
   | 'teaching'
+  | 'predictions'
+  | 'case-study'
+  | 'before-after'
+  | 'lessons-learned'
+  | 'tool-review'
+  | 'comparison'
+  | 'unpopular-opinion'
 
 export type MediaType = 'image' | 'video' | 'poll' | 'none'
 

@@ -34,6 +34,32 @@ Here's why:
 Am I wrong? What's been your experience?`,
   },
   {
+    id: 'c2-everyone-but-me',
+    name: 'Everyone But Me',
+    category: 'contrarian',
+    template: `Everyone says {commonAdvice}.
+
+I do the opposite.
+
+{whyItWorks}
+
+Results? {results}`,
+    placeholders: [
+      { key: 'commonAdvice', hint: 'Popular advice everyone gives' },
+      { key: 'whyItWorks', hint: 'Why going against it works (2-3 sentences)' },
+      { key: 'results', hint: 'What you achieved by doing the opposite' },
+    ],
+    expectedScore: [65, 80],
+    bestWith: ['image'],
+    example: `Everyone says "post at optimal times for maximum reach."
+
+I do the opposite.
+
+I post whenever I have something valuable to say. Algorithms reward engagement quality, not posting time. If your content is good, it finds its audience regardless of when you hit publish.
+
+Results? My "off-peak" posts consistently outperform scheduled ones.`,
+  },
+  {
     id: 'c3-hot-take',
     name: 'Hot Take Minimalist',
     category: 'contrarian',
@@ -83,6 +109,47 @@ Which would you add?`,
 5. Mailchimp - email (free tier)
 
 Which would you add?`,
+  },
+  {
+    id: 'n2-stop-start',
+    name: 'Stop/Start List',
+    category: 'list',
+    template: `{number} things to stop doing in {topic}:
+
+❌ {stop1}
+✅ Do this instead: {start1}
+
+❌ {stop2}
+✅ Do this instead: {start2}
+
+❌ {stop3}
+✅ Do this instead: {start3}
+
+You're welcome.`,
+    placeholders: [
+      { key: 'number', hint: 'Number of items (3-5)' },
+      { key: 'topic', hint: 'Subject area' },
+      { key: 'stop1', hint: 'First thing to stop' },
+      { key: 'start1', hint: 'What to do instead' },
+      { key: 'stop2', hint: 'Second thing to stop' },
+      { key: 'start2', hint: 'What to do instead' },
+      { key: 'stop3', hint: 'Third thing to stop' },
+      { key: 'start3', hint: 'What to do instead' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['image'],
+    example: `3 things to stop doing in social media marketing:
+
+❌ Posting the same content everywhere
+✅ Do this instead: Adapt each post for the platform's native format
+
+❌ Chasing every new platform
+✅ Do this instead: Master one platform before expanding
+
+❌ Measuring success by follower count
+✅ Do this instead: Track engagement rate and conversions
+
+You're welcome.`,
   },
   {
     id: 'n3-did-you-know',
@@ -138,6 +205,45 @@ I stopped posting what I thought was "valuable" and started posting what actuall
 What's stopping you from tracking your content?`,
   },
   {
+    id: 's2-failure-story',
+    name: 'Failure to Success',
+    category: 'story',
+    template: `I failed at {what}.
+
+Hard.
+
+{howBad}
+
+But here's the thing about failure:
+
+{lesson}
+
+{currentState}
+
+Sometimes you need to fail forward.`,
+    placeholders: [
+      { key: 'what', hint: 'What you failed at' },
+      { key: 'howBad', hint: 'How bad the failure was (2-3 sentences)' },
+      { key: 'lesson', hint: 'What the failure taught you (2-3 sentences)' },
+      { key: 'currentState', hint: 'Where you are now because of that lesson' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['none'],
+    example: `I failed at my first business launch.
+
+Hard.
+
+Spent $10K on development. Launched to zero customers. Shut down after 3 months. Felt like a complete imposter.
+
+But here's the thing about failure:
+
+It showed me I was building in a vacuum. I learned to talk to customers first, validate ideas before building, and start small. These lessons were worth way more than $10K.
+
+Now I run a six-figure business using those exact principles.
+
+Sometimes you need to fail forward.`,
+  },
+  {
     id: 's3-i-was-wrong',
     name: 'I Was Wrong Admission',
     category: 'story',
@@ -179,6 +285,27 @@ Here's everything I learned about what makes content spread:
 🧵`,
   },
   {
+    id: 't2-mistake-thread',
+    name: 'Mistake Compilation Thread',
+    category: 'thread',
+    template: `I made every mistake possible with {topic}.
+
+Here are {number} so you don't have to:
+
+🧵`,
+    placeholders: [
+      { key: 'topic', hint: 'Subject you made mistakes in' },
+      { key: 'number', hint: 'Number of mistakes to share (5, 7, 10)' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['none'],
+    example: `I made every mistake possible with email marketing.
+
+Here are 7 so you don't have to:
+
+🧵`,
+  },
+  {
     id: 'p1-this-or-that',
     name: 'This or That Poll',
     category: 'poll',
@@ -190,6 +317,27 @@ Which do you prefer?`,
     ],
     expectedScore: [75, 85],
     bestWith: ['poll'],
+  },
+  {
+    id: 'p2-audience-poll',
+    name: 'Know Your Audience Poll',
+    category: 'poll',
+    template: `Quick poll for my audience:
+
+{question}
+
+Reply with your answer - I'm using this for {purpose}.`,
+    placeholders: [
+      { key: 'question', hint: 'Question you want to ask your audience' },
+      { key: 'purpose', hint: 'Why you\'re asking (planning content, research, etc.)' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['poll'],
+    example: `Quick poll for my audience:
+
+What's your biggest struggle with content creation right now?
+
+Reply with your answer - I'm using this for next week's deep dive post.`,
   },
   {
     id: 'v1-quick-tip',
@@ -208,6 +356,37 @@ Save for later 🔖`,
     bestWith: ['image'],
   },
   {
+    id: 'v2-bookmark-worthy',
+    name: 'Bookmark This',
+    category: 'value',
+    template: `Bookmark this if you want to {outcome}:
+
+{insight}
+
+Most people {commonMistake}.
+
+Instead, {betterApproach}.
+
+Trust me on this one.`,
+    placeholders: [
+      { key: 'outcome', hint: 'What they want to achieve' },
+      { key: 'insight', hint: 'Core valuable insight (2-3 sentences)' },
+      { key: 'commonMistake', hint: 'What most people do wrong' },
+      { key: 'betterApproach', hint: 'What to do instead (1-2 sentences)' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['image'],
+    example: `Bookmark this if you want to grow on LinkedIn:
+
+Your first sentence determines if people read the rest. Start with a bold claim, a question, or a surprising stat. Boring openings get scrolled past in 0.3 seconds.
+
+Most people start with "I've been thinking about..." or "In today's post..."
+
+Instead, hook them immediately: "I lost $50K learning this lesson" or "This mistake cost me 6 months."
+
+Trust me on this one.`,
+  },
+  {
     id: 'v3-copy-this',
     name: 'Copy This Template',
     category: 'value',
@@ -223,6 +402,32 @@ I use this every {frequency}. It works.`,
     ],
     expectedScore: [75, 90],
     bestWith: ['image'],
+  },
+  {
+    id: 'q1-ask-me-anything',
+    name: 'Ask Me Anything',
+    category: 'question',
+    template: `Ask me anything about {topic}.
+
+I've been {credential} for {duration}.
+
+Drop your questions below and I'll answer every single one.
+
+👇`,
+    placeholders: [
+      { key: 'topic', hint: 'Your area of expertise' },
+      { key: 'credential', hint: 'What makes you qualified (doing X, building Y)' },
+      { key: 'duration', hint: 'How long (5 years, 10 years)' },
+    ],
+    expectedScore: [75, 90],
+    bestWith: ['none'],
+    example: `Ask me anything about content marketing.
+
+I've been building audiences from zero for 8 years.
+
+Drop your questions below and I'll answer every single one.
+
+👇`,
   },
   {
     id: 'q2-whats-your',
@@ -324,6 +529,593 @@ I see this constantly. Don't be that person.`,
     expectedScore: [65, 80],
     bestWith: ['image'],
   },
+  {
+    id: 'pr1-bold-prediction',
+    name: 'Bold Prediction',
+    category: 'predictions',
+    template: `My prediction for {timeframe}:
+
+{prediction}
+
+Why I believe this:
+
+• {reason1}
+• {reason2}
+• {reason3}
+
+Screenshot this. Let's revisit in {timeframe}.`,
+    placeholders: [
+      { key: 'timeframe', hint: 'Time period (2025, next year, 6 months)' },
+      { key: 'prediction', hint: 'Your bold prediction' },
+      { key: 'reason1', hint: 'First supporting reason' },
+      { key: 'reason2', hint: 'Second supporting reason' },
+      { key: 'reason3', hint: 'Third supporting reason' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['image'],
+    example: `My prediction for 2026:
+
+AI won't replace content creators. It will replace those who don't use AI.
+
+Why I believe this:
+
+• Every platform is prioritizing AI-assisted creation
+• Early adopters are already 10x-ing their output
+• The gap between users and non-users is exponential
+
+Screenshot this. Let's revisit in 2026.`,
+  },
+  {
+    id: 'pr2-trend-forecast',
+    name: 'Trend Forecast',
+    category: 'predictions',
+    template: `{number} trends I'm watching in {industry}:
+
+1. {trend1}
+2. {trend2}
+3. {trend3}
+
+If I'm right, {outcome}.
+
+If I'm wrong, {alternative}.
+
+What am I missing?`,
+    placeholders: [
+      { key: 'number', hint: 'Number of trends (3-5)' },
+      { key: 'industry', hint: 'Industry or field' },
+      { key: 'trend1', hint: 'First emerging trend' },
+      { key: 'trend2', hint: 'Second emerging trend' },
+      { key: 'trend3', hint: 'Third emerging trend' },
+      { key: 'outcome', hint: 'What happens if you\'re right' },
+      { key: 'alternative', hint: 'What happens if you\'re wrong' },
+    ],
+    expectedScore: [65, 80],
+    bestWith: ['image'],
+    example: `3 trends I'm watching in social media:
+
+1. Short-form video fatigue setting in
+2. Return to long-form, in-depth content
+3. Private communities over public feeds
+
+If I'm right, we'll see a massive shift back to blogs and newsletters.
+
+If I'm wrong, TikTok will dominate for another decade.
+
+What am I missing?`,
+  },
+  {
+    id: 'pr3-mark-my-words',
+    name: 'Mark My Words',
+    category: 'predictions',
+    template: `Mark my words:
+
+{prediction}
+
+Everyone thinks {commonBelief}.
+
+But {contraryEvidence}.
+
+Come back to this post in {timeframe}.`,
+    placeholders: [
+      { key: 'prediction', hint: 'Your confident prediction' },
+      { key: 'commonBelief', hint: 'What most people currently believe' },
+      { key: 'contraryEvidence', hint: 'Evidence supporting your prediction' },
+      { key: 'timeframe', hint: 'When to check back (6 months, a year)' },
+    ],
+    expectedScore: [60, 75],
+    bestWith: ['none'],
+    example: `Mark my words:
+
+Personal brands will matter more than company logos within 3 years.
+
+Everyone thinks big corporations have the trust advantage.
+
+But Gen Z trusts individual creators over brands 3:1, and that gap is widening.
+
+Come back to this post in 2027.`,
+  },
+  {
+    id: 'cs1-client-results',
+    name: 'Client Results Showcase',
+    category: 'case-study',
+    template: `Client results: {clientType}
+
+The challenge:
+{problem}
+
+What we did:
+{solution}
+
+The results:
+• {result1}
+• {result2}
+• {result3}
+
+Timeline: {timeline}
+
+{callToAction}`,
+    placeholders: [
+      { key: 'clientType', hint: 'Type of client or industry' },
+      { key: 'problem', hint: 'What problem they faced' },
+      { key: 'solution', hint: 'What you implemented (2-3 sentences)' },
+      { key: 'result1', hint: 'First quantifiable result' },
+      { key: 'result2', hint: 'Second quantifiable result' },
+      { key: 'result3', hint: 'Third quantifiable result' },
+      { key: 'timeline', hint: 'How long it took' },
+      { key: 'callToAction', hint: 'What you want readers to do' },
+    ],
+    expectedScore: [75, 90],
+    bestWith: ['image'],
+    example: `Client results: E-commerce brand
+
+The challenge:
+Email list of 50K but only 0.8% open rate and $2K/month in email revenue.
+
+What we did:
+Complete email strategy overhaul. Segmented by behavior, rewrote every automated sequence, A/B tested subject lines for 30 days.
+
+The results:
+• Open rate jumped to 42%
+• Click rate from 0.3% to 8.1%
+• Email revenue hit $47K/month
+
+Timeline: 90 days
+
+Want similar results? DM me "EMAIL" for a free audit.`,
+  },
+  {
+    id: 'cs2-before-after-stats',
+    name: 'Before/After Stats',
+    category: 'case-study',
+    template: `Case study: {project}
+
+BEFORE:
+{beforeStat1}
+{beforeStat2}
+{beforeStat3}
+
+AFTER:
+{afterStat1}
+{afterStat2}
+{afterStat3}
+
+What changed: {keyChange}
+
+{question}`,
+    placeholders: [
+      { key: 'project', hint: 'Project name or type' },
+      { key: 'beforeStat1', hint: 'First "before" metric' },
+      { key: 'beforeStat2', hint: 'Second "before" metric' },
+      { key: 'beforeStat3', hint: 'Third "before" metric' },
+      { key: 'afterStat1', hint: 'First "after" metric' },
+      { key: 'afterStat2', hint: 'Second "after" metric' },
+      { key: 'afterStat3', hint: 'Third "after" metric' },
+      { key: 'keyChange', hint: 'What made the difference' },
+      { key: 'question', hint: 'Engagement question' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['image'],
+    example: `Case study: LinkedIn profile optimization
+
+BEFORE:
+→ 2-3 profile views/week
+→ Zero inbound leads
+→ 800 connections
+
+AFTER:
+→ 150+ profile views/week
+→ 15-20 inbound DMs/month
+→ 3,200 connections
+
+What changed: Featured section showcasing results + headline optimization + posting 3x/week
+
+What's holding you back from optimizing your profile?`,
+  },
+  {
+    id: 'cs3-problem-solution-result',
+    name: 'Problem-Solution-Result',
+    category: 'case-study',
+    template: `Real case study from {timeframe}:
+
+❌ PROBLEM
+{problem}
+
+💡 SOLUTION
+{solution}
+
+✅ RESULT
+{result}
+
+Key lesson: {lesson}
+
+{question}`,
+    placeholders: [
+      { key: 'timeframe', hint: 'When this happened (last month, Q4 2025)' },
+      { key: 'problem', hint: 'The specific problem faced' },
+      { key: 'solution', hint: 'How you solved it (2-3 sentences)' },
+      { key: 'result', hint: 'Quantifiable outcome achieved' },
+      { key: 'lesson', hint: 'Main takeaway for readers' },
+      { key: 'question', hint: 'Call to action question' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['none'],
+    example: `Real case study from December 2025:
+
+❌ PROBLEM
+SaaS company had 10K trial signups/month but only 2% converting to paid. Churn analysis showed users weren't reaching "aha moment."
+
+💡 SOLUTION
+Rebuilt onboarding flow: removed 8 unnecessary steps, added interactive product tour, sent targeted email on day 3 based on user behavior.
+
+✅ RESULT
+Trial-to-paid conversion jumped from 2% to 11.5% in 45 days. Added $127K MRR.
+
+Key lesson: More features in onboarding = lower conversion. Simplify ruthlessly.
+
+What's your biggest conversion bottleneck?`,
+  },
+  {
+    id: 'ba1-simple-comparison',
+    name: 'Simple Before/After',
+    category: 'before-after',
+    template: `BEFORE: {before}
+
+AFTER: {after}
+
+What changed: {change}
+
+{question}`,
+    placeholders: [
+      { key: 'before', hint: 'Starting state or condition' },
+      { key: 'after', hint: 'Current state or result' },
+      { key: 'change', hint: 'What you did differently (1-2 sentences)' },
+      { key: 'question', hint: 'Engagement question' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['image'],
+    example: `BEFORE: Spending 3 hours writing one LinkedIn post
+
+AFTER: Writing 5 high-quality posts in 90 minutes
+
+What changed: I stopped trying to be "perfect" and started using templates. Now I fill in frameworks instead of staring at a blank screen.
+
+What's your biggest content creation time-waster?`,
+  },
+  {
+    id: 'ba2-transformation-timeline',
+    name: 'Transformation Timeline',
+    category: 'before-after',
+    template: `My {topic} transformation:
+
+{timeAgo} AGO:
+• {beforePoint1}
+• {beforePoint2}
+• {beforePoint3}
+
+TODAY:
+• {afterPoint1}
+• {afterPoint2}
+• {afterPoint3}
+
+The turning point: {turningPoint}
+
+{callToAction}`,
+    placeholders: [
+      { key: 'topic', hint: 'Area of transformation' },
+      { key: 'timeAgo', hint: 'How long ago (6 months, 1 year)' },
+      { key: 'beforePoint1', hint: 'First "before" point' },
+      { key: 'beforePoint2', hint: 'Second "before" point' },
+      { key: 'beforePoint3', hint: 'Third "before" point' },
+      { key: 'afterPoint1', hint: 'First "after" point' },
+      { key: 'afterPoint2', hint: 'Second "after" point' },
+      { key: 'afterPoint3', hint: 'Third "after" point' },
+      { key: 'turningPoint', hint: 'What triggered the change (1-2 sentences)' },
+      { key: 'callToAction', hint: 'What you want readers to do' },
+    ],
+    expectedScore: [75, 90],
+    bestWith: ['image'],
+    example: `My content strategy transformation:
+
+12 MONTHS AGO:
+• Posting randomly 2-3 times/week
+• 500 followers, <50 impressions per post
+• Zero leads from social media
+
+TODAY:
+• Strategic posting 5x/week with batched content
+• 12K followers, 50K+ avg impressions per post
+• 30+ qualified leads/month from content alone
+
+The turning point: I started tracking every single post's performance and doubled down on what actually worked, not what I thought "should" work.
+
+Want my content tracker template? Drop a 📊 below.`,
+  },
+  {
+    id: 'll1-key-lessons',
+    name: 'Key Lessons Format',
+    category: 'lessons-learned',
+    template: `{number} lessons from {experience}:
+
+1. {lesson1}
+
+2. {lesson2}
+
+3. {lesson3}
+
+The biggest surprise: {surprise}
+
+What lessons are you learning right now?`,
+    placeholders: [
+      { key: 'number', hint: 'Number of lessons (3-5)' },
+      { key: 'experience', hint: 'What experience you learned from' },
+      { key: 'lesson1', hint: 'First key lesson (1-2 sentences)' },
+      { key: 'lesson2', hint: 'Second key lesson (1-2 sentences)' },
+      { key: 'lesson3', hint: 'Third key lesson (1-2 sentences)' },
+      { key: 'surprise', hint: 'Most unexpected learning (1 sentence)' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['image'],
+    example: `3 lessons from running my first webinar:
+
+1. Technical perfection doesn't matter. I had audio issues for 5 minutes and still got rave reviews. People care about value, not polish.
+
+2. Q&A is where the magic happens. The 20-minute Q&A session got more engagement than my entire 40-minute presentation.
+
+3. Follow-up matters more than the event. 80% of my conversions came from the email sequence after, not during the webinar.
+
+The biggest surprise: Smaller audience = better results. 30 engaged people beat 200 lurkers.
+
+What lessons are you learning right now?`,
+  },
+  {
+    id: 'll2-if-i-could-go-back',
+    name: 'If I Could Go Back',
+    category: 'lessons-learned',
+    template: `If I could go back and tell myself one thing before {situation}:
+
+"{advice}"
+
+What I did instead:
+{whatYouDid}
+
+What happened:
+{consequence}
+
+What I do now:
+{currentApproach}
+
+Learn from my mistakes. {callToAction}`,
+    placeholders: [
+      { key: 'situation', hint: 'The situation/decision point' },
+      { key: 'advice', hint: 'What you wish you knew (1 sentence)' },
+      { key: 'whatYouDid', hint: 'What you actually did (1-2 sentences)' },
+      { key: 'consequence', hint: 'What resulted from that choice' },
+      { key: 'currentApproach', hint: 'How you handle it now' },
+      { key: 'callToAction', hint: 'Actionable advice for readers' },
+    ],
+    expectedScore: [75, 90],
+    bestWith: ['none'],
+    example: `If I could go back and tell myself one thing before launching my first product:
+
+"Sell it before you build it."
+
+What I did instead:
+Spent 4 months building the "perfect" product in isolation. No pre-sales, no validation, just assumptions.
+
+What happened:
+Launched to crickets. Got 3 sales in the first month. Realized I built features nobody wanted.
+
+What I do now:
+I sell the idea first. Get 10 paying customers before writing a single line of code. Let their feedback guide what I build.
+
+Learn from my mistakes. Validate before you create.`,
+  },
+  {
+    id: 'tr1-honest-review',
+    name: 'Honest Tool Review',
+    category: 'tool-review',
+    template: `I've been using {toolName} for {duration}.
+
+Here's my honest review:
+
+✅ WHAT'S GREAT:
+• {pro1}
+• {pro2}
+• {pro3}
+
+❌ WHAT'S NOT:
+• {con1}
+• {con2}
+
+VERDICT: {verdict}
+
+Best for: {bestFor}
+
+{question}`,
+    placeholders: [
+      { key: 'toolName', hint: 'Name of the tool' },
+      { key: 'duration', hint: 'How long you\'ve used it (3 months, 1 year)' },
+      { key: 'pro1', hint: 'First major benefit' },
+      { key: 'pro2', hint: 'Second major benefit' },
+      { key: 'pro3', hint: 'Third major benefit' },
+      { key: 'con1', hint: 'First drawback' },
+      { key: 'con2', hint: 'Second drawback' },
+      { key: 'verdict', hint: 'Overall recommendation (1-2 sentences)' },
+      { key: 'bestFor', hint: 'Who should use this tool' },
+      { key: 'question', hint: 'Engagement question' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['image'],
+    example: `I've been using Notion for 2 years.
+
+Here's my honest review:
+
+✅ WHAT'S GREAT:
+• All-in-one workspace (notes, tasks, databases)
+• Incredibly flexible and customizable
+• Beautiful, intuitive interface
+
+❌ WHAT'S NOT:
+• Can be slow with large databases
+• Steep learning curve for advanced features
+
+VERDICT: Best productivity tool I've used, but overkill if you just need simple notes.
+
+Best for: People who want one tool for everything and don't mind spending time setting it up.
+
+What's your go-to productivity tool?`,
+  },
+  {
+    id: 'tr2-tool-replacement',
+    name: 'Tool Replacement Story',
+    category: 'tool-review',
+    template: `I replaced {oldTool} with {newTool}.
+
+Why I switched:
+{reason}
+
+What I gained:
+• {benefit1}
+• {benefit2}
+• {benefit3}
+
+What I miss:
+{tradeoff}
+
+Worth it? {verdict}
+
+{question}`,
+    placeholders: [
+      { key: 'oldTool', hint: 'Tool you stopped using' },
+      { key: 'newTool', hint: 'Tool you switched to' },
+      { key: 'reason', hint: 'Main reason for switching (1-2 sentences)' },
+      { key: 'benefit1', hint: 'First improvement' },
+      { key: 'benefit2', hint: 'Second improvement' },
+      { key: 'benefit3', hint: 'Third improvement' },
+      { key: 'tradeoff', hint: 'What you gave up or miss (1 sentence)' },
+      { key: 'verdict', hint: 'Was it worth switching? (1 sentence)' },
+      { key: 'question', hint: 'Engagement question' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['image'],
+    example: `I replaced Calendly with Cal.com.
+
+Why I switched:
+Calendly's branding on the free tier felt unprofessional, and I wanted more control over my scheduling page design.
+
+What I gained:
+• Full white-label customization
+• Open-source and self-hostable option
+• Advanced workflow automation
+• Better integration with my existing stack
+
+What I miss:
+Calendly's slightly cleaner mobile experience.
+
+Worth it? 100%. Cal.com does everything Calendly does, but with more flexibility and no branding limitations.
+
+What scheduling tool do you use?`,
+  },
+  {
+    id: 'cm1-old-way-new-way',
+    name: 'Old Way vs New Way',
+    category: 'comparison',
+    template: `Old way of {topic}:
+{oldWay}
+
+New way:
+{newWay}
+
+The difference? {impact}
+
+{question}`,
+    placeholders: [
+      { key: 'topic', hint: 'What you\'re comparing' },
+      { key: 'oldWay', hint: 'How it used to be done (2-3 sentences)' },
+      { key: 'newWay', hint: 'How it\'s done now (2-3 sentences)' },
+      { key: 'impact', hint: 'Why the new way is better (1-2 sentences)' },
+      { key: 'question', hint: 'Engagement question' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['image'],
+    example: `Old way of content creation:
+Spend 3 hours perfecting one post. Overthink every word. Post once and pray for engagement. Wonder why it flopped.
+
+New way:
+Create 10 variations in 30 minutes using templates. Test what works. Double down on winners. Iterate based on data.
+
+The difference? I went from 2 posts/week with 50 impressions to 5 posts/week with 50K+ impressions.
+
+Still doing it the old way?`,
+  },
+  {
+    id: 'cm2-side-by-side',
+    name: 'Side-by-Side Comparison',
+    category: 'comparison',
+    template: `{optionA} vs {optionB}
+
+{optionA}:
+✅ {proA1}
+✅ {proA2}
+❌ {conA}
+
+{optionB}:
+✅ {proB1}
+✅ {proB2}
+❌ {conB}
+
+My take: {verdict}
+
+Which do you prefer?`,
+    placeholders: [
+      { key: 'optionA', hint: 'First option/approach' },
+      { key: 'optionB', hint: 'Second option/approach' },
+      { key: 'proA1', hint: 'First benefit of option A' },
+      { key: 'proA2', hint: 'Second benefit of option A' },
+      { key: 'conA', hint: 'Main drawback of option A' },
+      { key: 'proB1', hint: 'First benefit of option B' },
+      { key: 'proB2', hint: 'Second benefit of option B' },
+      { key: 'conB', hint: 'Main drawback of option B' },
+      { key: 'verdict', hint: 'Your recommendation (1-2 sentences)' },
+    ],
+    expectedScore: [75, 90],
+    bestWith: ['image', 'poll'],
+    example: `Posting daily vs Posting 3x/week
+
+Posting daily:
+✅ Stays top of mind with your audience
+✅ More data to learn what works
+❌ Easy to burn out or sacrifice quality
+
+Posting 3x/week:
+✅ Time to craft higher-quality content
+✅ Sustainable long-term
+❌ Slower growth and testing cycles
+
+My take: Start with 3x/week until you have a system. Then scale to daily if you want faster growth.
+
+Which do you prefer?`,
+  },
 ]
 
 export const categoryLabels: Record<string, string> = {
@@ -336,6 +1128,13 @@ export const categoryLabels: Record<string, string> = {
   question: 'Questions',
   milestone: 'Milestones',
   teaching: 'Teaching',
+  predictions: 'Predictions',
+  'case-study': 'Case Studies',
+  'before-after': 'Before/After',
+  'lessons-learned': 'Lessons Learned',
+  'tool-review': 'Tool Reviews',
+  comparison: 'Comparisons',
+  'unpopular-opinion': 'Unpopular Opinions',
 }
 
 export function getTemplatesByCategory(category: string): Template[] {
