@@ -112,8 +112,9 @@
             "type": "manual",
             "instructions": "Review content for accuracy against media.ts scoring logic"
           },
-          "status": "pending",
-          "notes": "Explain why visual content (images/videos) performs better than text-only. Include algorithm mechanics for media type scoring. Good examples: engaging video, bad examples: low-quality image."
+          "status": "completed",
+          "notes": "Created comprehensive media score explanation content covering video (40pts), image/poll (20pts), GIF (15pts), text-only (0pts), and link penalties (-20 premium, -50 non-premium). Content accurately reflects media.ts scoring logic with educational examples and research references matching the established pattern from the base score section.",
+          "updated_at": "2026-01-07T02:48:12.063906+00:00"
         },
         {
           "id": "subtask-3-3",
@@ -130,8 +131,9 @@
             "type": "manual",
             "instructions": "Review content for accuracy against hooks.ts pattern matching"
           },
-          "status": "pending",
-          "notes": "Explain pattern interrupt, curiosity gap, contrarian, story opener techniques. Good examples: 'Stop scrolling - here's why...', bad examples: 'Just wanted to share...'. Include research on attention economics."
+          "status": "completed",
+          "notes": "Created comprehensive hook strength explanation content covering all 5 hook patterns (pattern interrupt +15, curiosity gap +10, contrarian +15, story opener +10, generic opener -5) plus structural bonuses (brevity +10, questions +10, numbers +10, length penalty -5). Content accurately reflects hooks.ts pattern matching and scoring logic with 4 good examples demonstrating bonus stacking, 4 bad examples showing common mistakes, and 4 research references on attention psychology. Maximum 25-point cap properly explained.",
+          "updated_at": "2026-01-07T02:52:38.078941+00:00"
         },
         {
           "id": "subtask-3-4",
@@ -148,8 +150,9 @@
             "type": "manual",
             "instructions": "Review content for accuracy against engagement.ts scoring logic"
           },
-          "status": "pending",
-          "notes": "Explain CTAs, questions, emoji usage (1-3 optimal), caps usage, self-promo penalties. Good examples: 'What do you think?', bad examples: 'Buy my course! 50% off!!!'. Include research on engagement triggers."
+          "status": "completed",
+          "notes": "Created comprehensive engagement score explanation content covering all scoring factors: questions (+10), CTA patterns (+10), \"what do you think\" bonus (+5), emoji scoring (1-3: +5, 4+: -5), CAPS scoring (1-2: +5, 3+: -10), and self-promo penalties (-15). Content includes detailed algorithm principles, 4 good examples, 4 bad examples, and 4 research references. All content verified against engagement.ts scoring logic for accuracy.",
+          "updated_at": "2026-01-07T02:55:15.909275+00:00"
         },
         {
           "id": "subtask-3-5",
@@ -455,5 +458,9 @@
     }
   },
   "qa_signoff": null,
-  "last_updated": "2026-01-07T02:44:38.128999+00:00"
+  "last_updated": "2026-01-07T02:55:15.909281+00:00",
+  "status": "in_progress",
+  "planStatus": "in_progress",
+  "updated_at": "2026-01-07T02:51:30.187Z",
+  "recoveryNote": "Task recovered from stuck state at 2026-01-07T02:51:30.187Z"
 }
