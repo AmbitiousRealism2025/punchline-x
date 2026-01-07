@@ -569,6 +569,82 @@ Key lesson: More features in onboarding = lower conversion. Simplify ruthlessly.
 
 What's your biggest conversion bottleneck?`,
   },
+  {
+    id: 'ba1-simple-comparison',
+    name: 'Simple Before/After',
+    category: 'before-after',
+    template: `BEFORE: {before}
+
+AFTER: {after}
+
+What changed: {change}
+
+{question}`,
+    placeholders: [
+      { key: 'before', hint: 'Starting state or condition' },
+      { key: 'after', hint: 'Current state or result' },
+      { key: 'change', hint: 'What you did differently (1-2 sentences)' },
+      { key: 'question', hint: 'Engagement question' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['image'],
+    example: `BEFORE: Spending 3 hours writing one LinkedIn post
+
+AFTER: Writing 5 high-quality posts in 90 minutes
+
+What changed: I stopped trying to be "perfect" and started using templates. Now I fill in frameworks instead of staring at a blank screen.
+
+What's your biggest content creation time-waster?`,
+  },
+  {
+    id: 'ba2-transformation-timeline',
+    name: 'Transformation Timeline',
+    category: 'before-after',
+    template: `My {topic} transformation:
+
+{timeAgo} AGO:
+• {beforePoint1}
+• {beforePoint2}
+• {beforePoint3}
+
+TODAY:
+• {afterPoint1}
+• {afterPoint2}
+• {afterPoint3}
+
+The turning point: {turningPoint}
+
+{callToAction}`,
+    placeholders: [
+      { key: 'topic', hint: 'Area of transformation' },
+      { key: 'timeAgo', hint: 'How long ago (6 months, 1 year)' },
+      { key: 'beforePoint1', hint: 'First "before" point' },
+      { key: 'beforePoint2', hint: 'Second "before" point' },
+      { key: 'beforePoint3', hint: 'Third "before" point' },
+      { key: 'afterPoint1', hint: 'First "after" point' },
+      { key: 'afterPoint2', hint: 'Second "after" point' },
+      { key: 'afterPoint3', hint: 'Third "after" point' },
+      { key: 'turningPoint', hint: 'What triggered the change (1-2 sentences)' },
+      { key: 'callToAction', hint: 'What you want readers to do' },
+    ],
+    expectedScore: [75, 90],
+    bestWith: ['image'],
+    example: `My content strategy transformation:
+
+12 MONTHS AGO:
+• Posting randomly 2-3 times/week
+• 500 followers, <50 impressions per post
+• Zero leads from social media
+
+TODAY:
+• Strategic posting 5x/week with batched content
+• 12K followers, 50K+ avg impressions per post
+• 30+ qualified leads/month from content alone
+
+The turning point: I started tracking every single post's performance and doubled down on what actually worked, not what I thought "should" work.
+
+Want my content tracker template? Drop a 📊 below.`,
+  },
 ]
 
 export const categoryLabels: Record<string, string> = {
