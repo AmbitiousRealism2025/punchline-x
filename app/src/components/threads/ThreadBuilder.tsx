@@ -95,7 +95,11 @@ export function ThreadBuilder() {
     if (hasOverLimit) return
 
     const threadText = tweets
-      .map((t) => t.text.trim())
+      .map((t, index) => {
+        const text = t.text.trim()
+        if (!text) return ''
+        return `${index + 1}. ${text}`
+      })
       .filter((text) => text.length > 0)
       .join('\n\n')
 
