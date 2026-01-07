@@ -6,17 +6,25 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { logTweet } from '@/lib/store'
 import { useScore } from '@/hooks/useScore'
-import { useRewriteTweet } from '@/hooks/useRewriteTweet'
 
 const MAX_CHARS = 280
 
-export function TweetInput() {
+interface TweetInputProps {
+  onRewrite?: () => Promise<void>
+  isRewriting?: boolean
+  rewriteError?: string | null
+}
+
+export function TweetInput({
+  onRewrite,
+  isRewriting = false,
+  rewriteError = null
+}: TweetInputProps = {}) {
   const [copied, setCopied] = useState(false)
   const text = (useCell('currentTweet', 'draft', 'text') as string) ?? ''
   const mediaType = (useCell('currentTweet', 'draft', 'mediaType') as string) ?? 'none'
   const hasLink = (useCell('currentTweet', 'draft', 'hasLink') as boolean) ?? false
   const { total: score } = useScore()
-  const { rewrite, isLoading, error } = useRewriteTweet()
 
   const setText = useSetCellCallback(
     'currentTweet',
@@ -44,12 +52,10 @@ export function TweetInput() {
 
   const handleRewrite = useCallback(async () => {
     if (!text.trim() || text.length < 10) return
-    try {
-      await rewrite()
-    } catch (err) {
-      // Error is already handled by the hook
+    if (onRewrite) {
+      await onRewrite()
     }
-  }, [text, rewrite])
+  }, [text, onRewrite])
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -72,10 +78,10 @@ export function TweetInput() {
               variant="default"
               size="sm"
               onClick={handleRewrite}
-              disabled={isLoading || !text.trim() || text.length < 10}
+              disabled={isRewriting || !text.trim() || text.length < 10}
               className="min-w-[120px]"
             >
-              {isLoading ? 'Rewriting...' : 'Rewrite with AI'}
+              {isRewriting ? 'Rewriting...' : 'Rewrite with AI'}
             </Button>
             {text.trim() && (
               <Button variant="ghost" size="sm" onClick={handleClear}>
@@ -102,9 +108,9 @@ export function TweetInput() {
           className="min-h-[120px] resize-none bg-background border-border focus-visible:ring-primary/50"
         />
 
-        {error && (
+        {rewriteError && (
           <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20">
-            <p className="text-sm text-destructive">{error}</p>
+            <p className="text-sm text-destructive">{rewriteError}</p>
           </div>
         )}
 
