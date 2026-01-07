@@ -645,6 +645,86 @@ The turning point: I started tracking every single post's performance and double
 
 Want my content tracker template? Drop a 📊 below.`,
   },
+  {
+    id: 'll1-key-lessons',
+    name: 'Key Lessons Format',
+    category: 'lessons-learned',
+    template: `{number} lessons from {experience}:
+
+1. {lesson1}
+
+2. {lesson2}
+
+3. {lesson3}
+
+The biggest surprise: {surprise}
+
+What lessons are you learning right now?`,
+    placeholders: [
+      { key: 'number', hint: 'Number of lessons (3-5)' },
+      { key: 'experience', hint: 'What experience you learned from' },
+      { key: 'lesson1', hint: 'First key lesson (1-2 sentences)' },
+      { key: 'lesson2', hint: 'Second key lesson (1-2 sentences)' },
+      { key: 'lesson3', hint: 'Third key lesson (1-2 sentences)' },
+      { key: 'surprise', hint: 'Most unexpected learning (1 sentence)' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['image'],
+    example: `3 lessons from running my first webinar:
+
+1. Technical perfection doesn't matter. I had audio issues for 5 minutes and still got rave reviews. People care about value, not polish.
+
+2. Q&A is where the magic happens. The 20-minute Q&A session got more engagement than my entire 40-minute presentation.
+
+3. Follow-up matters more than the event. 80% of my conversions came from the email sequence after, not during the webinar.
+
+The biggest surprise: Smaller audience = better results. 30 engaged people beat 200 lurkers.
+
+What lessons are you learning right now?`,
+  },
+  {
+    id: 'll2-if-i-could-go-back',
+    name: 'If I Could Go Back',
+    category: 'lessons-learned',
+    template: `If I could go back and tell myself one thing before {situation}:
+
+"{advice}"
+
+What I did instead:
+{whatYouDid}
+
+What happened:
+{consequence}
+
+What I do now:
+{currentApproach}
+
+Learn from my mistakes. {callToAction}`,
+    placeholders: [
+      { key: 'situation', hint: 'The situation/decision point' },
+      { key: 'advice', hint: 'What you wish you knew (1 sentence)' },
+      { key: 'whatYouDid', hint: 'What you actually did (1-2 sentences)' },
+      { key: 'consequence', hint: 'What resulted from that choice' },
+      { key: 'currentApproach', hint: 'How you handle it now' },
+      { key: 'callToAction', hint: 'Actionable advice for readers' },
+    ],
+    expectedScore: [75, 90],
+    bestWith: ['none'],
+    example: `If I could go back and tell myself one thing before launching my first product:
+
+"Sell it before you build it."
+
+What I did instead:
+Spent 4 months building the "perfect" product in isolation. No pre-sales, no validation, just assumptions.
+
+What happened:
+Launched to crickets. Got 3 sales in the first month. Realized I built features nobody wanted.
+
+What I do now:
+I sell the idea first. Get 10 paying customers before writing a single line of code. Let their feedback guide what I build.
+
+Learn from my mistakes. Validate before you create.`,
+  },
 ]
 
 export const categoryLabels: Record<string, string> = {
