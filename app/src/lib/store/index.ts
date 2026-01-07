@@ -93,6 +93,41 @@ export function getAlternatives(): Array<AlternativesEntry & { id: string }> {
     .sort((a, b) => b.createdAt - a.createdAt)
 }
 
+export interface Alternative {
+  text: string
+  score: number
+}
+
+export function serializeAlternatives(
+  originalText: string,
+  alternatives: Alternative[]
+): Omit<AlternativesEntry, 'createdAt'> {
+  const entry: Omit<AlternativesEntry, 'createdAt'> = { originalText }
+
+  alternatives.slice(0, 5).forEach((alt, index) => {
+    const num = (index + 1) as 1 | 2 | 3 | 4 | 5
+    entry[`version${num}`] = alt.text
+    entry[`score${num}`] = alt.score
+  })
+
+  return entry
+}
+
+export function deserializeAlternatives(entry: AlternativesEntry): Alternative[] {
+  const alternatives: Alternative[] = []
+
+  for (let i = 1; i <= 5; i++) {
+    const text = entry[`version${i}` as keyof AlternativesEntry]
+    const score = entry[`score${i}` as keyof AlternativesEntry]
+
+    if (text && typeof text === 'string' && score && typeof score === 'number') {
+      alternatives.push({ text, score })
+    }
+  }
+
+  return alternatives
+}
+
 const persister = createLocalPersister(store, 'tweet-optimizer')
 persister.startAutoSave()
 persister.startAutoLoad()
