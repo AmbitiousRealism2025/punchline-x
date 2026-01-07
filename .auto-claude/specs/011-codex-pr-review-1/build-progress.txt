@@ -1,0 +1,45 @@
+=== Investigation: Codex PR Review Issue #2 ===
+Date: 2026-01-06
+Status: Investigation Complete
+
+## Investigation Summary
+
+Examined PR #1 (commit 1ca8f34ba6) for Codex review comments. Initial assessment that Issue #2 was "just a meta-notification" was INCORRECT.
+
+## Findings
+
+While the review summary in Issue #2 appears to be just informational text, Codex DID leave **2 actionable inline review comments** on PR #1:
+
+### Comment 1: P2 (Medium Priority)
+**File:** `app/src/components/templates/ThreadTemplateCard.tsx` (lines 88-90)
+**Issue:** Preserve line breaks in example body tweets
+**Details:** Several `exampleThread.body` entries contain embedded line breaks (e.g., list items with `\n\n`), but body tweets are rendered without `whitespace-pre-line`, causing HTML to collapse newlines into single spaces. This breaks intended formatting.
+**Recommendation:** Add `whitespace-pre-line` (or similar) to the body tweet `<p>` element to preserve stored formatting.
+
+### Comment 2: P3 (Low Priority)
+**File:** `app/src/components/templates/ThreadTemplateCard.tsx` (lines 12-17)
+**Issue:** Use cyan-only accents per design constraints
+**Details:** Badge color map introduces purple/blue/green/red/amber classes, violating project's documented design constraints that specify cyan-only accent (#06b6d4) and explicitly forbid purple accents.
+**Recommendation:** Map all badge states to cyan-tinted variants instead.
+
+## Determination
+
+**Issue #2 IS ACTIONABLE** - It references 2 specific code improvements:
+1. Fix whitespace handling for multiline tweet bodies (P2)
+2. Align badge colors with design system constraints (P3)
+
+## Next Steps (for subtask-1-2)
+
+1. Update Issue #2 with clear summary of the 2 actionable items
+2. Create follow-up tasks or address inline comments
+3. Keep Issue #2 OPEN until actionable items are resolved
+4. Link Issue #2 to specific line comments on PR #1
+
+## Status
+
+✅ PR #1 examined thoroughly using `gh` CLI
+✅ Found 2 inline review comments with specific suggestions
+✅ Determination: ACTIONABLE (not just informational)
+✅ Codex integration confirmed as active and providing useful feedback
+✅ Issue #2 updated with investigation findings and actionable items
+✅ Issue #2 remains OPEN pending resolution of 2 identified action items
