@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { logTweet } from '@/lib/store'
 import { useScore } from '@/hooks/useScore'
+import { useVoiceMatchScore } from '@/hooks/useVoiceMatchScore'
 
 const MAX_CHARS = 280
 
@@ -15,6 +16,7 @@ export function TweetInput() {
   const mediaType = (useCell('currentTweet', 'draft', 'mediaType') as string) ?? 'none'
   const hasLink = (useCell('currentTweet', 'draft', 'hasLink') as boolean) ?? false
   const { total: score } = useScore()
+  const voiceMatchScore = useVoiceMatchScore()
 
   const setText = useSetCellCallback(
     'currentTweet',
@@ -31,10 +33,10 @@ export function TweetInput() {
   const handleCopy = useCallback(async () => {
     if (!text.trim()) return
     await navigator.clipboard.writeText(text)
-    logTweet({ text, score, mediaType, hasLink, voiceMatchScore: score })
+    logTweet({ text, score, mediaType, hasLink, voiceMatchScore })
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
-  }, [text, score, mediaType, hasLink])
+  }, [text, score, mediaType, hasLink, voiceMatchScore])
 
   const handleClear = useCallback(() => {
     setText('')
@@ -84,7 +86,7 @@ export function TweetInput() {
         <div className="flex items-center justify-between">
           <span className="text-xs text-muted-foreground">⌘+Enter to copy</span>
           <span className="text-xs font-medium text-primary">
-            Voice Match: {Math.round(score ?? 0)}%
+            Voice Match: {Math.round(voiceMatchScore ?? 0)}%
           </span>
           <span
             className={cn(

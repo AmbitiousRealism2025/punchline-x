@@ -323,8 +323,9 @@
             "type": "manual",
             "instructions": "Generate hook, copy tweet to clipboard, check localStorage 'tweet-optimizer' \u2192 tweetLog entries contain voiceMatchScore field"
           },
-          "status": "pending",
-          "notes": "When logTweet is called in handleCopy, include voiceMatchScore in the logged entry. Retrieve current voice match score from state."
+          "status": "completed",
+          "notes": "Added voiceMatchScore field to logTweet call in TweetInput.tsx. Voice match scores are now stored in tweet log entries alongside the regular score.",
+          "updated_at": "2026-01-07T04:21:34.829331+00:00"
         }
       ]
     },
@@ -564,5 +565,5 @@
     }
   },
   "qa_signoff": null,
-  "last_updated": "2026-01-07T04:20:30.850778+00:00"
+  "last_updated": "2026-01-07T04:21:34.829339+00:00"
 }

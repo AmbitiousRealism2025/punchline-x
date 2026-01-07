@@ -12,6 +12,7 @@ import {
 import { HookGenerator } from '@/components/ai/HookGenerator'
 import { TemplateGrid, TemplateEditor, TimingAdvisor } from '@/components/templates'
 import { AnalyticsDashboard, TweetHistory, DataExport } from '@/components/analytics'
+import { VoiceProfileForm } from '@/components/settings/VoiceProfileForm'
 import { CommandPalette } from '@/components/CommandPalette'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import type { Template } from '@/lib/templates'
@@ -84,7 +85,7 @@ function App() {
 
           <TabsContent value="settings">
             <div className="space-y-6">
-              {/* Settings components will be added here */}
+              <VoiceProfileForm />
             </div>
           </TabsContent>
         </Tabs>
