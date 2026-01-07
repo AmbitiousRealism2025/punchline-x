@@ -406,7 +406,7 @@ export const explanations: ExplanationsMap = {
       bad: [
         {
           description: 'Hashtag stuffing triggers spam penalties',
-          example: 'Post text: "Great advice! #productivity #success #motivation #hustle #entrepreneur #goals #mindset #business" (103 characters, 8 hashtags) - Scores -5 points (10 for good length - 10 for 4+ hashtags - 5 from engagement factor for appearing spammy). The excessive hashtags override the good character count, signaling low-quality content trying to game discovery rather than provide value. The algorithm treats this as spam behavior.',
+          example: 'Post text: "Great advice! #productivity #success #motivation #hustle #entrepreneur #goals #mindset #business" (103 characters, 8 hashtags) - Scores 0 points (10 for good length - 10 for 4+ hashtags = 0). The excessive hashtags completely negate the good character count, signaling low-quality content trying to game discovery rather than provide value. The algorithm treats this as spam behavior.',
         },
         {
           description: 'Too brief content appears low-effort',
