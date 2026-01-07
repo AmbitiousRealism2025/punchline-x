@@ -1,0 +1,4 @@
+Date,Time (Local),Content,Content Type,Media Type,Hook Type,Has Link,Pre-Score,Impressions (24h),Engagements,Likes,Replies,Retweets,Quotes,Engagement Rate %,Notes
+2025-01-06,09:00,Example tweet text here,value,image,number,FALSE,72,2400,96,60,20,12,4,4.00,Strong performance - question drove replies
+2025-01-06,14:00,Another example post,engagement,poll,question,FALSE,78,3200,180,100,50,25,5,5.63,Poll got high participation
+2025-01-07,08:30,Third example tweet,story,video,story,FALSE,85,5600,280,150,80,40,10,5.00,Video watch time was strong
