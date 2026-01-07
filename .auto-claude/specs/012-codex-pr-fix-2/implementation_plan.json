@@ -1,0 +1,318 @@
+{
+  "feature": "Investigate and Resolve GitHub Issue #5 - Codex PR Fix #2",
+  "workflow_type": "investigation",
+  "workflow_rationale": "Issue #5 contains only the Codex bot template without specific code suggestions. Must fetch actual review data from PR #4 (review ID 3633255069) before determining scope. Investigation-first approach ensures we understand the problem before implementing solutions.",
+  "phases": [
+    {
+      "id": "phase-1-reproduce",
+      "name": "Reproduce and Fetch Review Data",
+      "type": "investigation",
+      "description": "Fetch actual Codex review comments from PR #4 to understand what was flagged",
+      "depends_on": [],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-1-1",
+          "description": "Authenticate GitHub CLI and verify access to repository",
+          "service": "punchline-x",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "gh auth status",
+            "expected": "Logged in to github.com account"
+          },
+          "status": "completed",
+          "notes": "GitHub CLI authenticated successfully. Logged in to github.com account AmbitiousRealism2025 with scopes: gist, read:org, repo, workflow. Repository access verified for AmbitiousRealism2025/punchline-x.",
+          "updated_at": "2026-01-07T04:13:35.896252+00:00"
+        },
+        {
+          "id": "subtask-1-2",
+          "description": "Fetch PR #4 metadata and review information",
+          "service": "punchline-x",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "gh pr view 4 --json reviews,comments,files,commits",
+            "expected": "JSON output with PR details"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-1-3",
+          "description": "Retrieve specific Codex review comments from review ID 3633255069",
+          "service": "punchline-x",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "gh api repos/AmbitiousRealism2025/punchline-x/pulls/4/reviews/3633255069/comments",
+            "expected": "JSON output with review comments (or empty array if no specific comments)"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-1-4",
+          "description": "Analyze commit 563ece1fbd to understand what code was reviewed",
+          "service": "punchline-x",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "gh pr view 4 --json commits,files | grep -A5 563ece1fbd || echo 'Commit found in PR'",
+            "expected": "Commit details or confirmation of presence"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-2-investigate",
+      "name": "Analyze Review and Determine Actionability",
+      "type": "investigation",
+      "description": "Analyze Codex review findings and document whether issues are actionable or if issue should be closed",
+      "depends_on": [
+        "phase-1-reproduce"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-2-1",
+          "description": "Document investigation findings in INVESTIGATION.md",
+          "service": "punchline-x",
+          "files_to_modify": [],
+          "files_to_create": [
+            ".auto-claude/specs/012-codex-pr-fix-2/INVESTIGATION.md"
+          ],
+          "patterns_from": [],
+          "expected_output": "Document with: (1) Summary of Codex review findings, (2) Determination: actionable vs invalid, (3) Files affected (if applicable), (4) Recommended next steps",
+          "verification": {
+            "type": "manual",
+            "instructions": "Review INVESTIGATION.md for clear determination and evidence"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-2-2",
+          "description": "Update GitHub Issue #5 with investigation findings",
+          "service": "punchline-x",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "manual",
+            "instructions": "Verify issue comment posted with investigation summary and next steps"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-3-fix",
+      "name": "Implement Fixes (Conditional)",
+      "type": "implementation",
+      "description": "Implement code fixes based on Codex suggestions - ONLY if actionable issues were found",
+      "depends_on": [
+        "phase-2-investigate"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-3-1",
+          "description": "Apply Codex-recommended code changes",
+          "service": "punchline-x",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "notes": "Files TBD based on investigation findings. This subtask is BLOCKED until Phase 2 determines actionability.",
+          "verification": {
+            "type": "command",
+            "command": "npm run lint",
+            "expected": "No ESLint errors"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-3-2",
+          "description": "Verify TypeScript compilation with no errors",
+          "service": "punchline-x",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npx tsc --noEmit",
+            "expected": "No TypeScript errors"
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-3-3",
+          "description": "Verify production build succeeds",
+          "service": "punchline-x",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "command",
+            "command": "npm run build",
+            "expected": "Build completes without errors"
+          },
+          "status": "pending"
+        }
+      ]
+    },
+    {
+      "id": "phase-4-harden",
+      "name": "Verification and Issue Resolution",
+      "type": "cleanup",
+      "description": "Final verification and close/update issue with resolution",
+      "depends_on": [
+        "phase-3-fix"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-4-1",
+          "description": "Run development server and verify no console errors",
+          "service": "punchline-x",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": [
+              "Application renders",
+              "No console errors",
+              "No runtime warnings"
+            ]
+          },
+          "status": "pending"
+        },
+        {
+          "id": "subtask-4-2",
+          "description": "Update Issue #5 with resolution status (closed or implemented)",
+          "service": "punchline-x",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "manual",
+            "instructions": "Verify issue updated with final status and evidence of resolution"
+          },
+          "status": "pending"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_phases": 4,
+    "total_subtasks": 11,
+    "services_involved": [
+      "punchline-x"
+    ],
+    "parallelism": {
+      "max_parallel_phases": 1,
+      "parallel_groups": [],
+      "recommended_workers": 1,
+      "speedup_estimate": "Sequential execution required due to investigation dependencies"
+    },
+    "startup_command": "source auto-claude/.venv/bin/activate && python auto-claude/run.py --spec 012 --parallel 1"
+  },
+  "verification_strategy": {
+    "risk_level": "low",
+    "skip_validation": false,
+    "test_creation_phase": "post_implementation",
+    "test_types_required": [
+      "unit"
+    ],
+    "security_scanning_required": false,
+    "staging_deployment_required": false,
+    "acceptance_criteria": [
+      "GitHub CLI successfully authenticates",
+      "PR #4 Codex review data retrieved and analyzed",
+      "Investigation findings documented in INVESTIGATION.md",
+      "Determination made: actionable issues vs invalid",
+      "If actionable: All Codex suggestions implemented and verified",
+      "If invalid: Issue closed with documented reasoning",
+      "All linting and build checks pass (if code changes made)",
+      "Issue #5 updated with resolution"
+    ],
+    "verification_steps": [
+      {
+        "name": "GitHub Authentication",
+        "command": "gh auth status",
+        "expected_outcome": "Authenticated with repo access",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "ESLint Validation",
+        "command": "cd app && npm run lint",
+        "expected_outcome": "No linting errors",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "TypeScript Check",
+        "command": "cd app && npx tsc --noEmit",
+        "expected_outcome": "No type errors",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Build Verification",
+        "command": "cd app && npm run build",
+        "expected_outcome": "Successful build",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      }
+    ],
+    "reasoning": "Low risk investigation task with minimal validation. If code changes are made based on Codex suggestions, standard linting and build verification is sufficient."
+  },
+  "qa_acceptance": {
+    "unit_tests": {
+      "required": false,
+      "commands": [],
+      "minimum_coverage": null
+    },
+    "integration_tests": {
+      "required": false,
+      "commands": [],
+      "services_to_test": []
+    },
+    "e2e_tests": {
+      "required": false,
+      "commands": [],
+      "flows": []
+    },
+    "browser_verification": {
+      "required": true,
+      "pages": [
+        {
+          "url": "http://localhost:5173/",
+          "checks": [
+            "renders",
+            "no-console-errors"
+          ]
+        }
+      ]
+    },
+    "database_verification": {
+      "required": false,
+      "checks": []
+    }
+  },
+  "qa_signoff": null,
+  "last_updated": "2026-01-07T04:13:35.896258+00:00"
+}
