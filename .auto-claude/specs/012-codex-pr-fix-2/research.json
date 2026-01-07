@@ -1,0 +1,232 @@
+{
+  "integrations_researched": [
+    {
+      "name": "GitHub CLI (gh)",
+      "type": "infrastructure",
+      "verified_package": {
+        "name": "gh",
+        "install_command": "brew install gh (macOS) | See https://cli.github.com for other platforms",
+        "version": "2.75.1 (installed)",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [],
+        "initialization": "Requires: gh auth login",
+        "key_functions": [
+          "gh pr view <number> - View PR details",
+          "gh pr view <number> --json reviews - Get review data in JSON",
+          "gh api repos/{owner}/{repo}/pulls/{pr}/reviews/{review-id}/comments - Get review comments",
+          "gh issue view <number> - View issue details"
+        ],
+        "verified_against": "Official GitHub CLI documentation at https://cli.github.com/manual/"
+      },
+      "configuration": {
+        "env_vars": ["GH_TOKEN (optional - for authentication)"],
+        "config_files": ["~/.config/gh/hosts.yml (auth config)"],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "installed_location": "/opt/homebrew/bin/gh",
+        "installed": true
+      },
+      "gotchas": [
+        "gh pr view --comments does NOT include inline review comments by default",
+        "To get detailed inline review comments, need multiple API calls or use gh-pr-review extension",
+        "gh pr view --json reviews only returns review body, state, and author - NOT line-by-line comments",
+        "Authentication required via 'gh auth login' before use"
+      ],
+      "research_sources": [
+        "https://cli.github.com/manual/",
+        "https://docs.github.com/en/github-cli",
+        "https://github.com/cli/cli"
+      ]
+    },
+    {
+      "name": "gh-pr-review Extension",
+      "type": "infrastructure",
+      "verified_package": {
+        "name": "gh-pr-review",
+        "install_command": "gh extension install agynio/gh-pr-review",
+        "version": "Latest from GitHub",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [],
+        "initialization": "Install via: gh extension install agynio/gh-pr-review",
+        "key_functions": [
+          "gh pr-review review view - Returns entire assembled review structure",
+          "Full inline PR review comment support",
+          "View, navigate, reply to, and resolve review threads from terminal"
+        ],
+        "verified_against": "GitHub repository at https://github.com/agynio/gh-pr-review"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": ["GitHub CLI (gh) must be installed"]
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "extension_of": "GitHub CLI"
+      },
+      "gotchas": [
+        "This is a third-party extension, not official GitHub CLI command",
+        "Designed specifically for LLM-ready and automated PR review agents",
+        "Solves the limitation of gh pr view not showing inline comments"
+      ],
+      "research_sources": [
+        "https://github.com/agynio/gh-pr-review",
+        "https://github.com/cli/cli/discussions/3993"
+      ]
+    },
+    {
+      "name": "ChatGPT Codex Connector",
+      "type": "service",
+      "verified_package": {
+        "name": "chatgpt-codex-connector",
+        "install_command": "GitHub App installation via GitHub Marketplace",
+        "version": "Cloud service - no local installation",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [],
+        "initialization": "Install GitHub App from marketplace, authorize for repositories",
+        "key_functions": [
+          "Automated PR reviews when PR is opened or marked ready",
+          "Manual trigger via '@codex review' comment",
+          "Can be mentioned in Slack via @Codex for context-aware responses"
+        ],
+        "verified_against": "OpenAI Help Center and GitHub Apps marketplace"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": [
+          "ChatGPT Plus, Pro, Business, Edu, or Enterprise plan required",
+          "GitHub repository access permissions"
+        ]
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "cloud_service": true,
+        "integration_type": "GitHub App",
+        "triggers": [
+          "Pull request opened for review",
+          "Draft marked as ready",
+          "Comment '@codex review' on PR"
+        ]
+      },
+      "gotchas": [
+        "Codex is a cloud-based service - runs in sandboxed environment",
+        "Requires active ChatGPT subscription (Plus/Pro/Business/Edu/Enterprise)",
+        "GitHub App must be authorized for specific repositories",
+        "Review comments are posted as bot comments in PR",
+        "If no suggestions, Codex reacts with 👍 instead of commenting",
+        "Governed by separate OpenAI terms of service and privacy policy"
+      ],
+      "research_sources": [
+        "https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan",
+        "https://github.com/apps/chatgpt-codex-connector",
+        "https://chatgpt.com/features/codex/",
+        "https://help.openai.com/en/articles/11145903-connecting-github-to-chatgpt-deep-research"
+      ]
+    },
+    {
+      "name": "Project Stack - React/TypeScript",
+      "type": "library",
+      "verified_package": {
+        "name": "punchline-x",
+        "install_command": "npm install (installs all dependencies from package.json)",
+        "version": "0.0.0 (private project)",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [],
+        "initialization": "npm run dev - Start development server with Vite",
+        "key_functions": [
+          "npm run dev - Development server",
+          "npm run build - Production build (tsc + vite build)",
+          "npm run lint - ESLint check",
+          "npm run preview - Preview production build"
+        ],
+        "verified_against": "package.json in project root"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [
+          "package.json",
+          "tsconfig.json",
+          "vite.config.ts",
+          "eslint.config.js",
+          "tailwind.config.js"
+        ],
+        "dependencies": [
+          "React 19.2.0",
+          "TypeScript 5.9.3",
+          "Vite 7.2.4",
+          "Tailwind CSS 4.1.18",
+          "ESLint 9.39.1",
+          "OpenAI SDK 6.15.0",
+          "Radix UI components (various)",
+          "Various dev dependencies"
+        ]
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "runtime": "Node.js",
+        "build_tool": "Vite",
+        "package_manager": "npm"
+      },
+      "gotchas": [
+        "Using React 19 (latest) - may have breaking changes from React 18",
+        "Using Tailwind CSS v4 - major version with new architecture",
+        "TypeScript strict mode likely enabled",
+        "ESLint 9 uses new flat config format",
+        "Vite 7 is latest major version"
+      ],
+      "research_sources": [
+        "./app/package.json"
+      ]
+    }
+  ],
+  "unverified_claims": [
+    {
+      "claim": "Specific Codex review feedback for PR #4 commit 563ece1fbd",
+      "reason": "Cannot access actual review comments without fetching from GitHub - requires gh pr view or API call to PR #4",
+      "risk_level": "high",
+      "recommendation": "Must fetch actual Codex review to determine what fixes are needed"
+    },
+    {
+      "claim": "Files that need to be modified for 'Fix #2'",
+      "reason": "Issue title 'Codex PR Fix #2' doesn't specify what the second fix refers to or which files are affected",
+      "risk_level": "high",
+      "recommendation": "Review PR #4 diff and Codex comments to identify affected files"
+    }
+  ],
+  "recommendations": [
+    "Use 'gh pr view 4 --json reviews,comments' to fetch PR #4 details and review data",
+    "Consider installing gh-pr-review extension for better inline comment visibility: gh extension install agynio/gh-pr-review",
+    "Use 'gh api repos/AmbitiousRealism2025/punchline-x/pulls/4/reviews' for detailed review data",
+    "Check PR #4 commit diff to understand what changes were reviewed by Codex",
+    "The Codex review link in the issue points to: https://github.com/AmbitiousRealism2025/punchline-x/pull/4#pullrequestreview-3633255069",
+    "Run 'npm run lint' before implementing fixes to identify existing linting issues"
+  ],
+  "context7_libraries_used": [],
+  "github_resources": {
+    "repository": "AmbitiousRealism2025/punchline-x",
+    "issue_number": 5,
+    "referenced_pr": 4,
+    "referenced_commit": "563ece1fbd",
+    "codex_review_id": "3633255069"
+  },
+  "next_steps": [
+    "Fetch PR #4 details using GitHub CLI",
+    "Retrieve Codex review comments from review ID 3633255069",
+    "Analyze commit 563ece1fbd to see what code was reviewed",
+    "Identify specific issues flagged by Codex",
+    "Determine which files need modifications",
+    "Create implementation plan based on Codex feedback"
+  ],
+  "created_at": "2026-01-06T12:00:00Z"
+}
