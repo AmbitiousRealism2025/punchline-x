@@ -35,11 +35,47 @@
         }
       ],
       "status": "completed"
+    },
+    "subtask-3-2": {
+      "attempts": [
+        {
+          "session": 4,
+          "timestamp": "2026-01-06T21:58:57.165115",
+          "approach": "Implemented: Integrate scoring engine for each alternative",
+          "success": true,
+          "error": null
+        }
+      ],
+      "status": "completed"
+    },
+    "subtask-4-1": {
+      "attempts": [
+        {
+          "session": 5,
+          "timestamp": "2026-01-06T22:00:44.330077",
+          "approach": "Implemented: Create AlternativesList component to display 3-5 alternatives",
+          "success": true,
+          "error": null
+        }
+      ],
+      "status": "completed"
+    },
+    "subtask-4-2": {
+      "attempts": [
+        {
+          "session": 6,
+          "timestamp": "2026-01-06T22:03:40.167119",
+          "approach": "Implemented: Add 'Rewrite with AI' button to TweetInput component",
+          "success": true,
+          "error": null
+        }
+      ],
+      "status": "completed"
     }
   },
   "stuck_subtasks": [],
   "metadata": {
     "created_at": "2026-01-06T21:51:36.773492",
-    "last_updated": "2026-01-06T21:56:44.701269"
+    "last_updated": "2026-01-06T22:03:40.167122"
   }
 }

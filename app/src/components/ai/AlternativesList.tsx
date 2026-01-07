@@ -1,4 +1,4 @@
-import { useSetCellCallback } from 'tinybase/ui-react'
+import { useCell, useSetCellCallback } from 'tinybase/ui-react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import type { Alternative } from '@/lib/store'
@@ -16,6 +16,8 @@ interface AlternativesListProps {
 }
 
 export function AlternativesList({ alternatives }: AlternativesListProps) {
+  const currentText = (useCell('currentTweet', 'draft', 'text') as string) ?? ''
+
   const setText = useSetCellCallback(
     'currentTweet',
     'draft',
@@ -39,23 +41,38 @@ export function AlternativesList({ alternatives }: AlternativesListProps) {
       </CardHeader>
       <CardContent className="space-y-4">
         <div className="space-y-2">
-          {alternatives.map((alternative, idx) => (
-            <div
-              key={idx}
-              className="group p-3 rounded-lg bg-card border border-border hover:border-primary/50 transition-colors cursor-pointer"
-              onClick={() => handleSelectAlternative(alternative.text)}
-            >
-              <div className="flex items-start gap-3">
-                <Badge className={cn('shrink-0', scoreColors(alternative.score))}>
-                  {Math.round(alternative.score)}
-                </Badge>
-                <p className="text-sm text-foreground flex-1">{alternative.text}</p>
+          {alternatives.map((alternative, idx) => {
+            const isSelected = currentText === alternative.text
+            return (
+              <div
+                key={idx}
+                className={cn(
+                  'group p-3 rounded-lg bg-card border transition-colors cursor-pointer',
+                  isSelected
+                    ? 'border-primary bg-primary/5'
+                    : 'border-border hover:border-primary/50'
+                )}
+                onClick={() => handleSelectAlternative(alternative.text)}
+              >
+                <div className="flex items-start gap-3">
+                  <Badge className={cn('shrink-0', scoreColors(alternative.score))}>
+                    {Math.round(alternative.score)}
+                  </Badge>
+                  <p className="text-sm text-foreground flex-1">{alternative.text}</p>
+                </div>
+                <p
+                  className={cn(
+                    'text-xs mt-2 transition-opacity',
+                    isSelected
+                      ? 'text-primary opacity-100'
+                      : 'text-muted-foreground opacity-0 group-hover:opacity-100'
+                  )}
+                >
+                  {isSelected ? 'Currently selected' : 'Click to use this alternative'}
+                </p>
               </div>
-              <p className="text-xs text-muted-foreground mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                Click to use this alternative
-              </p>
-            </div>
-          ))}
+            )
+          })}
         </div>
       </CardContent>
     </Card>

@@ -170,8 +170,9 @@
             "command": "cd app && npm run build && echo 'OK'",
             "expected": "OK"
           },
-          "status": "pending",
-          "notes": "Call calculateScore() for each alternative immediately after API returns. Include mediaType and hasLink from original tweet."
+          "status": "completed",
+          "notes": "Scoring engine integration verified. The calculateScore() function is called for each alternative with all required parameters (text, mediaType, hasLink, isPremium, isVerified, postTime). Each alternative stores the total score. Implementation was completed during subtask-3-1. Build verification passes successfully.",
+          "updated_at": "2026-01-07T02:58:30.710554+00:00"
         }
       ]
     },
@@ -205,8 +206,9 @@
               "No console errors"
             ]
           },
-          "status": "pending",
-          "notes": "Each card shows: alternative text, predicted score, 'Use this' button. Use Card, CardContent, Badge components."
+          "status": "completed",
+          "notes": "Created AlternativesList component following HookGenerator pattern. Component displays 3-5 alternatives with score badges, hover effects, and click-to-select functionality. No TypeScript errors.",
+          "updated_at": "2026-01-07T03:00:34.296917+00:00"
         },
         {
           "id": "subtask-4-2",
@@ -228,8 +230,9 @@
               "Button shows loading state during API call"
             ]
           },
-          "status": "pending",
-          "notes": "Button should be disabled for empty or very short tweets (<10 chars). Show 'Rewriting...' during API call."
+          "status": "completed",
+          "notes": "Added 'Rewrite with AI' button to TweetInput component. Button is disabled when text is empty or <10 chars, shows loading state during API call, and displays errors if rewrite fails. Follows pattern from HookGenerator.tsx.",
+          "updated_at": "2026-01-07T03:03:31.878155+00:00"
         },
         {
           "id": "subtask-4-3",
@@ -499,7 +502,7 @@
   "created_at": "2026-01-07T02:22:29.392Z",
   "updated_at": "2026-01-07T02:51:36.273Z",
   "status": "in_progress",
-  "last_updated": "2026-01-07T02:56:34.626265+00:00",
+  "last_updated": "2026-01-07T03:03:31.878165+00:00",
   "planStatus": "in_progress",
   "recoveryNote": "Task recovered from stuck state at 2026-01-07T02:51:36.273Z"
 }
