@@ -107,11 +107,47 @@
         }
       ],
       "status": "completed"
+    },
+    "subtask-4-1": {
+      "attempts": [
+        {
+          "session": 10,
+          "timestamp": "2026-01-06T23:17:04.669981",
+          "approach": "Implemented: Create voice match scoring algorithm",
+          "success": true,
+          "error": null
+        }
+      ],
+      "status": "completed"
+    },
+    "subtask-4-2": {
+      "attempts": [
+        {
+          "session": 11,
+          "timestamp": "2026-01-06T23:18:59.750725",
+          "approach": "Implemented: Integrate voice scoring into hook generation",
+          "success": true,
+          "error": null
+        }
+      ],
+      "status": "completed"
+    },
+    "subtask-4-3": {
+      "attempts": [
+        {
+          "session": 12,
+          "timestamp": "2026-01-06T23:20:41.262926",
+          "approach": "Implemented: Display voice match score in TweetInput",
+          "success": true,
+          "error": null
+        }
+      ],
+      "status": "completed"
     }
   },
   "stuck_subtasks": [],
   "metadata": {
     "created_at": "2026-01-06T22:55:29.737439",
-    "last_updated": "2026-01-06T23:14:45.700300"
+    "last_updated": "2026-01-06T23:20:41.262930"
   }
 }

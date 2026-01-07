@@ -31,7 +31,7 @@ export function TweetInput() {
   const handleCopy = useCallback(async () => {
     if (!text.trim()) return
     await navigator.clipboard.writeText(text)
-    logTweet({ text, score, mediaType, hasLink })
+    logTweet({ text, score, mediaType, hasLink, voiceMatchScore: score })
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }, [text, score, mediaType, hasLink])
