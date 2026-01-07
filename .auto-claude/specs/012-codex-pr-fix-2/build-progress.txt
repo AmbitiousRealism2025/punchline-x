@@ -93,3 +93,22 @@ Key Findings:
 Next Phase: Document investigation findings and update Issue #5
 
 === END SESSION 2 ===
+
+Session 3 (Implementation):
+- Completed Phase 2, Subtask 2-1: Document Investigation Findings ✓
+
+Subtask 2-1: Document investigation findings in INVESTIGATION.md ✓
+- Created comprehensive INVESTIGATION.md (281 lines)
+- Documented executive summary with ACTIONABLE determination
+- Detailed all Phase 1 investigation steps and findings
+- Documented both Codex issues with code examples and fixes:
+  * P1 (CRITICAL): ThreadBuilder.tsx memoization bug - UI won't update
+  * P2 (HIGH): calculator.ts using stub instead of full implementation
+- Created files affected table with effort estimates (30 min total)
+- Provided clear next steps for Phase 3 implementation
+- Included risk assessment (LOW risk), references, and documentation links
+- Committed: e2b9424 "auto-claude: subtask-2-1 - Document investigation findings in INVESTIGATION.md"
+
+Next: Update GitHub Issue #5 with investigation summary (Subtask 2-2)
+
+=== END SESSION 3 ===
