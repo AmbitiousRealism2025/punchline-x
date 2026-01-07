@@ -96,8 +96,9 @@
             "command": "cd app && npm run build && echo 'OK'",
             "expected": "OK"
           },
-          "status": "pending",
-          "notes": "Store alternatives as: {version1, score1, version2, score2, ...}. Cell values must be primitives (strings/numbers)."
+          "status": "completed",
+          "notes": "Added 'alternatives' table schema to TinyBase store with saveAlternatives() and getAlternatives() functions following the existing tweetLog pattern. Also installed missing tinybase dependency to fix build errors.",
+          "updated_at": "2026-01-07T02:53:04.022803+00:00"
         },
         {
           "id": "subtask-2-2",
@@ -115,8 +116,9 @@
             "command": "cd app && npm run build && echo 'OK'",
             "expected": "OK"
           },
-          "status": "pending",
-          "notes": "Functions: saveAlternatives(alternatives[]), getAlternatives(tweetId). Row ID format: 'alt_${Date.now()}_${random}'."
+          "status": "completed",
+          "notes": "Created serialization helper functions: serializeAlternatives() converts array of {text, score} to flat TinyBase structure (version1, score1, etc.), and deserializeAlternatives() converts back to array. Also added Alternative interface. Follows logTweet helper pattern. Build verified successfully.",
+          "updated_at": "2026-01-07T02:54:56.637748+00:00"
         }
       ]
     },
@@ -147,8 +149,9 @@
             "command": "cd app && npm run build && echo 'OK'",
             "expected": "OK"
           },
-          "status": "pending",
-          "notes": "Hook should: call /api/rewrite-tweet, handle loading/error states, calculate scores for each alternative using existing scoring engine, save to TinyBase."
+          "status": "completed",
+          "notes": "Created useRewriteTweet custom hook following the generateHooks pattern. Hook handles: (1) Fetching alternatives from /api/rewrite-tweet endpoint, (2) Loading and error state management, (3) Scoring each alternative using calculateScore from existing scoring engine, (4) Saving scored alternatives to TinyBase using saveAlternatives and serializeAlternatives helpers. Includes input validation (minimum 10 characters) and comprehensive error handling. Build verification passed successfully.",
+          "updated_at": "2026-01-07T02:56:34.626257+00:00"
         },
         {
           "id": "subtask-3-2",
@@ -496,7 +499,7 @@
   "created_at": "2026-01-07T02:22:29.392Z",
   "updated_at": "2026-01-07T02:51:36.273Z",
   "status": "in_progress",
-  "last_updated": "2026-01-07T02:48:15.338068+00:00",
+  "last_updated": "2026-01-07T02:56:34.626265+00:00",
   "planStatus": "in_progress",
   "recoveryNote": "Task recovered from stuck state at 2026-01-07T02:51:36.273Z"
 }
