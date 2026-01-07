@@ -91,7 +91,7 @@ Bun.serve({
 
     if (req.method === 'POST' && url.pathname === '/api/generate-hooks') {
       try {
-        const { topic } = await req.json()
+        const { topic, voiceProfile, exampleTweets } = await req.json()
 
         if (!topic || typeof topic !== 'string') {
           return new Response(
@@ -102,14 +102,29 @@ Bun.serve({
 
         console.log(`Generating hooks for: "${topic}" using ${ZAI_MODEL}`)
 
+        const messages: Array<{role: 'system' | 'user' | 'assistant', content: string}> = []
+
+        if (voiceProfile) {
+          messages.push({
+            role: 'system',
+            content: buildVoiceSystemPrompt(voiceProfile)
+          })
+        }
+
+        if (exampleTweets && Array.isArray(exampleTweets) && exampleTweets.length > 0) {
+          messages.push(...buildFewShotMessages(exampleTweets))
+        }
+
+        messages.push({
+          role: 'user',
+          content: `${HOOK_PROMPT}\n\nTopic: "${topic}"`
+        })
+
         const completion = await client.chat.completions.create({
           model: ZAI_MODEL,
           max_tokens: 2048,
           temperature: 0.7,
-          messages: [{
-            role: 'user',
-            content: `${HOOK_PROMPT}\n\nTopic: "${topic}"`,
-          }],
+          messages,
         })
 
         const message = completion.choices[0]?.message
