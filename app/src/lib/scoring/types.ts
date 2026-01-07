@@ -35,3 +35,19 @@ export interface ScoreResult {
   warnings: string[]
   grade: Grade
 }
+
+export interface ThreadScoreBreakdown {
+  averageIndividual: number
+  flowCoherence: number
+  pacing: number
+  consistency: number
+}
+
+export interface ThreadScoreResult {
+  total: number
+  breakdown: ThreadScoreBreakdown
+  individualScores: ScoreResult[]
+  suggestions: Suggestion[]
+  warnings: string[]
+  grade: Grade
+}
