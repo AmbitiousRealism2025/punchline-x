@@ -1,0 +1,75 @@
+{
+  "complexity": "complex",
+  "workflow_type": "feature",
+  "confidence": 0.90,
+  "reasoning": "Cross-cutting UI change affecting 20-30+ components. While TailwindCSS exists, comprehensive mobile-responsive patterns need to be established. High risk of breaking existing desktop functionality. Requires research for touch optimization and mobile performance best practices.",
+
+  "analysis": {
+    "scope": {
+      "estimated_files": 28,
+      "estimated_services": 1,
+      "is_cross_cutting": true,
+      "notes": "Every UI component needs mobile optimization: scorer (5 components), templates (4 components), analytics (3 components), AI (1 component), layout (2 components), UI primitives (13 components). This is a cross-cutting change affecting the entire frontend."
+    },
+    "integrations": {
+      "external_services": [],
+      "new_dependencies": [],
+      "research_needed": true,
+      "notes": "No external services, but research needed for mobile UX best practices: touch target sizes (44px minimum), mobile viewport optimization, touch gesture handling, mobile performance patterns (lazy loading, code splitting), responsive breakpoint strategies."
+    },
+    "infrastructure": {
+      "docker_changes": false,
+      "database_changes": false,
+      "config_changes": false,
+      "notes": "Frontend-only change. No infrastructure modifications needed. TailwindCSS v4 already configured."
+    },
+    "knowledge": {
+      "patterns_exist": true,
+      "research_required": true,
+      "unfamiliar_tech": [],
+      "notes": "TailwindCSS responsive utilities exist and some components already use them (lg:grid-cols-2). However, comprehensive mobile-first responsive design pattern is not established. Need research for: touch-friendly UI patterns, mobile performance optimization, responsive component design, mobile testing strategies."
+    },
+    "risk": {
+      "level": "high",
+      "concerns": [
+        "Breaking existing desktop layouts",
+        "Touch vs mouse event handling inconsistencies",
+        "Performance regression on mobile devices",
+        "Cross-browser mobile compatibility issues",
+        "Viewport orientation edge cases (portrait vs landscape)",
+        "Component overflow on small screens",
+        "Font sizing and readability on mobile"
+      ],
+      "notes": "High risk due to cross-cutting nature. Every component modification could potentially break existing desktop functionality. Need comprehensive testing across multiple viewport sizes and devices."
+    }
+  },
+
+  "recommended_phases": [
+    "discovery",
+    "requirements",
+    "research",
+    "context",
+    "spec_writing",
+    "self_critique",
+    "planning",
+    "validation"
+  ],
+
+  "flags": {
+    "needs_research": true,
+    "needs_self_critique": true,
+    "needs_infrastructure_setup": false
+  },
+
+  "validation_recommendations": {
+    "risk_level": "high",
+    "skip_validation": false,
+    "minimal_mode": false,
+    "test_types_required": ["unit", "integration", "e2e"],
+    "security_scan_required": false,
+    "staging_deployment_required": false,
+    "reasoning": "High-risk cross-cutting UI change requires comprehensive validation. E2E tests needed to verify responsive behavior across multiple viewport sizes (mobile portrait/landscape, tablet, desktop). No security concerns as this is purely UI/UX changes with no auth or data handling modifications."
+  },
+
+  "created_at": "2026-01-06T21:14:00Z"
+}

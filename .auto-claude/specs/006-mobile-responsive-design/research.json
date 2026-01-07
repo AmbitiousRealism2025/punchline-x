@@ -1,0 +1,397 @@
+{
+  "integrations_researched": [
+    {
+      "name": "Tailwind CSS",
+      "type": "library",
+      "verified_package": {
+        "name": "tailwindcss",
+        "install_command": "npm install tailwindcss",
+        "version": "4.1.18",
+        "verified": true,
+        "status": "already_installed"
+      },
+      "api_patterns": {
+        "imports": [
+          "@import \"tailwindcss\";"
+        ],
+        "initialization": "Configured via @theme inline {} in CSS files",
+        "key_functions": [
+          "Responsive breakpoints: sm:, md:, lg:, xl:, 2xl:",
+          "Mobile-first utilities: all utilities work mobile-first",
+          "Container queries: @container syntax",
+          "Range-based breakpoints: md:max-lg:"
+        ],
+        "verified_against": "https://tailwindcss.com/docs/responsive-design"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [
+          "src/index.css (using @theme inline)"
+        ],
+        "dependencies": [
+          "@tailwindcss/vite"
+        ],
+        "mobile_specific": {
+          "default_breakpoints": {
+            "sm": "40rem (640px)",
+            "md": "48rem (768px)",
+            "lg": "64rem (1024px)",
+            "xl": "80rem (1280px)",
+            "2xl": "96rem (1536px)"
+          },
+          "custom_breakpoints": "Define with --breakpoint-* CSS variables in @theme",
+          "mobile_first_approach": "Unprefixed utilities target mobile, prefix for larger screens"
+        }
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "build_integration": "Vite plugin already configured"
+      },
+      "gotchas": [
+        "Tailwind v4 uses CSS variables (@theme) instead of JS config file",
+        "Must use rem units for breakpoints, not px (causes ordering issues)",
+        "Mobile-first means base styles apply to mobile, then override with md:, lg:, etc.",
+        "Container queries require @container class on parent element"
+      ],
+      "research_sources": [
+        "https://tailwindcss.com/docs/responsive-design",
+        "https://tailwindcss.com/docs/screens",
+        "https://tailkits.com/blog/tailwind-css-breakpoints-guide/",
+        "Project package.json"
+      ]
+    },
+    {
+      "name": "Radix UI",
+      "type": "library",
+      "verified_package": {
+        "name": "@radix-ui/react-*",
+        "install_command": "npm install @radix-ui/react-dialog @radix-ui/react-tabs @radix-ui/react-tooltip @radix-ui/react-toggle @radix-ui/react-toggle-group @radix-ui/react-slot",
+        "version": "^1.1.x - ^1.2.x",
+        "verified": true,
+        "status": "already_installed"
+      },
+      "api_patterns": {
+        "imports": [
+          "import * as Dialog from '@radix-ui/react-dialog'",
+          "import * as Tabs from '@radix-ui/react-tabs'",
+          "import * as Tooltip from '@radix-ui/react-tooltip'",
+          "import * as Toggle from '@radix-ui/react-toggle'",
+          "import * as ToggleGroup from '@radix-ui/react-toggle-group'"
+        ],
+        "initialization": "Import primitive components and compose with custom styles",
+        "key_functions": [
+          "Dialog - Modal overlays (mobile-friendly)",
+          "Tabs - Tabbed interfaces (touch-optimized)",
+          "Tooltip - Hover/focus tooltips (adapts to mobile)",
+          "Toggle - Toggle buttons (touch-friendly)",
+          "Slot - Merges props for composition"
+        ],
+        "verified_against": "https://www.radix-ui.com/primitives/docs/overview/accessibility"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": [
+          "react",
+          "react-dom"
+        ],
+        "mobile_specific": {
+          "touch_support": "Slider component supports keyboard and touch input",
+          "ios_fixes": "Recent updates prevent outside pointer events triggering on touch devices",
+          "focus_management": "Ensures iOS Safari focuses first focusable element consistently",
+          "aria_support": "Full WAI-ARIA compliance for screen readers"
+        }
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Components are unstyled primitives - styling is your responsibility",
+        "Touch interactions may need custom touch-target sizing (min 44x44px recommended)",
+        "Tooltips on mobile: consider using onClick instead of hover for better UX",
+        "Dialog components trap focus - test on mobile screen readers",
+        "Some hover states don't translate to mobile - implement active/pressed states"
+      ],
+      "research_sources": [
+        "https://www.radix-ui.com/primitives/docs/overview/accessibility",
+        "https://www.radix-ui.com/primitives",
+        "https://github.com/radix-ui/primitives",
+        "Project package.json"
+      ]
+    },
+    {
+      "name": "React",
+      "type": "library",
+      "verified_package": {
+        "name": "react",
+        "install_command": "npm install react react-dom",
+        "version": "19.2.0",
+        "verified": true,
+        "status": "already_installed"
+      },
+      "api_patterns": {
+        "imports": [
+          "import { useState, useEffect, useCallback, useMemo } from 'react'",
+          "import { use } from 'react' // React 19 new API",
+          "import { useOptimistic } from 'react' // React 19 hook",
+          "import { useTransition } from 'react' // Enhanced in React 19"
+        ],
+        "initialization": "Standard React component patterns",
+        "key_functions": [
+          "useOptimistic() - Optimistic UI updates for mobile",
+          "useTransition() - Non-blocking state updates",
+          "use() - Read resources in render (Context, Promises)",
+          "Automatic memoization via React Compiler"
+        ],
+        "verified_against": "https://react.dev/blog/2025/10/01/react-19-2"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": [
+          "react-dom"
+        ],
+        "mobile_specific": {
+          "performance_patterns": [
+            "Use useTransition for non-urgent updates on slower mobile devices",
+            "Leverage useOptimistic for instant feedback on mobile networks",
+            "React Compiler handles memoization automatically - less useMemo/useCallback needed",
+            "Suspense boundaries for code splitting and lazy loading"
+          ],
+          "touch_events": "Standard browser touch events (touchstart, touchmove, touchend)",
+          "viewport_considerations": "Use viewport meta tag and CSS viewport units"
+        }
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "React 19 automatic memoization may change behavior if migrating from React 18",
+        "useOptimistic requires async transitions - different pattern than useState",
+        "Touch events don't automatically prevent default - may need to handle scrolling",
+        "Mobile browsers may delay touch events by 300ms - consider touch-action CSS",
+        "React 19.2 includes fixes for Safari mobile issues"
+      ],
+      "research_sources": [
+        "https://react.dev/blog/2025/10/01/react-19-2",
+        "https://react.dev/blog/2024/12/05/react-19",
+        "https://blog.newtum.com/react-19-features-hooks-update/",
+        "Project package.json"
+      ]
+    },
+    {
+      "name": "Vite",
+      "type": "library",
+      "verified_package": {
+        "name": "vite",
+        "install_command": "npm install vite",
+        "version": "7.2.4",
+        "verified": true,
+        "status": "already_installed"
+      },
+      "api_patterns": {
+        "imports": [
+          "import { defineConfig } from 'vite'",
+          "import.meta.env // Environment variables",
+          "const Component = lazy(() => import('./Component')) // Code splitting"
+        ],
+        "initialization": "defineConfig({ ... }) in vite.config.ts",
+        "key_functions": [
+          "Dynamic imports for code splitting",
+          "Rollup manualChunks for vendor bundling",
+          "Automatic preload for code-split chunks",
+          "Build optimizations for production"
+        ],
+        "verified_against": "https://vite.dev/guide/features"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [
+          "vite.config.ts"
+        ],
+        "dependencies": [
+          "@vitejs/plugin-react",
+          "rollup"
+        ],
+        "mobile_specific": {
+          "code_splitting": "Use dynamic import() for bundles > 30kb to reduce initial load",
+          "lazy_loading": "React.lazy() + Suspense for route-based splitting",
+          "chunk_optimization": "Configure rollup.output.manualChunks to split vendor bundles",
+          "performance_tips": [
+            "Parallel dependency fetching with preload",
+            "Tree-shaking for smaller bundles",
+            "Asset optimization (images, fonts)",
+            "Minification and compression"
+          ]
+        }
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Code splitting for bundles < 30kb may slow down app (too many network requests)",
+        "Dynamic imports create async boundaries - wrap with Suspense",
+        "manualChunks configuration requires understanding dependency graph",
+        "Mobile networks: prioritize critical path, defer non-essential chunks",
+        "Vite dev server may not reflect production bundle size - always test production build"
+      ],
+      "research_sources": [
+        "https://vite.dev/guide/features",
+        "https://vite.dev/guide/performance",
+        "https://sambitsahoo.com/blog/vite-code-splitting-that-works.html",
+        "https://dev.to/perisicnikola37/optimize-vite-build-time-a-comprehensive-guide-4c99",
+        "Project vite.config.ts"
+      ]
+    },
+    {
+      "name": "CSS Viewport Units (dvh, svh, lvh)",
+      "type": "browser_feature",
+      "verified_package": {
+        "name": "N/A - Native CSS feature",
+        "install_command": "No installation needed",
+        "version": "CSS spec",
+        "verified": true,
+        "status": "browser_native"
+      },
+      "api_patterns": {
+        "imports": [],
+        "initialization": "Use in CSS",
+        "key_functions": [
+          "dvh - Dynamic viewport height (adjusts with mobile browser toolbars)",
+          "svh - Small viewport height (with toolbars expanded)",
+          "lvh - Large viewport height (with toolbars collapsed)",
+          "vw, vh - Traditional viewport units (static)"
+        ],
+        "verified_against": "https://web.dev/blog/viewport-units"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": [],
+        "mobile_specific": {
+          "browser_support": "85%+ global support (2026)",
+          "use_cases": {
+            "dvh": "Best for full-height sections that adapt to mobile browser UI",
+            "svh": "Ensures content visible when address bar is expanded",
+            "lvh": "Maximum viewport height (equivalent to traditional vh)",
+            "fallback": "Provide vh fallback for older browsers"
+          },
+          "recommended_pattern": "height: 100vh; /* Fallback */ height: 100dvh; /* Modern */"
+        }
+      },
+      "infrastructure": {
+        "requires_docker": false
+      },
+      "gotchas": [
+        "Traditional vh doesn't account for mobile browser toolbars - use dvh instead",
+        "dvh changes dynamically as user scrolls (address bar shows/hides)",
+        "svh is safest for preventing content cutoff on initial load",
+        "Not all browsers support dvh/svh/lvh - always provide vh fallback",
+        "Layout shifts may occur with dvh as toolbars appear/disappear - test thoroughly",
+        "iOS Safari had issues with viewport units in older versions - use modern units"
+      ],
+      "research_sources": [
+        "https://web.dev/blog/viewport-units",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference/Values/length",
+        "https://medium.com/@tharunbalaji110/understanding-mobile-viewport-units-a-complete-guide-to-svh-lvh-and-dvh-0c905d96e21a",
+        "https://ishadeed.com/article/new-viewport-units/"
+      ]
+    }
+  ],
+  "optional_integrations": [
+    {
+      "name": "@use-gesture/react",
+      "type": "library",
+      "verified_package": {
+        "name": "@use-gesture/react",
+        "install_command": "npm install @use-gesture/react",
+        "version": "latest",
+        "verified": true,
+        "status": "not_installed"
+      },
+      "description": "Advanced touch gesture library for React web apps",
+      "when_to_use": "If thread builder or templates require drag/swipe/pinch gestures",
+      "api_patterns": {
+        "imports": [
+          "import { useDrag, useGesture, usePinch, useWheel } from '@use-gesture/react'"
+        ],
+        "key_functions": [
+          "useDrag() - Drag gestures",
+          "usePinch() - Pinch to zoom",
+          "useWheel() - Mouse wheel / trackpad",
+          "useGesture() - Combine multiple gestures"
+        ]
+      },
+      "research_sources": [
+        "https://github.com/pmndrs/use-gesture",
+        "https://www.npmjs.com/package/@use-gesture/react",
+        "https://blog.openreplay.com/mastering-touch-and-gesture-interactions-in-react/"
+      ],
+      "recommendation": "Consider only if existing touch events are insufficient for thread builder drag-and-drop on mobile"
+    }
+  ],
+  "unverified_claims": [],
+  "recommendations": [
+    "1. Use Tailwind's mobile-first approach: Write base styles for mobile, then use md:, lg: prefixes for larger screens",
+    "2. Replace any 100vh with 100dvh for mobile-friendly full-height sections (with vh fallback)",
+    "3. Ensure touch targets are minimum 44x44px for comfortable tapping (Radix components may need custom sizing)",
+    "4. Test Radix Dialog, Tooltip, and Toggle components on actual mobile devices for touch interaction",
+    "5. Implement code splitting for routes/features to optimize mobile network performance",
+    "6. Use useOptimistic hook for instant feedback on mobile networks (e.g., tweet scoring)",
+    "7. Add touch-action CSS property to prevent unintended scrolling during interactions",
+    "8. Test in both portrait and landscape orientations on various screen sizes",
+    "9. Consider @use-gesture/react only if thread builder needs complex drag gestures beyond native touch events",
+    "10. Add viewport meta tag: <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+  ],
+  "mobile_responsive_checklist": {
+    "layout": [
+      "Responsive grid/flex layouts with Tailwind breakpoints",
+      "Stack columns vertically on mobile (flex-col md:flex-row pattern)",
+      "Appropriate spacing and padding for mobile (p-4 md:p-6 lg:p-8)",
+      "Safe areas for mobile notches/home indicators"
+    ],
+    "typography": [
+      "Readable font sizes on small screens (text-sm md:text-base)",
+      "Appropriate line height for mobile reading",
+      "Avoid horizontal scrolling for text content"
+    ],
+    "interactions": [
+      "Touch targets minimum 44x44px",
+      "Hover states replaced with active/pressed states on mobile",
+      "Swipe gestures for navigation (if applicable)",
+      "Pull-to-refresh consideration",
+      "Prevent zoom on input focus (font-size: 16px minimum)"
+    ],
+    "performance": [
+      "Code split routes and heavy components",
+      "Lazy load images and non-critical assets",
+      "Optimize bundle size for mobile networks",
+      "Test on 3G/4G throttled connections"
+    ],
+    "testing": [
+      "Test on iOS Safari (most restrictive)",
+      "Test on Chrome Android",
+      "Test portrait and landscape orientations",
+      "Test various screen sizes (iPhone SE to iPad)",
+      "Test with slow network throttling"
+    ]
+  },
+  "current_stack_assessment": {
+    "strengths": [
+      "Tailwind CSS v4 provides excellent mobile-first utilities out of the box",
+      "Radix UI components are accessible and have some mobile touch support",
+      "React 19 offers performance hooks (useOptimistic, useTransition) beneficial for mobile",
+      "Vite enables efficient code splitting for mobile performance",
+      "Modern CSS viewport units (dvh, svh, lvh) have good browser support"
+    ],
+    "gaps": [
+      "No explicit touch gesture library (may not be needed - evaluate during implementation)",
+      "No viewport meta tag verification (check index.html)",
+      "No touch-action CSS utilities configured (can be added to Tailwind theme)",
+      "No performance monitoring for mobile networks (consider adding)"
+    ],
+    "migration_needed": false,
+    "new_dependencies_required": false
+  },
+  "created_at": "2026-01-06T12:00:00Z"
+}

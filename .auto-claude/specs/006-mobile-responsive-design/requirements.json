@@ -1,0 +1,4 @@
+{
+  "task_description": "# Mobile-Responsive Design\n\nOptimize the full UI for mobile devices. Ensure scoring, templates, and thread builder work seamlessly on phones.\n\n## Rationale\nMany creators work on mobile, especially for quick tweets. Mobile support expands the addressable market significantly.\n\n## User Stories\n- As a creator, I want to score tweets on my phone so that I can optimize on the go\n- As a mobile user, I want a touch-friendly UI so that I can navigate easily\n\n## Acceptance Criteria\n- [ ] All features work on mobile browsers\n- [ ] Touch-friendly interface elements\n- [ ] Optimized for portrait and landscape\n- [ ] Performance optimized for mobile networks\n",
+  "workflow_type": "feature"
+}

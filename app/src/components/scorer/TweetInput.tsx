@@ -54,35 +54,40 @@ export function TweetInput() {
   return (
     <Card className="raycast-shine">
       <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <CardTitle className="text-base">Compose Tweet</CardTitle>
-          <div className="flex gap-2">
+          <div className="flex gap-2 sm:gap-2">
             {text.trim() && (
-              <Button variant="ghost" size="sm" onClick={handleClear}>
+              <Button
+                variant="ghost"
+                size="default"
+                onClick={handleClear}
+                className="min-h-[44px] flex-1 sm:flex-none sm:min-w-[88px]"
+              >
                 Clear
               </Button>
             )}
             <Button
               variant="secondary"
-              size="sm"
+              size="default"
               onClick={handleCopy}
               disabled={!text.trim()}
-              className="min-w-[80px]"
+              className="min-h-[44px] flex-1 sm:flex-none sm:min-w-[88px]"
             >
               {copied ? 'Copied!' : 'Copy'}
             </Button>
           </div>
         </div>
       </CardHeader>
-      <CardContent className="space-y-3">
+      <CardContent className="space-y-3 pb-4">
         <Textarea
           placeholder="What's happening?"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          className="min-h-[120px] resize-none bg-background border-border focus-visible:ring-primary/50"
+          className="min-h-[120px] resize-none bg-background border-border focus-visible:ring-primary/50 touch-manipulation"
         />
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-muted-foreground">⌘+Enter to copy</span>
+        <div className="flex items-center justify-between gap-2 flex-wrap">
+          <span className="text-xs text-muted-foreground whitespace-nowrap">⌘+Enter to copy</span>
           <span
             className={cn(
               'text-sm tabular-nums',

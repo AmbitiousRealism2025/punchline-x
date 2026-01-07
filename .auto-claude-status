@@ -1,25 +1,25 @@
 {
   "active": true,
-  "spec": "004-thread-builder",
-  "state": "complete",
+  "spec": "006-mobile-responsive-design",
+  "state": "building",
   "subtasks": {
-    "completed": 15,
-    "total": 15,
-    "in_progress": 0,
+    "completed": 3,
+    "total": 19,
+    "in_progress": 1,
     "failed": 0
   },
   "phase": {
-    "current": "App Integration",
+    "current": "Core Layout & Navigation",
     "id": null,
-    "total": 3
+    "total": 2
   },
   "workers": {
     "active": 0,
     "max": 1
   },
   "session": {
-    "number": 12,
-    "started_at": "2026-01-06T21:51:31.823371"
+    "number": 2,
+    "started_at": "2026-01-06T21:51:33.324172"
   },
-  "last_update": "2026-01-06T22:14:57.053152"
+  "last_update": "2026-01-06T21:53:46.695622"
 }
