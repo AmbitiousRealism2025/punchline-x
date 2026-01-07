@@ -23,13 +23,13 @@ export function ScoreBreakdown() {
   return (
     <Card className="raycast-shine">
       <CardHeader className="pb-3">
-        <div className="flex items-center justify-between">
-          <CardTitle className="text-base">Score Breakdown</CardTitle>
+        <div className="flex items-center justify-between gap-2">
+          <CardTitle className="text-sm sm:text-base">Score Breakdown</CardTitle>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setExpanded(!expanded)}
-            className="text-muted-foreground hover:text-foreground"
+            className="text-muted-foreground hover:text-foreground shrink-0"
           >
             {expanded ? 'Collapse' : 'Expand'}
           </Button>
@@ -38,16 +38,16 @@ export function ScoreBreakdown() {
       {expanded && (
         <CardContent className="pt-0">
           <div className="space-y-2">
-            <div className="flex justify-between text-sm">
+            <div className="flex justify-between gap-4 text-sm">
               <span className="text-muted-foreground">{categoryLabels.base}</span>
               <span className="font-medium tabular-nums">+{breakdown.base}</span>
             </div>
             {entries.map(([key, value]) => (
-              <div key={key} className="flex justify-between text-sm">
-                <span className="text-muted-foreground">{categoryLabels[key]}</span>
+              <div key={key} className="flex justify-between gap-4 text-sm">
+                <span className="text-muted-foreground truncate">{categoryLabels[key]}</span>
                 <span
                   className={cn(
-                    'font-medium tabular-nums',
+                    'font-medium tabular-nums shrink-0',
                     value > 0 && 'text-emerald-400',
                     value < 0 && 'text-red-400',
                     value === 0 && 'text-muted-foreground'
