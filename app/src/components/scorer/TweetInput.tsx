@@ -83,6 +83,9 @@ export function TweetInput() {
         />
         <div className="flex items-center justify-between">
           <span className="text-xs text-muted-foreground">⌘+Enter to copy</span>
+          <span className="text-xs font-medium text-primary">
+            Voice Match: {Math.round(score ?? 0)}%
+          </span>
           <span
             className={cn(
               'text-sm tabular-nums',
