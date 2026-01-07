@@ -1,0 +1,27 @@
+{
+  "project_root": "/Users/ambrealismwork/Desktop/Coding-Projects/punchline-x",
+  "project_type": "single",
+  "services": {
+    "frontend": {
+      "path": "./app",
+      "tech_stack": ["typescript", "react-19.2.0", "vite-7.2.4", "tinybase", "radix-ui", "tailwind-4.1.18"],
+      "port": 5173,
+      "dev_command": "npm run dev",
+      "test_command": "npm test",
+      "build_command": "npm run build"
+    }
+  },
+  "infrastructure": {
+    "docker": false,
+    "database": "tinybase-localstorage",
+    "ci_cd": false
+  },
+  "conventions": {
+    "linter": "eslint",
+    "formatter": "none",
+    "testing": "none-yet",
+    "state_management": "tinybase",
+    "ui_library": "radix-ui",
+    "styling": "tailwind-css"
+  }
+}

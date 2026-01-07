@@ -1,0 +1,4 @@
+{
+  "task_description": "# Thread Builder\n\nAdd a dedicated thread creation interface where users can compose multi-tweet threads with individual scoring for each tweet and overall thread scoring.\n\n## Rationale\nThreads are a key content format on X. Typefully excels at threads but lacks scoring. Punchline X can combine both strengths.\n\n## User Stories\n- As a creator, I want to build threads so that I can share longer-form content\n- As a thread writer, I want individual tweet scores so that I can optimize each part\n- As a user, I want thread structure suggestions so that my threads flow well\n\n## Acceptance Criteria\n- [ ] Users can create threads with 2-25 tweets\n- [ ] Each tweet in thread has individual score\n- [ ] Overall thread score and flow analysis\n- [ ] Suggestions for thread structure and pacing\n- [ ] Easy reordering with drag-and-drop\n",
+  "workflow_type": "feature"
+}
