@@ -34,6 +34,32 @@ Here's why:
 Am I wrong? What's been your experience?`,
   },
   {
+    id: 'c2-everyone-but-me',
+    name: 'Everyone But Me',
+    category: 'contrarian',
+    template: `Everyone says {commonAdvice}.
+
+I do the opposite.
+
+{whyItWorks}
+
+Results? {results}`,
+    placeholders: [
+      { key: 'commonAdvice', hint: 'Popular advice everyone gives' },
+      { key: 'whyItWorks', hint: 'Why going against it works (2-3 sentences)' },
+      { key: 'results', hint: 'What you achieved by doing the opposite' },
+    ],
+    expectedScore: [65, 80],
+    bestWith: ['image'],
+    example: `Everyone says "post at optimal times for maximum reach."
+
+I do the opposite.
+
+I post whenever I have something valuable to say. Algorithms reward engagement quality, not posting time. If your content is good, it finds its audience regardless of when you hit publish.
+
+Results? My "off-peak" posts consistently outperform scheduled ones.`,
+  },
+  {
     id: 'c3-hot-take',
     name: 'Hot Take Minimalist',
     category: 'contrarian',
@@ -83,6 +109,47 @@ Which would you add?`,
 5. Mailchimp - email (free tier)
 
 Which would you add?`,
+  },
+  {
+    id: 'n2-stop-start',
+    name: 'Stop/Start List',
+    category: 'list',
+    template: `{number} things to stop doing in {topic}:
+
+❌ {stop1}
+✅ Do this instead: {start1}
+
+❌ {stop2}
+✅ Do this instead: {start2}
+
+❌ {stop3}
+✅ Do this instead: {start3}
+
+You're welcome.`,
+    placeholders: [
+      { key: 'number', hint: 'Number of items (3-5)' },
+      { key: 'topic', hint: 'Subject area' },
+      { key: 'stop1', hint: 'First thing to stop' },
+      { key: 'start1', hint: 'What to do instead' },
+      { key: 'stop2', hint: 'Second thing to stop' },
+      { key: 'start2', hint: 'What to do instead' },
+      { key: 'stop3', hint: 'Third thing to stop' },
+      { key: 'start3', hint: 'What to do instead' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['image'],
+    example: `3 things to stop doing in social media marketing:
+
+❌ Posting the same content everywhere
+✅ Do this instead: Adapt each post for the platform's native format
+
+❌ Chasing every new platform
+✅ Do this instead: Master one platform before expanding
+
+❌ Measuring success by follower count
+✅ Do this instead: Track engagement rate and conversions
+
+You're welcome.`,
   },
   {
     id: 'n3-did-you-know',
@@ -138,6 +205,45 @@ I stopped posting what I thought was "valuable" and started posting what actuall
 What's stopping you from tracking your content?`,
   },
   {
+    id: 's2-failure-story',
+    name: 'Failure to Success',
+    category: 'story',
+    template: `I failed at {what}.
+
+Hard.
+
+{howBad}
+
+But here's the thing about failure:
+
+{lesson}
+
+{currentState}
+
+Sometimes you need to fail forward.`,
+    placeholders: [
+      { key: 'what', hint: 'What you failed at' },
+      { key: 'howBad', hint: 'How bad the failure was (2-3 sentences)' },
+      { key: 'lesson', hint: 'What the failure taught you (2-3 sentences)' },
+      { key: 'currentState', hint: 'Where you are now because of that lesson' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['none'],
+    example: `I failed at my first business launch.
+
+Hard.
+
+Spent $10K on development. Launched to zero customers. Shut down after 3 months. Felt like a complete imposter.
+
+But here's the thing about failure:
+
+It showed me I was building in a vacuum. I learned to talk to customers first, validate ideas before building, and start small. These lessons were worth way more than $10K.
+
+Now I run a six-figure business using those exact principles.
+
+Sometimes you need to fail forward.`,
+  },
+  {
     id: 's3-i-was-wrong',
     name: 'I Was Wrong Admission',
     category: 'story',
@@ -179,6 +285,27 @@ Here's everything I learned about what makes content spread:
 🧵`,
   },
   {
+    id: 't2-mistake-thread',
+    name: 'Mistake Compilation Thread',
+    category: 'thread',
+    template: `I made every mistake possible with {topic}.
+
+Here are {number} so you don't have to:
+
+🧵`,
+    placeholders: [
+      { key: 'topic', hint: 'Subject you made mistakes in' },
+      { key: 'number', hint: 'Number of mistakes to share (5, 7, 10)' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['none'],
+    example: `I made every mistake possible with email marketing.
+
+Here are 7 so you don't have to:
+
+🧵`,
+  },
+  {
     id: 'p1-this-or-that',
     name: 'This or That Poll',
     category: 'poll',
@@ -190,6 +317,27 @@ Which do you prefer?`,
     ],
     expectedScore: [75, 85],
     bestWith: ['poll'],
+  },
+  {
+    id: 'p2-audience-poll',
+    name: 'Know Your Audience Poll',
+    category: 'poll',
+    template: `Quick poll for my audience:
+
+{question}
+
+Reply with your answer - I'm using this for {purpose}.`,
+    placeholders: [
+      { key: 'question', hint: 'Question you want to ask your audience' },
+      { key: 'purpose', hint: 'Why you\'re asking (planning content, research, etc.)' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['poll'],
+    example: `Quick poll for my audience:
+
+What's your biggest struggle with content creation right now?
+
+Reply with your answer - I'm using this for next week's deep dive post.`,
   },
   {
     id: 'v1-quick-tip',
@@ -208,6 +356,37 @@ Save for later 🔖`,
     bestWith: ['image'],
   },
   {
+    id: 'v2-bookmark-worthy',
+    name: 'Bookmark This',
+    category: 'value',
+    template: `Bookmark this if you want to {outcome}:
+
+{insight}
+
+Most people {commonMistake}.
+
+Instead, {betterApproach}.
+
+Trust me on this one.`,
+    placeholders: [
+      { key: 'outcome', hint: 'What they want to achieve' },
+      { key: 'insight', hint: 'Core valuable insight (2-3 sentences)' },
+      { key: 'commonMistake', hint: 'What most people do wrong' },
+      { key: 'betterApproach', hint: 'What to do instead (1-2 sentences)' },
+    ],
+    expectedScore: [70, 85],
+    bestWith: ['image'],
+    example: `Bookmark this if you want to grow on LinkedIn:
+
+Your first sentence determines if people read the rest. Start with a bold claim, a question, or a surprising stat. Boring openings get scrolled past in 0.3 seconds.
+
+Most people start with "I've been thinking about..." or "In today's post..."
+
+Instead, hook them immediately: "I lost $50K learning this lesson" or "This mistake cost me 6 months."
+
+Trust me on this one.`,
+  },
+  {
     id: 'v3-copy-this',
     name: 'Copy This Template',
     category: 'value',
@@ -223,6 +402,32 @@ I use this every {frequency}. It works.`,
     ],
     expectedScore: [75, 90],
     bestWith: ['image'],
+  },
+  {
+    id: 'q1-ask-me-anything',
+    name: 'Ask Me Anything',
+    category: 'question',
+    template: `Ask me anything about {topic}.
+
+I've been {credential} for {duration}.
+
+Drop your questions below and I'll answer every single one.
+
+👇`,
+    placeholders: [
+      { key: 'topic', hint: 'Your area of expertise' },
+      { key: 'credential', hint: 'What makes you qualified (doing X, building Y)' },
+      { key: 'duration', hint: 'How long (5 years, 10 years)' },
+    ],
+    expectedScore: [75, 90],
+    bestWith: ['none'],
+    example: `Ask me anything about content marketing.
+
+I've been building audiences from zero for 8 years.
+
+Drop your questions below and I'll answer every single one.
+
+👇`,
   },
   {
     id: 'q2-whats-your',
