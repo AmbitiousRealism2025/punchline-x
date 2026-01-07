@@ -37,6 +37,23 @@ Return ONLY a JSON array:
 
 Do not include any other text, markdown, or explanation.`
 
+const REWRITE_PROMPT = `You are a tweet improvement assistant. Generate 3-5 alternative versions of the user's tweet that:
+
+1. PRESERVE the core message and intent exactly
+2. MAINTAIN the user's writing style and voice
+3. Optimize for engagement (hooks, clarity, formatting)
+4. Keep the same tone (professional/casual/humorous)
+
+DO NOT:
+- Change the fundamental message
+- Add information not in the original
+- Completely rewrite in a different voice
+
+Return ONLY a JSON array of alternative tweet texts:
+["alternative 1", "alternative 2", "alternative 3"]
+
+Do not include any other text, markdown, or explanation.`
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': 'http://localhost:5173',
   'Access-Control-Allow-Methods': 'POST, OPTIONS',
@@ -89,6 +106,67 @@ Bun.serve({
           return new Response(content, {
             headers: { ...corsHeaders, 'Content-Type': 'application/json' },
           })
+        }
+
+        console.error('No content in response:', JSON.stringify(completion.choices[0]))
+        return new Response(
+          JSON.stringify({ error: 'No text response from model' }),
+          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        )
+      } catch (error) {
+        console.error('AI Error:', error)
+        const message = error instanceof Error ? error.message : 'AI generation failed'
+        return new Response(
+          JSON.stringify({ error: message }),
+          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        )
+      }
+    }
+
+    if (req.method === 'POST' && url.pathname === '/api/rewrite-tweet') {
+      try {
+        const { text, mediaType, hasLink } = await req.json()
+
+        if (!text || typeof text !== 'string') {
+          return new Response(
+            JSON.stringify({ error: 'Tweet text is required' }),
+            { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          )
+        }
+
+        if (text.trim().length === 0) {
+          return new Response(
+            JSON.stringify({ error: 'Tweet text cannot be empty' }),
+            { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          )
+        }
+
+        const completion = await client.chat.completions.create({
+          model: ZAI_MODEL,
+          max_tokens: 2000,
+          temperature: 0.7,
+          messages: [{
+            role: 'user',
+            content: `${REWRITE_PROMPT}\n\nOriginal tweet: "${text}"`,
+          }],
+        })
+
+        const message = completion.choices[0]?.message
+        const content = message?.content || (message as any)?.reasoning_content
+
+        if (content) {
+          const jsonMatch = content.match(/\[[\s\S]*\]/)
+          if (jsonMatch) {
+            const alternatives = JSON.parse(jsonMatch[0])
+            return new Response(
+              JSON.stringify({ alternatives }),
+              { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+            )
+          }
+          return new Response(
+            JSON.stringify({ error: 'Invalid response format from model' }),
+            { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+          )
         }
 
         console.error('No content in response:', JSON.stringify(completion.choices[0]))
