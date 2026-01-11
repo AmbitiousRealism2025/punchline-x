@@ -1,0 +1,27 @@
+{
+  "task_description": "Investigate GitHub Issue #5: Codex PR Fix #2 - Fetch actual Codex review from PR #4 to determine what needs fixing",
+  "scoped_services": ["punchline-x"],
+  "files_to_modify": [],
+  "files_to_reference": [],
+  "patterns": {
+    "github_cli_pattern": "Use 'gh' CLI to fetch PR and review data - already installed at v2.75.1",
+    "investigation_flow": "1. Fetch PR #4 data, 2. Retrieve review ID 3633255069 comments, 3. Analyze commit 563ece1fbd, 4. Determine actionability",
+    "code_quality_pattern": "Follow existing ESLint 9 flat config, React 19 patterns, Tailwind CSS v4 conventions"
+  },
+  "existing_implementations": {
+    "description": "React 19.2.0 SPA with TypeScript 5.9.3, Vite 7.2.4, Tailwind CSS 4.1.18, ESLint 9",
+    "relevant_files": [
+      "app/eslint.config.js",
+      "app/package.json",
+      "app/tsconfig.json",
+      "app/vite.config.ts"
+    ]
+  },
+  "investigation_requirements": {
+    "github_api_access": true,
+    "pr_number": 4,
+    "review_id": 3633255069,
+    "commit_hash": "563ece1fbd"
+  },
+  "created_at": "2026-01-06T23:05:30.312991"
+}

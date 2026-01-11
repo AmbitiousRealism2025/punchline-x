@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect, useMemo } from 'react'
-import { useCell } from 'tinybase/ui-react'
+import { useCell, useTable } from 'tinybase/ui-react'
 import {
   DndContext,
   closestCenter,
@@ -50,10 +50,12 @@ export function ThreadBuilder() {
     }
   }, [activeThreadId])
 
+  // Subscribe to threadTweets table so UI updates when tweets are added/deleted/reordered
+  const threadTweetsTable = useTable('threadTweets')
   const tweets = useMemo(() => {
-    if (!activeThreadId) return []
+    if (!activeThreadId || !threadTweetsTable) return []
     return getThreadTweets(activeThreadId)
-  }, [activeThreadId])
+  }, [activeThreadId, threadTweetsTable])
 
   const handleAddTweet = useCallback(() => {
     if (!activeThreadId || tweets.length >= MAX_TWEETS) return

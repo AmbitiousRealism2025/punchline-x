@@ -1,9 +1,9 @@
-import type { ScoreInput, ScoreBreakdown, ScoreResult, Grade, ThreadScoreResult, ThreadScoreBreakdown, Suggestion } from './types'
+import type { ScoreInput, ScoreBreakdown, ScoreResult, Grade, ThreadScoreResult, ThreadScoreBreakdown } from './types'
 import { analyzeHook } from './hooks'
 import { getMediaScore } from './media'
 import { getEngagementScore } from './engagement'
 import { getContentQualityScore } from './quality'
-import { generateSuggestions, generateWarnings } from './suggestions'
+import { generateSuggestions, generateWarnings, generateThreadSuggestions as generateThreadSuggestionsTextAware } from './suggestions'
 
 const BASE_SCORE = 40
 
@@ -106,42 +106,6 @@ function getConsistencyScore(individualScores: ScoreResult[]): number {
   return 0
 }
 
-function generateThreadSuggestions(
-  individualScores: ScoreResult[],
-  breakdown: ThreadScoreBreakdown
-): Suggestion[] {
-  const suggestions: Suggestion[] = []
-
-  if (breakdown.flowCoherence < 0) {
-    suggestions.push({
-      type: 'engagement',
-      priority: 'high',
-      message: 'Thread flow could be improved',
-      impact: 'Better coherence between tweets increases readability and engagement',
-    })
-  }
-
-  if (breakdown.pacing < 0) {
-    suggestions.push({
-      type: 'engagement',
-      priority: 'medium',
-      message: 'Consider building momentum toward the end',
-      impact: 'Stronger ending tweets keep readers engaged through the entire thread',
-    })
-  }
-
-  const lowScoreTweets = individualScores.filter((s) => s.total < 50)
-  if (lowScoreTweets.length > 0) {
-    suggestions.push({
-      type: 'critical',
-      priority: 'critical',
-      message: `${lowScoreTweets.length} tweet(s) have low individual scores`,
-      impact: 'Weak tweets drag down overall thread performance',
-    })
-  }
-
-  return suggestions
-}
 
 function generateThreadWarnings(tweets: ScoreInput[]): string[] {
   const warnings: string[] = []
@@ -204,11 +168,14 @@ export function calculateThreadScore(tweets: ScoreInput[]): ThreadScoreResult {
     )
   )
 
+  // Use text-aware suggestions that analyze hooks, CTAs, and climax positioning
+  const filteredTweets = tweets.filter((t) => t.text.trim().length > 0)
+
   return {
     total,
     breakdown,
     individualScores,
-    suggestions: generateThreadSuggestions(individualScores, breakdown),
+    suggestions: generateThreadSuggestionsTextAware(filteredTweets, individualScores, breakdown),
     warnings: generateThreadWarnings(tweets),
     grade: getGrade(total),
   }
