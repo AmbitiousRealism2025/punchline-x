@@ -1,0 +1,329 @@
+{
+  "integrations_researched": [
+    {
+      "name": "OpenAI SDK",
+      "type": "library",
+      "verified_package": {
+        "name": "openai",
+        "install_command": "bun install openai",
+        "version": "^6.15.0",
+        "verified": true,
+        "already_installed": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import OpenAI from 'openai'"
+        ],
+        "initialization": "const client = new OpenAI({\n  apiKey: process.env.ZAI_API_KEY,\n  baseURL: 'https://api.z.ai/api/coding/paas/v4/'\n})",
+        "key_functions": [
+          "client.chat.completions.create({ model, messages, temperature, max_tokens })"
+        ],
+        "verified_against": "https://platform.openai.com/docs/api-reference/chat, https://www.npmjs.com/package/openai"
+      },
+      "configuration": {
+        "env_vars": ["ZAI_API_KEY"],
+        "config_files": [".env.local"],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "ai_proxy_server": {
+          "runtime": "Bun",
+          "port": 3001,
+          "endpoint": "http://localhost:3001/api/generate-hooks",
+          "cors_enabled": true,
+          "allowed_origin": "http://localhost:5173"
+        }
+      },
+      "gotchas": [
+        "Custom baseURL must be set during client initialization, cannot be changed dynamically",
+        "ZAI API uses OpenAI-compatible endpoints but requires specific baseURL: https://api.z.ai/api/coding/paas/v4/",
+        "Model name for ZAI is 'glm-4.7' not an OpenAI model name",
+        "Response format may include reasoning_content in addition to standard content field",
+        "CORS headers must be configured on the Bun server for frontend access"
+      ],
+      "research_sources": [
+        "https://platform.openai.com/docs/api-reference/chat",
+        "https://www.npmjs.com/package/openai",
+        "https://docs.z.ai/guides/overview/quick-start",
+        "https://github.com/openai/openai-node",
+        "Existing codebase: app/src/server/ai-proxy.ts"
+      ]
+    },
+    {
+      "name": "TinyBase",
+      "type": "library",
+      "verified_package": {
+        "name": "tinybase",
+        "install_command": "bun install tinybase",
+        "version": "latest",
+        "verified": true,
+        "already_installed": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { createStore } from 'tinybase'",
+          "import { createLocalPersister } from 'tinybase/persisters/persister-browser'",
+          "import { Provider, useCell, useSetCellCallback, useRow, useTable } from 'tinybase/ui-react'"
+        ],
+        "initialization": "const store = createStore()\nconst persister = createLocalPersister(store, 'tweet-optimizer')\npersister.startAutoSave()\npersister.startAutoLoad()",
+        "key_functions": [
+          "store.setRow(tableId, rowId, data)",
+          "store.getTable(tableId)",
+          "useCell(tableId, rowId, cellId, store)",
+          "useSetCellCallback(tableId, rowId, cellId, getCellValue, dependencies, store)",
+          "useRow(tableId, rowId, store)",
+          "useTable(tableId, store)"
+        ],
+        "verified_against": "https://tinybase.org/, https://blog.logrocket.com/using-tinybase-reactive-state-management/"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": [],
+        "storage_key": "tweet-optimizer"
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "storage_backend": "localStorage",
+        "persistence": "automatic via LocalPersister"
+      },
+      "gotchas": [
+        "Provider must wrap the app at root level for hooks to work",
+        "localStorage persister auto-saves and auto-loads - no manual sync needed",
+        "Data is organized in tables/rows/cells structure (not traditional key-value)",
+        "Cell values must be primitives (string, number, boolean) - objects need serialization",
+        "useSetCellCallback dependencies array important for proper reactivity"
+      ],
+      "research_sources": [
+        "https://tinybase.org/",
+        "https://blog.logrocket.com/using-tinybase-reactive-state-management/",
+        "https://www.npmjs.com/package/tinybase",
+        "Existing codebase: app/src/lib/store/index.ts"
+      ]
+    },
+    {
+      "name": "ZAI GLM 4.7 API",
+      "type": "service",
+      "verified_package": {
+        "name": "N/A - API service",
+        "install_command": "N/A",
+        "version": "v4",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "Uses OpenAI SDK with custom baseURL"
+        ],
+        "initialization": "new OpenAI({ apiKey: process.env.ZAI_API_KEY, baseURL: 'https://api.z.ai/api/coding/paas/v4/' })",
+        "key_functions": [
+          "chat.completions.create() - OpenAI-compatible interface"
+        ],
+        "verified_against": "https://docs.z.ai/guides/overview/quick-start"
+      },
+      "configuration": {
+        "env_vars": ["ZAI_API_KEY"],
+        "config_files": [".env.local"],
+        "dependencies": ["openai npm package"],
+        "endpoints": {
+          "base_url": "https://api.z.ai/api/coding/paas/v4/",
+          "chat_completions": "https://api.z.ai/api/coding/paas/v4/chat/completions"
+        }
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "cloud_service": true,
+        "api_type": "REST",
+        "authentication": "Bearer token"
+      },
+      "gotchas": [
+        "Model name must be 'glm-4.7' not an OpenAI model name",
+        "Uses specialized 'coding' endpoint at /api/coding/paas/v4/ not the general /api/paas/v4/",
+        "Response may include both 'content' and 'reasoning_content' fields",
+        "Requires proper CORS handling when calling from browser",
+        "Best practice: Use proxy server (Bun) to avoid exposing API key in frontend"
+      ],
+      "research_sources": [
+        "https://docs.z.ai/guides/overview/quick-start",
+        "https://apidog.com/blog/glm-4-7-api/",
+        "Existing codebase: app/src/server/ai-proxy.ts"
+      ]
+    },
+    {
+      "name": "React 19",
+      "type": "framework",
+      "verified_package": {
+        "name": "react",
+        "install_command": "bun install react react-dom",
+        "version": "^19.2.0",
+        "verified": true,
+        "already_installed": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { useState, useEffect } from 'react'"
+        ],
+        "initialization": "N/A - framework",
+        "key_functions": [
+          "useState(initialValue)",
+          "useEffect(callback, dependencies)",
+          "use(promise) - new async hook",
+          "useActionState(action) - new form handling",
+          "useOptimistic(state, updateFn) - optimistic UI updates"
+        ],
+        "verified_against": "https://react.dev/blog/2024/12/05/react-19"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": ["tsconfig.json", "vite.config.ts"],
+        "dependencies": ["react-dom", "typescript"]
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "build_tool": "Vite 7",
+        "dev_server_port": 5173
+      },
+      "gotchas": [
+        "React 19 deprecates some legacy patterns - automatic memoization via React Compiler",
+        "New use() hook can only be called in components/hooks, not in regular functions",
+        "useActionState replaces older form handling patterns",
+        "TypeScript definitions updated - may need @types/react ^19.2.5",
+        "Async transitions now natively supported with startTransition"
+      ],
+      "research_sources": [
+        "https://react.dev/blog/2024/12/05/react-19",
+        "https://www.freecodecamp.org/news/react-19-new-hooks-explained-with-examples/",
+        "https://dev.to/vishnusatheesh/react-19-hooks-explained-everything-you-need-to-know-4il6",
+        "Existing codebase: app/package.json"
+      ]
+    },
+    {
+      "name": "Bun Runtime",
+      "type": "runtime",
+      "verified_package": {
+        "name": "bun",
+        "install_command": "curl -fsSL https://bun.sh/install | bash",
+        "version": "latest",
+        "verified": true,
+        "already_installed": true
+      },
+      "api_patterns": {
+        "imports": [
+          "Built-in Bun.serve() for HTTP servers",
+          "Native TypeScript support - no transpilation needed"
+        ],
+        "initialization": "Bun.serve({ port, fetch(req) { ... } })",
+        "key_functions": [
+          "Bun.serve() - create HTTP server",
+          "await req.json() - parse JSON body",
+          "new Response(data, { headers }) - create HTTP responses"
+        ],
+        "verified_against": "https://bun.com/docs/runtime"
+      },
+      "configuration": {
+        "env_vars": ["ZAI_API_KEY"],
+        "config_files": ["package.json"],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "runtime_type": "JavaScript/TypeScript",
+        "server_port": 3001,
+        "performance": "~4x faster than Node.js, 52k req/sec"
+      },
+      "gotchas": [
+        "~98% npm ecosystem compatibility - some packages may not work",
+        "Native .ts execution - no build step needed for TypeScript",
+        "Different from Node.js - some Node APIs may behave differently",
+        "CORS must be explicitly configured for cross-origin requests",
+        "Environment variables loaded automatically from .env.local"
+      ],
+      "research_sources": [
+        "https://bun.com/docs/runtime",
+        "https://bun.com",
+        "https://strapi.io/blog/bun-vs-nodejs-performance-comparison-guide",
+        "Existing codebase: app/src/server/ai-proxy.ts"
+      ]
+    },
+    {
+      "name": "Existing Scoring Engine",
+      "type": "internal_library",
+      "verified_package": {
+        "name": "Internal module",
+        "install_command": "N/A",
+        "version": "N/A",
+        "verified": true,
+        "already_installed": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { calculateScore } from '@/lib/scoring'",
+          "import type { ScoreInput, ScoreResult } from '@/lib/scoring/types'"
+        ],
+        "initialization": "N/A",
+        "key_functions": [
+          "calculateScore(input: ScoreInput): ScoreResult",
+          "Returns: { total, breakdown, suggestions, warnings, grade }"
+        ],
+        "verified_against": "Existing codebase analysis"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": []
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "module_location": "app/src/lib/scoring/"
+      },
+      "gotchas": [
+        "Score calculation is synchronous - runs in <100ms",
+        "Requires ScoreInput with: text, mediaType, hasLink, isPremium, isVerified, postTime",
+        "Returns score 0-100 with breakdown by factor",
+        "Can be reused for predicting scores of AI-generated variants"
+      ],
+      "research_sources": [
+        "Existing codebase: app/src/lib/scoring/calculator.ts",
+        "Existing codebase: app/src/lib/scoring/types.ts"
+      ]
+    }
+  ],
+  "unverified_claims": [],
+  "recommendations": [
+    "Reuse existing AI proxy pattern from HookGenerator for tweet rewriting endpoint",
+    "Leverage existing calculateScore() function to predict scores for each variant",
+    "Store AI-generated variants in TinyBase using same pattern as tweet history",
+    "Use React 19's built-in features - avoid unnecessary useMemo/useCallback",
+    "Keep AI generation server-side via Bun proxy to protect API key",
+    "Consider adding a new table 'rewriteHistory' to TinyBase for tracking rewrites",
+    "Implement streaming responses if generating multiple variants takes >2 seconds",
+    "Use existing scoring types (ScoreInput, ScoreResult) for consistency"
+  ],
+  "technical_stack_summary": {
+    "frontend": "React 19 + TypeScript + Vite 7",
+    "styling": "Tailwind CSS v4 + shadcn/ui",
+    "state_management": "TinyBase + localStorage",
+    "ai_integration": "ZAI GLM 4.7 via OpenAI SDK",
+    "runtime": "Bun (server) + Browser (client)",
+    "deployment": "Local-only (no cloud deployment)"
+  },
+  "implementation_notes": {
+    "reuse_patterns": [
+      "AI proxy server pattern: app/src/server/ai-proxy.ts",
+      "Score calculation: app/src/lib/scoring/calculator.ts",
+      "TinyBase hooks: app/src/components/scorer/TweetInput.tsx",
+      "Component structure: Follow existing scorer components"
+    ],
+    "new_components_needed": [
+      "RewriteGenerator component (similar to HookGenerator)",
+      "VariantSelector component for choosing/blending versions",
+      "New /api/rewrite-tweet endpoint in ai-proxy.ts"
+    ],
+    "data_structures": [
+      "Store rewrite variants in TinyBase table 'rewriteVariants'",
+      "Each variant: { id, originalText, rewrittenText, score, style, timestamp }",
+      "User selection stored in 'currentTweet' row"
+    ]
+  },
+  "created_at": "2026-01-06T21:30:00Z"
+}

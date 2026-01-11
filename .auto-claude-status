@@ -1,17 +1,17 @@
 {
   "active": true,
-  "spec": "012-codex-pr-fix-2",
-  "state": "building",
+  "spec": "002-ai-tweet-rewriter",
+  "state": "complete",
   "subtasks": {
-    "completed": 10,
-    "total": 11,
-    "in_progress": 1,
+    "completed": 14,
+    "total": 14,
+    "in_progress": 0,
     "failed": 0
   },
   "phase": {
-    "current": "Verification and Issue Resolution",
+    "current": "Integration & Testing",
     "id": null,
-    "total": 2
+    "total": 3
   },
   "workers": {
     "active": 0,
@@ -19,7 +19,7 @@
   },
   "session": {
     "number": 11,
-    "started_at": "2026-01-06T23:12:26.093287"
+    "started_at": "2026-01-06T21:51:36.773700"
   },
-  "last_update": "2026-01-06T23:31:35.327418"
+  "last_update": "2026-01-06T22:35:20.549882"
 }
