@@ -1,0 +1,73 @@
+{
+  "complexity": "complex",
+  "workflow_type": "feature",
+  "confidence": 0.85,
+  "reasoning": "This is a greenfield feature requiring new architectural patterns (flow analysis, aggregate scoring, suggestion engine). Estimated 10-15+ files across UI, business logic, and data layers with algorithm design needed for flow analysis and AI suggestions.",
+
+  "analysis": {
+    "scope": {
+      "estimated_files": 14,
+      "estimated_services": 1,
+      "is_cross_cutting": true,
+      "notes": "Thread builder will span UI components (editor, tweet items, drag-drop), business logic (scoring extensions, flow analysis, suggestions), data models (thread structure), and validation layers"
+    },
+    "integrations": {
+      "external_services": [],
+      "new_dependencies": ["react-beautiful-dnd or similar drag-drop library"],
+      "research_needed": true,
+      "notes": "No external APIs, but need to research flow analysis patterns, suggestion algorithms, and drag-drop library if not already in use"
+    },
+    "infrastructure": {
+      "docker_changes": false,
+      "database_changes": true,
+      "config_changes": false,
+      "notes": "Will need to store thread data structure (collection of tweets with metadata), but no Docker or environment changes required"
+    },
+    "knowledge": {
+      "patterns_exist": false,
+      "research_required": true,
+      "unfamiliar_tech": ["flow-analysis-algorithms", "thread-scoring-aggregation", "structure-suggestion-engine"],
+      "notes": "Can reuse existing single-tweet scoring logic, but flow analysis, aggregate scoring, and AI suggestions are new patterns requiring algorithm design"
+    },
+    "risk": {
+      "level": "medium",
+      "concerns": [
+        "Complex UI state management (2-25 dynamic items)",
+        "Extending scoring logic without breaking existing functionality",
+        "Flow analysis algorithm design and performance",
+        "Aggregate scoring accuracy and usefulness",
+        "Drag-drop UX quality and edge cases"
+      ],
+      "notes": "This is a core UX feature that affects content creation workflow. Poor implementation could frustrate users. Needs careful design validation."
+    }
+  },
+
+  "recommended_phases": [
+    "discovery",
+    "requirements",
+    "research",
+    "context",
+    "spec_writing",
+    "self_critique",
+    "planning",
+    "validation"
+  ],
+
+  "flags": {
+    "needs_research": true,
+    "needs_self_critique": true,
+    "needs_infrastructure_setup": false
+  },
+
+  "validation_recommendations": {
+    "risk_level": "medium",
+    "skip_validation": false,
+    "minimal_mode": false,
+    "test_types_required": ["unit", "integration", "e2e"],
+    "security_scan_required": false,
+    "staging_deployment_required": false,
+    "reasoning": "New thread builder is a core UX feature requiring comprehensive testing. Unit tests for scoring logic and flow analysis, integration tests for component interactions, E2E tests for drag-drop and multi-tweet workflows. No security concerns as no auth/payment involved."
+  },
+
+  "created_at": "2026-01-06T00:00:00.000Z"
+}

@@ -1,5 +1,5 @@
 export * from './types'
-export { calculateScore } from './calculator'
+export { calculateScore, calculateThreadScore } from './calculator'
 export { analyzeHook, getHookType } from './hooks'
 export { getMediaScore } from './media'
 export { getEngagementScore } from './engagement'

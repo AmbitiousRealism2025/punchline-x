@@ -1,0 +1,15 @@
+{
+  "discovered_files": {
+    "app/src/components/threads/ThreadBuilder.tsx": {
+      "description": "Commit 563ece1fbd was the final commit in PR #4 (Thread Builder feature). Codex identified P1 issue: ThreadBuilder.tsx memoizes only on activeThreadId, preventing re-renders when threadTweets table changes (add/delete/reorder). Needs TinyBase subscription hook like useTable/useSortedRowIds/useRowIds.",
+      "category": "architecture",
+      "discovered_at": "2026-01-07T04:18:17.290123+00:00"
+    },
+    "app/src/lib/scoring/calculator.ts": {
+      "description": "Commit 563ece1fbd included calculator.ts which has P2 issue: calculateThreadScore uses local generateThreadSuggestions stub that only sees scores. The complete text-aware implementation exists in suggestions.ts but isn't used, preventing hook/CTA/climax suggestions based on tweet text.",
+      "category": "bug",
+      "discovered_at": "2026-01-07T04:18:17.299953+00:00"
+    }
+  },
+  "last_updated": "2026-01-07T04:18:17.299958+00:00"
+}

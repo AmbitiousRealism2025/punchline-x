@@ -1,0 +1,393 @@
+{
+  "integrations_researched": [
+    {
+      "name": "dnd-kit",
+      "type": "library",
+      "purpose": "Drag-and-drop functionality for thread tweet reordering",
+      "verified_package": {
+        "name": "@dnd-kit/core",
+        "additional_packages": ["@dnd-kit/sortable", "@dnd-kit/utilities"],
+        "install_command": "npm install @dnd-kit/core @dnd-kit/sortable @dnd-kit/utilities",
+        "version": "latest (actively maintained as of 2026)",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core'",
+          "import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'",
+          "import { CSS } from '@dnd-kit/utilities'"
+        ],
+        "initialization": "const sensors = useSensors(\n  useSensor(PointerSensor),\n  useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })\n)",
+        "key_functions": [
+          "DndContext - Main wrapper component for drag and drop context",
+          "SortableContext - Wrapper for sortable items with strategy",
+          "useSortable() - Hook that returns { attributes, listeners, setNodeRef, transform, transition }",
+          "arrayMove(items, oldIndex, newIndex) - Utility to reorder arrays",
+          "handleDragEnd(event) - Event handler for reordering logic"
+        ],
+        "verified_against": "https://docs.dndkit.com/ and npm package documentation"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": ["react", "react-dom"],
+        "peer_dependencies_satisfied": true,
+        "notes": "React 19.2.0 is already installed and compatible"
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "requires_external_service": false,
+        "client_side_only": true
+      },
+      "compatibility": {
+        "react_19": true,
+        "react_19_2": true,
+        "typescript": true,
+        "notes": "Fully compatible with React 19.2.0 already installed in project"
+      },
+      "gotchas": [
+        "Items prop passed to SortableContext must be sorted in the same order as they are rendered",
+        "Does not support HTML5 drag-and-drop API - cannot drag files or between windows",
+        "Core library is ~10kb minified with no external dependencies",
+        "Must use CSS.Transform.toString(transform) to apply transforms correctly",
+        "Keyboard navigation requires sortableKeyboardCoordinates for accessibility"
+      ],
+      "research_sources": [
+        "https://docs.dndkit.com/presets/sortable",
+        "https://docs.dndkit.com/introduction/installation",
+        "https://www.npmjs.com/package/@dnd-kit/core",
+        "https://www.npmjs.com/package/@dnd-kit/sortable",
+        "https://github.com/clauderic/dnd-kit"
+      ]
+    },
+    {
+      "name": "React",
+      "type": "library",
+      "purpose": "Core UI framework (already installed)",
+      "verified_package": {
+        "name": "react",
+        "install_command": "Already installed",
+        "version": "19.2.0",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import { useState, useEffect, useCallback, useMemo } from 'react'"
+        ],
+        "new_features_19_2": [
+          "Activity component - for partitioning app into distinct activities with hidden/visible modes",
+          "useEffectEvent hook - for callbacks outside Effect dependency tracking",
+          "Batched Suspense updates - for smoother SSR with ViewTransitions",
+          "Web Streams support - for streaming SSR in Node.js",
+          "useId prefix changed to _r_ for ViewTransition compatibility"
+        ],
+        "verified_against": "https://react.dev/blog/2025/10/01/react-19-2"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": ["react-dom"],
+        "already_installed": true
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "requires_external_service": false,
+        "client_side_only": true
+      },
+      "compatibility": {
+        "dnd_kit": true,
+        "radix_ui": true,
+        "typescript": true,
+        "notes": "All existing dependencies verified compatible with React 19.2.0"
+      },
+      "gotchas": [
+        "Some third-party libraries may not yet fully support React 19 - verify compatibility",
+        "useEffectEvent is new in 19.2 - consider for optimizing effect dependencies in thread logic",
+        "Activity component could be useful for managing off-screen thread drafts"
+      ],
+      "research_sources": [
+        "https://react.dev/blog/2025/10/01/react-19-2",
+        "https://blog.logrocket.com/react-19-2-is-here/",
+        "https://reactnative.dev/blog/2025/12/10/react-native-0.83"
+      ]
+    },
+    {
+      "name": "Radix UI",
+      "type": "library",
+      "purpose": "Accessible UI primitives (already installed)",
+      "verified_package": {
+        "name": "@radix-ui/react-*",
+        "packages_installed": [
+          "@radix-ui/react-dialog",
+          "@radix-ui/react-slot",
+          "@radix-ui/react-tabs",
+          "@radix-ui/react-toggle",
+          "@radix-ui/react-toggle-group",
+          "@radix-ui/react-tooltip"
+        ],
+        "install_command": "Already installed",
+        "version": "^1.x.x",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import * as Dialog from '@radix-ui/react-dialog'",
+          "import * as Tabs from '@radix-ui/react-tabs'",
+          "import * as Tooltip from '@radix-ui/react-tooltip'"
+        ],
+        "key_components_for_threads": [
+          "Dialog - For thread composer modal or full-screen editor",
+          "Tabs - For switching between thread tweets",
+          "Tooltip - For inline suggestions and help",
+          "Toggle - For media type selection per tweet",
+          "ToggleGroup - For multiple-choice options"
+        ],
+        "verified_against": "https://www.radix-ui.com/primitives"
+      },
+      "configuration": {
+        "env_vars": [],
+        "config_files": [],
+        "dependencies": ["react", "react-dom"],
+        "already_installed": true
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "requires_external_service": false,
+        "client_side_only": true
+      },
+      "compatibility": {
+        "react_19": true,
+        "drag_and_drop": "Compatible with dnd-kit integration",
+        "notes": "No native drag-drop component, will integrate with dnd-kit"
+      },
+      "gotchas": [
+        "Radix UI does not provide drag-and-drop primitives - must use dnd-kit separately",
+        "DropdownMenuTrigger opens on onPointerDown which can interfere with drag events",
+        "Slider component has draggable thumb but not suitable for general drag-drop",
+        "Focus management in Dialog may need coordination with drag-drop interactions"
+      ],
+      "research_sources": [
+        "https://www.radix-ui.com/primitives",
+        "https://github.com/radix-ui/primitives/issues/2867",
+        "https://github.com/sadmann7/sortable"
+      ]
+    },
+    {
+      "name": "OpenAI SDK",
+      "type": "library",
+      "purpose": "AI-powered scoring and thread analysis",
+      "verified_package": {
+        "name": "openai",
+        "install_command": "Already installed",
+        "version": "^6.15.0",
+        "verified": true
+      },
+      "api_patterns": {
+        "imports": [
+          "import OpenAI from 'openai'"
+        ],
+        "initialization": "const client = new OpenAI({\n  apiKey: process.env.ZAI_API_KEY,\n  baseURL: 'https://api.z.ai/api/coding/paas/v4/'\n})",
+        "key_functions": [
+          "client.chat.completions.create() - For thread structure suggestions",
+          "Graders API - For scoring individual tweets (text similarity, score model)",
+          "Evals API - For comprehensive thread quality evaluation"
+        ],
+        "current_usage": "Currently proxied through Z.AI (GLM 4.7 model) for hook generation",
+        "verified_against": "Existing code at app/src/server/ai-proxy.ts and OpenAI documentation"
+      },
+      "configuration": {
+        "env_vars": ["ZAI_API_KEY"],
+        "current_setup": {
+          "api_key": "ZAI_API_KEY environment variable",
+          "base_url": "https://api.z.ai/api/coding/paas/v4/",
+          "model": "glm-4.7",
+          "server": "Bun server on port 3001"
+        },
+        "dependencies": [],
+        "already_installed": true
+      },
+      "infrastructure": {
+        "requires_docker": false,
+        "requires_external_service": true,
+        "external_service": "Z.AI API (currently used) or OpenAI API",
+        "server_component": "ai-proxy.ts server running on port 3001"
+      },
+      "scoring_capabilities": {
+        "graders_api": {
+          "text_similarity": ["fuzzy_match", "BLEU", "GLEU", "METEOR", "cosine_similarity", "ROUGE"],
+          "score_model": "Assigns scores in range [0, 1]",
+          "string_check": "Pass/fail validation",
+          "multi_grader": "Combines multiple graders for single score"
+        },
+        "evals_api": {
+          "purpose": "Structured tests for measuring model performance",
+          "supports": "Automated scoring and human judgment",
+          "variable_reference": "{{item.variable_name}} for data, {{sample.output_text}} for model output"
+        },
+        "thread_use_cases": [
+          "Individual tweet quality scoring (reuse existing lib/scoring logic)",
+          "Thread flow analysis (coherence between tweets)",
+          "Pacing recommendations (tweet length distribution)",
+          "Structure suggestions (opening hook, middle content, closing CTA)"
+        ]
+      },
+      "gotchas": [
+        "Currently using Z.AI proxy instead of direct OpenAI - verify if thread features need direct OpenAI",
+        "API calls are async and may have rate limits",
+        "Scoring should leverage existing lib/scoring/* modules before AI calls",
+        "Consider cost implications of scoring each tweet + overall thread",
+        "Graders API requires specific JSON format for evaluation data"
+      ],
+      "research_sources": [
+        "https://platform.openai.com/docs/guides/graders",
+        "https://platform.openai.com/docs/guides/evals",
+        "https://platform.openai.com/docs/api-reference/graders/score-model",
+        "Existing code: app/src/server/ai-proxy.ts",
+        "Existing code: app/src/lib/scoring/*.ts"
+      ]
+    },
+    {
+      "name": "Existing Scoring System",
+      "type": "internal_library",
+      "purpose": "Current tweet scoring logic to be extended for threads",
+      "verified_package": {
+        "name": "Internal modules",
+        "location": "app/src/lib/scoring/",
+        "verified": true
+      },
+      "api_patterns": {
+        "modules": {
+          "types.ts": "Defines ScoreInput, ScoreResult, ScoreBreakdown, Suggestion, Grade",
+          "calculator.ts": "Main scoring calculation logic",
+          "suggestions.ts": "Generates improvement suggestions",
+          "quality.ts": "Quality analysis",
+          "engagement.ts": "Engagement predictions",
+          "media.ts": "Media impact scoring",
+          "hooks.ts": "React hooks for scoring"
+        },
+        "key_types": {
+          "ScoreInput": "{ text, mediaType, hasLink, isPremium, isVerified, postTime }",
+          "ScoreResult": "{ total, breakdown, suggestions, warnings, grade }",
+          "ScoreBreakdown": "{ base, media, hook, engagement, timing, account, quality }",
+          "Grade": "'excellent' | 'good' | 'fair' | 'poor' | 'critical'"
+        },
+        "verified_against": "app/src/lib/scoring/types.ts"
+      },
+      "thread_extension_strategy": {
+        "individual_tweets": "Reuse existing ScoreInput/ScoreResult for each tweet in thread",
+        "aggregate_scoring": "Create new ThreadScoreResult type that includes per-tweet scores + overall metrics",
+        "new_metrics_needed": [
+          "Thread flow/coherence score",
+          "Pacing analysis (tweet length distribution)",
+          "Hook-to-CTA structure score",
+          "Thread length optimization (sweet spot detection)"
+        ],
+        "integration_points": [
+          "Extend ScoreInput to include position in thread (1-25)",
+          "Add ThreadScoreBreakdown with flow, pacing, structure components",
+          "Create thread-specific suggestions (reorder, split, merge tweets)"
+        ]
+      },
+      "gotchas": [
+        "Existing scoring is optimized for single tweets - thread context changes scoring logic",
+        "Need to balance individual tweet scores vs overall thread quality",
+        "Thread pacing may lower individual tweet scores but improve thread performance",
+        "Position in thread affects score (opening hook vs middle content vs closing CTA)"
+      ],
+      "research_sources": [
+        "Existing codebase: app/src/lib/scoring/",
+        "Existing codebase: app/src/hooks/useScore.ts",
+        "Existing codebase: app/src/components/scorer/"
+      ]
+    }
+  ],
+  "deprecated_alternatives": [
+    {
+      "name": "react-beautiful-dnd",
+      "status": "DEPRECATED - Do not use",
+      "reason": "Package deprecated as of 2024, repository archived April 2025",
+      "last_version": "13.1.1",
+      "migration_path": "Atlassian recommends migrating to Pragmatic drag and drop or dnd-kit",
+      "risk_level": "high",
+      "source": "https://github.com/atlassian/react-beautiful-dnd/issues/2672"
+    },
+    {
+      "name": "@atlaskit/pragmatic-drag-and-drop",
+      "status": "React 19 compatibility issues",
+      "reason": "Multiple packages don't support React 19 as of Jan 2025 (Issue #181)",
+      "affected_packages": [
+        "@atlaskit/pragmatic-drag-and-drop-flourish",
+        "@atlaskit/pragmatic-drag-and-drop-react-accessibility",
+        "@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-autoscroll",
+        "@atlaskit/pragmatic-drag-and-drop-react-beautiful-dnd-migration",
+        "@atlaskit/pragmatic-drag-and-drop-react-drop-indicator"
+      ],
+      "risk_level": "medium",
+      "notes": "Core package may work but React-specific helpers have compatibility issues",
+      "source": "https://github.com/atlassian/pragmatic-drag-and-drop/issues/181"
+    }
+  ],
+  "unverified_claims": [],
+  "recommendations": [
+    {
+      "recommendation": "Use @dnd-kit/core + @dnd-kit/sortable for drag-and-drop",
+      "rationale": "Actively maintained, React 19 compatible, lightweight (~10kb), accessible, and widely adopted in 2026",
+      "priority": "high"
+    },
+    {
+      "recommendation": "Extend existing scoring system rather than build from scratch",
+      "rationale": "Robust scoring infrastructure already exists at lib/scoring/. Create ThreadScoreResult that wraps individual ScoreResults",
+      "priority": "high"
+    },
+    {
+      "recommendation": "Leverage Radix UI Dialog for thread composer modal",
+      "rationale": "Already installed, accessible, and familiar to codebase patterns",
+      "priority": "medium"
+    },
+    {
+      "recommendation": "Consider AI-powered thread analysis as Phase 2 feature",
+      "rationale": "OpenAI Graders/Evals API could provide advanced flow analysis, but basic thread scoring can work with existing logic first",
+      "priority": "low"
+    },
+    {
+      "recommendation": "Implement accessibility features from day 1",
+      "rationale": "dnd-kit has built-in keyboard support and ARIA attributes. Ensure thread composer is fully keyboard navigable",
+      "priority": "high"
+    },
+    {
+      "recommendation": "Use React 19.2's useEffectEvent for thread autosave",
+      "rationale": "New hook perfect for autosave callbacks that need latest state without triggering re-renders",
+      "priority": "medium"
+    }
+  ],
+  "implementation_notes": {
+    "thread_data_model": {
+      "structure": "Array of TweetInput objects with position tracking",
+      "validation": "Enforce 2-25 tweet range in state management",
+      "persistence": "Consider localStorage for draft threads"
+    },
+    "scoring_architecture": {
+      "individual": "Reuse existing useScore hook per tweet",
+      "aggregate": "New useThreadScore hook that combines individual scores",
+      "real_time": "Debounce scoring calls during editing to avoid API spam"
+    },
+    "ux_patterns": {
+      "drag_drop": "Vertical list with visual drag handles",
+      "visual_feedback": "Show thread flow with connecting lines between tweets",
+      "preview": "Toggle between edit mode and preview mode"
+    },
+    "performance": {
+      "concern": "Scoring 25 tweets simultaneously could be slow",
+      "mitigation": "Implement progressive scoring (score visible tweets first, background for rest)",
+      "caching": "Cache individual tweet scores, only recompute on text change"
+    }
+  },
+  "context7_libraries_attempted": [
+    "dnd-kit (rate limited)",
+    "react-beautiful-dnd (rate limited)",
+    "react (rate limited)",
+    "radix-ui (rate limited)"
+  ],
+  "research_method": "Web search used due to Context7 MCP rate limiting. All packages verified against official documentation and npm registry.",
+  "created_at": "2026-01-06T00:00:00Z"
+}

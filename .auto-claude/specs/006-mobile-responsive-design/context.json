@@ -1,0 +1,40 @@
+{
+  "task_description": "# Mobile-Responsive Design\n\nOptimize the full UI for mobile devices. Ensure scoring, templates, and thread builder work seamlessly on phones.\n\n## Rationale\nMany creators work on mobile, especially for quick tweets. Mobile support expands the addressable market significantly.\n\n## User Stories\n- As a creator, I want to score tweets on my phone so that I can optimize on the go\n- As a mobile user, I want a touch-friendly UI so that I can navigate easily\n\n## Acceptance Criteria\n- [ ] All features work on mobile browsers\n- [ ] Touch-friendly interface elements\n- [ ] Optimized for portrait and landscape\n- [ ] Performance optimized for mobile networks\n",
+  "scoped_services": ["punchline-x"],
+  "files_to_modify": [
+    "app/index.html",
+    "app/src/index.css",
+    "app/vite.config.ts",
+    "app/src/App.tsx",
+    "app/src/components/layout/Shell.tsx",
+    "app/src/components/ui/button.tsx",
+    "app/src/components/ui/tabs.tsx",
+    "app/src/components/ui/toggle-group.tsx",
+    "app/src/components/ui/toggle.tsx",
+    "app/src/components/scorer/TweetInput.tsx",
+    "app/src/components/scorer/MediaToggles.tsx",
+    "app/src/components/templates/TemplateGrid.tsx",
+    "app/src/components/templates/TemplateCard.tsx"
+  ],
+  "files_to_reference": [
+    "app/src/index.css",
+    "app/src/components/ui/button.tsx",
+    "app/src/App.tsx",
+    "app/src/components/templates/TemplateGrid.tsx"
+  ],
+  "patterns": {
+    "tailwind_v4_config": "Uses @theme inline {} in index.css, NOT tailwind.config.js",
+    "responsive_grid": "Base: grid-cols-1 (mobile), then lg:grid-cols-2 (desktop)",
+    "cva_pattern": "Class Variance Authority for component size variants",
+    "mobile_first": "Unprefixed utilities for mobile, md:/lg: for larger screens",
+    "touch_feedback": "Add active: states alongside hover: states"
+  },
+  "existing_implementations": {
+    "description": "Found existing responsive patterns in TemplateGrid using md:grid-cols-2 lg:grid-cols-3, but most components are desktop-optimized only",
+    "relevant_files": [
+      "app/src/components/templates/TemplateGrid.tsx",
+      "app/src/App.tsx"
+    ]
+  },
+  "created_at": "2026-01-06T21:31:50.906814"
+}

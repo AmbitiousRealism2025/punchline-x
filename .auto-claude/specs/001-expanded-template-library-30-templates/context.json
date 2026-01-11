@@ -1,0 +1,29 @@
+{
+  "task_description": "Expand the template library from 15 to 30+ proven templates covering more categories: Questions, Predictions, Unpopular Opinions, Case Studies, Before/After, Lessons Learned, Tool Reviews. Templates are a key differentiator that provide immediate value and teach users what works.",
+  "scoped_services": ["frontend"],
+  "files_to_modify": [
+    "./app/src/lib/templates/data.ts",
+    "./app/src/lib/templates/types.ts"
+  ],
+  "files_to_reference": [
+    "./app/src/lib/templates/data.ts",
+    "./app/src/lib/templates/types.ts",
+    "./Content_Templates.md"
+  ],
+  "patterns": {
+    "template_object_structure": "Templates follow a strict TypeScript interface with id (kebab-case with category prefix), name, category, template (with {placeholder} syntax), placeholders array, expectedScore tuple [min, max], bestWith media types array, and optional example field",
+    "id_convention": "Kebab-case with category prefix (e.g., 'c1-unpopular-opinion', 's1-transformation', 'pred1-industry-trend')",
+    "placeholder_pattern": "Template strings use {placeholder} syntax, each placeholder must have matching entry in placeholders array with key and hint",
+    "category_labels": "categoryLabels object maps category slugs to display names (e.g., 'contrarian' -> 'Contrarian Takes')",
+    "score_ranges": "expectedScore is [min, max] tuple, realistic ranges: contrarian 65-85, questions 70-85, value 60-75, stories 75-90"
+  },
+  "existing_implementations": {
+    "description": "Current template system has 15 templates across 9 categories (contrarian: 2, list: 2, story: 2, thread: 1, poll: 1, value: 2, question: 2, milestone: 1, teaching: 2)",
+    "relevant_files": [
+      "./app/src/lib/templates/data.ts",
+      "./app/src/lib/templates/types.ts"
+    ],
+    "template_interface": "Template { id: string, name: string, category: TemplateCategory, template: string, placeholders: Placeholder[], expectedScore: [number, number], bestWith: MediaType[], example?: string }"
+  },
+  "created_at": "2026-01-06T21:25:30.632299"
+}

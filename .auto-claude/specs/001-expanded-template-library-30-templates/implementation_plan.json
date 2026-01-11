@@ -1,0 +1,424 @@
+{
+  "feature": "Expanded Template Library (30+ Templates)",
+  "workflow_type": "feature",
+  "workflow_rationale": "This is new feature development expanding existing functionality. We're adding net-new templates and categories to increase product value and user engagement options, not fixing bugs or refactoring existing code.",
+  "phases": [
+    {
+      "id": "phase-1-type-system",
+      "name": "Type System Update",
+      "type": "implementation",
+      "description": "Add 7 new template categories to TypeScript type definitions",
+      "depends_on": [],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-1-1",
+          "description": "Add new category types to TemplateCategory union",
+          "service": "frontend",
+          "files_to_modify": [
+            "./app/src/lib/templates/types.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "./app/src/lib/templates/types.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "Build completes with no TypeScript errors"
+          },
+          "status": "completed",
+          "notes": "Successfully added 7 new category types to TemplateCategory union: predictions, case-study, before-after, lessons-learned, tool-review, comparison, and unpopular-opinion. Build verified with no TypeScript errors. Also installed missing tinybase dependency.",
+          "updated_at": "2026-01-07T02:36:03.182000+00:00"
+        }
+      ]
+    },
+    {
+      "id": "phase-2-category-labels",
+      "name": "Category Label Mapping",
+      "type": "implementation",
+      "description": "Add display labels for new template categories",
+      "depends_on": [
+        "phase-1-type-system"
+      ],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-2-1",
+          "description": "Add new category labels to categoryLabels object",
+          "service": "frontend",
+          "files_to_modify": [
+            "./app/src/lib/templates/data.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "./app/src/lib/templates/data.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "Build completes successfully"
+          },
+          "status": "completed",
+          "notes": "Successfully added 7 new category labels to categoryLabels object: predictions, case-study, before-after, lessons-learned, tool-review, comparison, and unpopular-opinion. Build verification passed.",
+          "updated_at": "2026-01-07T02:37:02.894625+00:00"
+        }
+      ]
+    },
+    {
+      "id": "phase-3-new-templates",
+      "name": "New Template Content",
+      "type": "implementation",
+      "description": "Create 15+ new templates across new and existing categories",
+      "depends_on": [
+        "phase-2-category-labels"
+      ],
+      "parallel_safe": true,
+      "subtasks": [
+        {
+          "id": "subtask-3-1",
+          "description": "Add 2-3 Predictions templates",
+          "service": "frontend",
+          "files_to_modify": [
+            "./app/src/lib/templates/data.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "./app/src/lib/templates/data.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "Build succeeds, predictions templates compile"
+          },
+          "status": "completed",
+          "notes": "Added 3 prediction templates (pr1-bold-prediction, pr2-trend-forecast, pr3-mark-my-words) following existing patterns. Build verified successfully.",
+          "updated_at": "2026-01-07T02:38:21.898679+00:00"
+        },
+        {
+          "id": "subtask-3-2",
+          "description": "Add 2-3 Case Study templates",
+          "service": "frontend",
+          "files_to_modify": [
+            "./app/src/lib/templates/data.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "./app/src/lib/templates/data.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "Build succeeds, case-study templates compile"
+          },
+          "status": "completed",
+          "notes": "Added 3 case study templates: cs1-client-results (Client Results Showcase), cs2-before-after-stats (Before/After Stats), and cs3-problem-solution-result (Problem-Solution-Result). All templates follow existing patterns with placeholders, expectedScore, bestWith, and examples. Build verification passed successfully.",
+          "updated_at": "2026-01-07T02:39:53.164206+00:00"
+        },
+        {
+          "id": "subtask-3-3",
+          "description": "Add 2 Before/After templates",
+          "service": "frontend",
+          "files_to_modify": [
+            "./app/src/lib/templates/data.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "./app/src/lib/templates/data.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "Build succeeds, before-after templates compile"
+          },
+          "status": "completed",
+          "notes": "Added 2 Before/After templates: ba1-simple-comparison (simple before/after comparison with 4 placeholders) and ba2-transformation-timeline (detailed transformation with timeline and bullet points, 10 placeholders). Both include examples and follow existing template patterns. Build verified successfully.",
+          "updated_at": "2026-01-07T02:41:47.710868+00:00"
+        },
+        {
+          "id": "subtask-3-4",
+          "description": "Add 2 Lessons Learned templates",
+          "service": "frontend",
+          "files_to_modify": [
+            "./app/src/lib/templates/data.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "./app/src/lib/templates/data.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "Build succeeds, lessons-learned templates compile"
+          },
+          "status": "completed",
+          "notes": "Successfully added 2 Lessons Learned templates (ll1-key-lessons and ll2-if-i-could-go-back) following existing patterns. Build passes, changes committed.",
+          "updated_at": "2026-01-07T02:43:30.108154+00:00"
+        },
+        {
+          "id": "subtask-3-5",
+          "description": "Add 2 Tool Review templates",
+          "service": "frontend",
+          "files_to_modify": [
+            "./app/src/lib/templates/data.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "./app/src/lib/templates/data.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "Build succeeds, tool-review templates compile"
+          },
+          "status": "completed",
+          "notes": "Successfully added 2 Tool Review templates (tr1-honest-review and tr2-tool-replacement) to data.ts. Build verified successfully. Both templates follow existing patterns with proper structure, placeholders, examples, and expected engagement scores.",
+          "updated_at": "2026-01-07T02:45:24.696465+00:00"
+        },
+        {
+          "id": "subtask-3-6",
+          "description": "Add 2 Comparison templates",
+          "service": "frontend",
+          "files_to_modify": [
+            "./app/src/lib/templates/data.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "./app/src/lib/templates/data.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "Build succeeds, comparison templates compile"
+          },
+          "status": "completed",
+          "notes": "Added 2 comparison templates: cm1-old-way-new-way (Old Way vs New Way) and cm2-side-by-side (Side-by-Side Comparison). Both templates follow existing patterns with proper structure, placeholders, examples, and expectedScore ranges. Build verified successfully.",
+          "updated_at": "2026-01-07T02:46:53.411390+00:00"
+        },
+        {
+          "id": "subtask-3-7",
+          "description": "Add 5-7 templates to existing categories",
+          "service": "frontend",
+          "files_to_modify": [
+            "./app/src/lib/templates/data.ts"
+          ],
+          "files_to_create": [],
+          "patterns_from": [
+            "./app/src/lib/templates/data.ts"
+          ],
+          "verification": {
+            "type": "command",
+            "command": "cd app && npm run build",
+            "expected": "Build succeeds, total template count >= 30"
+          },
+          "status": "completed",
+          "notes": "Successfully added 7 new templates to existing categories (c2-everyone-but-me, n2-stop-start, s2-failure-story, t2-mistake-thread, p2-audience-poll, v2-bookmark-worthy, q1-ask-me-anything). Total template count increased from 28 to 35, exceeding the 30 template requirement. Build verified successfully.",
+          "updated_at": "2026-01-07T02:49:28.122978+00:00"
+        }
+      ]
+    },
+    {
+      "id": "phase-4-integration",
+      "name": "Integration Verification",
+      "type": "integration",
+      "description": "Verify all new templates render correctly in the UI and pass quality checks",
+      "depends_on": [
+        "phase-3-new-templates"
+      ],
+      "parallel_safe": false,
+      "subtasks": [
+        {
+          "id": "subtask-4-1",
+          "description": "Verify template count and structure validation",
+          "service": "frontend",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "manual",
+            "instructions": "1. Verify templates.length >= 30\n2. Check all template IDs are unique\n3. Validate all expectedScore values are [min, max] where 0 <= min < max <= 100\n4. Confirm every {placeholder} in template strings has matching entry in placeholders array\n5. Verify all template.category values match TemplateCategory type"
+          },
+          "status": "completed",
+          "notes": "All verification criteria passed successfully:\n\u2705 Template count: 36 (exceeds minimum of 30 by 20%)\n\u2705 All 36 template IDs are unique - no duplicates\n\u2705 All expectedScore values are valid [min, max] where 0 <= min < max <= 100\n\u2705 Every {placeholder} in template strings has matching entry in placeholders array\n\u2705 All template.category values match TemplateCategory type\n\nAdditional achievements:\n- 16 total categories (60% above 10+ requirement)\n- 69.4% of templates include examples (exceeds 50% target)\n- Well-balanced distribution across categories\n- Created comprehensive verification-results.md documenting all checks\n\nVerification script created and executed successfully, results documented.",
+          "updated_at": "2026-01-07T02:53:12.840414+00:00"
+        },
+        {
+          "id": "subtask-4-2",
+          "description": "Browser verification of new templates",
+          "service": "frontend",
+          "files_to_modify": [],
+          "files_to_create": [],
+          "patterns_from": [],
+          "verification": {
+            "type": "browser",
+            "url": "http://localhost:5173",
+            "checks": [
+              "New categories appear in category filter list",
+              "New templates display in template grid",
+              "Template cards show name, category, score range",
+              "Clicking template shows details with placeholders and examples",
+              "No console errors during template browsing",
+              "Existing templates still work correctly"
+            ]
+          },
+          "status": "completed",
+          "notes": "Browser verification complete. All 36 templates verified working correctly. TypeScript compilation passes. No console errors. Dev server running on http://localhost:5175/. All verification criteria met: new categories appear in filters, templates display with correct details (name, category, score range), clicking shows placeholders and examples, existing templates still work. Comprehensive verification report created documenting all checks.",
+          "updated_at": "2026-01-07T02:55:27.710838+00:00"
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_phases": 4,
+    "total_subtasks": 9,
+    "services_involved": [
+      "frontend"
+    ],
+    "parallelism": {
+      "max_parallel_phases": 1,
+      "parallel_groups": [],
+      "recommended_workers": 1,
+      "speedup_estimate": "Sequential execution required due to type dependencies"
+    },
+    "startup_command": "source auto-claude/.venv/bin/activate && python auto-claude/run.py --spec 001 --parallel 1"
+  },
+  "verification_strategy": {
+    "risk_level": "medium",
+    "skip_validation": false,
+    "test_creation_phase": "post_implementation",
+    "test_types_required": [
+      "unit",
+      "integration"
+    ],
+    "security_scanning_required": false,
+    "staging_deployment_required": false,
+    "acceptance_criteria": [
+      "At least 30 templates exist in data.ts",
+      "At least 10 categories defined in TemplateCategory type",
+      "All template IDs are unique",
+      "All expectedScore ranges are valid [min, max] with 0 <= min < max <= 100",
+      "All placeholders in templates have matching entries in placeholders array",
+      "No TypeScript compilation errors",
+      "Templates render correctly in browser UI",
+      "No console errors during template browsing",
+      "Existing templates still function correctly"
+    ],
+    "verification_steps": [
+      {
+        "name": "TypeScript Type Check",
+        "command": "cd app && npm run build",
+        "expected_outcome": "Build completes with no type errors",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Template Data Validation",
+        "command": "manual",
+        "expected_outcome": "All templates have valid structure, unique IDs, valid score ranges",
+        "type": "test",
+        "required": true,
+        "blocking": true
+      },
+      {
+        "name": "Browser UI Verification",
+        "command": "cd app && npm run dev",
+        "expected_outcome": "Templates render correctly, category filters work, no console errors",
+        "type": "manual",
+        "required": true,
+        "blocking": true
+      }
+    ],
+    "reasoning": "Medium risk due to templates being a key product differentiator. Quality matters. Need unit validation of data structure and integration testing of UI rendering/filtering. No security concerns for this frontend data change."
+  },
+  "qa_acceptance": {
+    "unit_tests": {
+      "required": true,
+      "commands": [
+        "cd app && npm run build"
+      ],
+      "minimum_coverage": null
+    },
+    "integration_tests": {
+      "required": true,
+      "commands": [
+        "cd app && npm run dev"
+      ],
+      "services_to_test": [
+        "frontend"
+      ]
+    },
+    "e2e_tests": {
+      "required": false,
+      "commands": [],
+      "flows": []
+    },
+    "browser_verification": {
+      "required": true,
+      "pages": [
+        {
+          "url": "http://localhost:5173",
+          "checks": [
+            "New templates appear in grid",
+            "Category filters show new categories",
+            "Template details display correctly",
+            "Score ranges visible",
+            "Examples render when present",
+            "No console errors",
+            "Existing templates still work"
+          ]
+        }
+      ]
+    },
+    "database_verification": {
+      "required": false,
+      "checks": []
+    }
+  },
+  "qa_signoff": {
+    "status": "approved",
+    "timestamp": "2026-01-07T03:10:22.783752+00:00",
+    "qa_session": 2,
+    "report_file": "qa_report.md",
+    "tests_passed": {
+      "unit": "36/36 templates validated",
+      "integration": "All categories and rendering verified",
+      "e2e": "N/A"
+    },
+    "verified_by": "qa_agent",
+    "summary": "All acceptance criteria met and exceeded. 36 templates across 16 categories. No issues found."
+  },
+  "last_updated": "2026-01-07T02:55:27.710846+00:00",
+  "status": "in_progress",
+  "planStatus": "in_progress",
+  "updated_at": "2026-01-07T02:51:34.349Z",
+  "recoveryNote": "Task recovered from stuck state at 2026-01-07T02:51:34.349Z",
+  "qa_iteration_history": [
+    {
+      "iteration": 1,
+      "status": "error",
+      "timestamp": "2026-01-07T03:02:03.699059+00:00",
+      "issues": [
+        {
+          "title": "QA error",
+          "description": "QA agent did not update implementation_plan.json"
+        }
+      ]
+    },
+    {
+      "iteration": 2,
+      "status": "approved",
+      "timestamp": "2026-01-07T03:12:33.022783+00:00",
+      "issues": [],
+      "duration_seconds": 629.32
+    }
+  ],
+  "qa_stats": {
+    "total_iterations": 2,
+    "last_iteration": 2,
+    "last_status": "approved",
+    "issues_by_type": {
+      "unknown": 1
+    }
+  }
+}
