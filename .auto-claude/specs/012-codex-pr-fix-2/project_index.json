@@ -1,0 +1,28 @@
+{
+  "project_root": "/Users/ambrealismwork/Desktop/Coding-Projects/punchline-x",
+  "project_type": "single",
+  "services": {
+    "punchline-x": {
+      "path": "./app",
+      "tech_stack": ["typescript", "react", "vite", "tailwindcss", "eslint"],
+      "port": 5173,
+      "dev_command": "npm run dev",
+      "build_command": "npm run build",
+      "lint_command": "npm run lint",
+      "test_command": null
+    }
+  },
+  "infrastructure": {
+    "docker": false,
+    "database": null,
+    "ci_cd": "github-actions"
+  },
+  "conventions": {
+    "linter": "eslint",
+    "formatter": null,
+    "testing": null,
+    "typescript": "5.9.3",
+    "react_version": "19.2.0",
+    "config_style": "flat_config"
+  }
+}

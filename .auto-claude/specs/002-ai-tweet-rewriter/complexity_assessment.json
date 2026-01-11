@@ -1,0 +1,72 @@
+{
+  "complexity": "standard",
+  "workflow_type": "feature",
+  "confidence": 0.85,
+  "reasoning": "New AI-powered feature leveraging existing AI proxy and score prediction infrastructure. Single external integration (LLM) with existing patterns. Needs research for optimal prompting strategies to preserve user voice while improving engagement.",
+
+  "analysis": {
+    "scope": {
+      "estimated_files": 7,
+      "estimated_services": 1,
+      "is_cross_cutting": false,
+      "notes": "UI components for rewriter interface, API route for generation, prompt engineering logic, integration with existing scorer. Contained to frontend + existing backend service."
+    },
+    "integrations": {
+      "external_services": ["OpenAI/LLM API"],
+      "new_dependencies": [],
+      "research_needed": true,
+      "notes": "AI proxy already exists (ai-proxy.ts). Need to research effective prompting strategies for generating variations that preserve voice while optimizing engagement. No new dependencies likely needed."
+    },
+    "infrastructure": {
+      "docker_changes": false,
+      "database_changes": false,
+      "config_changes": true,
+      "notes": "May need additional AI prompt templates in config. Existing AI API keys should be reusable. No database or Docker changes required."
+    },
+    "knowledge": {
+      "patterns_exist": true,
+      "research_required": true,
+      "unfamiliar_tech": [],
+      "notes": "Codebase has existing AI integration (ai-proxy.ts) and score prediction (ScoreDisplay.tsx). Need to research: (1) Prompt engineering for voice-preserving variations, (2) Multi-variant generation strategies, (3) Blending mechanism design."
+    },
+    "risk": {
+      "level": "medium",
+      "concerns": [
+        "Voice preservation is critical differentiator - poor AI outputs could harm brand",
+        "Generation latency could impact UX (3-5 variants)",
+        "API costs for multiple completions per request",
+        "Score prediction accuracy for AI-generated content may differ from human content",
+        "Blending feature complexity (optional but requested)"
+      ],
+      "notes": "Primary risk is delivering on the 'preserves user voice' promise. This is explicitly called out as a competitive differentiator. Secondary risks are performance and cost."
+    }
+  },
+
+  "recommended_phases": [
+    "discovery",
+    "requirements",
+    "research",
+    "context",
+    "spec_writing",
+    "planning",
+    "validation"
+  ],
+
+  "flags": {
+    "needs_research": true,
+    "needs_self_critique": false,
+    "needs_infrastructure_setup": false
+  },
+
+  "validation_recommendations": {
+    "risk_level": "high",
+    "skip_validation": false,
+    "minimal_mode": false,
+    "test_types_required": ["unit", "integration", "e2e"],
+    "security_scan_required": true,
+    "staging_deployment_required": false,
+    "reasoning": "AI outputs are unpredictable and voice preservation is a critical brand differentiator requiring thorough validation. Need E2E tests to verify generation quality, unit tests for prompt logic, integration tests for API calls. Security scan required for API key handling. No staging deployment needed since no infrastructure changes."
+  },
+
+  "created_at": "2026-01-06T00:00:00.000Z"
+}

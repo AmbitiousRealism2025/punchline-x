@@ -1,0 +1,27 @@
+{
+  "project_root": "/Users/ambrealismwork/Desktop/Coding-Projects/punchline-x",
+  "project_type": "single",
+  "services": {
+    "frontend": {
+      "path": "./app",
+      "tech_stack": ["typescript", "react", "vite", "tailwindcss", "radix-ui"],
+      "port": 3000,
+      "dev_command": "npm run dev",
+      "test_command": "npm test",
+      "framework": "react",
+      "build_tool": "vite"
+    }
+  },
+  "infrastructure": {
+    "docker": false,
+    "database": "none",
+    "ci_cd": false
+  },
+  "conventions": {
+    "linter": "eslint",
+    "formatter": "prettier",
+    "testing": "unknown",
+    "styling": "tailwindcss",
+    "component_library": "radix-ui"
+  }
+}

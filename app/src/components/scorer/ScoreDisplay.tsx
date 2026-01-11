@@ -35,8 +35,8 @@ export function ScoreDisplay() {
 
   return (
     <Card className="raycast-shine">
-      <CardContent className="pt-6 flex flex-col items-center gap-4">
-        <div className="relative w-32 h-32">
+      <CardContent className="pt-4 sm:pt-6 flex flex-col items-center gap-3 sm:gap-4">
+        <div className="relative w-24 h-24 sm:w-32 sm:h-32">
           <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
             <circle
               cx="50"
@@ -62,7 +62,7 @@ export function ScoreDisplay() {
             />
           </svg>
           <div className="absolute inset-0 flex items-center justify-center">
-            <span className={cn('text-4xl font-bold tabular-nums', gradeColors[grade])}>
+            <span className={cn('text-3xl sm:text-4xl font-bold tabular-nums', gradeColors[grade])}>
               {total}
             </span>
           </div>
