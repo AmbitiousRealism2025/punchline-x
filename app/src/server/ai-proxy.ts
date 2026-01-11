@@ -3,12 +3,49 @@ import OpenAI from 'openai'
 const ZAI_BASE_URL = 'https://api.z.ai/api/coding/paas/v4/'
 const ZAI_MODEL = 'glm-4.7'
 
+interface VoiceProfile {
+  tone: 1 | 2 | 3 | 4 | 5
+  formality: 'formal' | 'neutral' | 'casual'
+  humorLevel: 'none' | 'low' | 'medium' | 'high'
+  emojiUsage: 'never' | 'rarely' | 'often' | 'always'
+  topicPreferences?: string[]
+}
+
 function getApiKey(): string {
   const key = process.env.ZAI_API_KEY
   if (!key) {
     throw new Error('ZAI_API_KEY environment variable not set')
   }
   return key
+}
+
+function buildVoiceSystemPrompt(profile: VoiceProfile): string {
+  const toneMap = {
+    1: 'very formal',
+    2: 'formal',
+    3: 'neutral',
+    4: 'casual',
+    5: 'very casual'
+  }
+  const tone = toneMap[profile.tone] || 'neutral'
+
+  return `You are a viral tweet expert. Generate content matching this voice:
+- Tone: ${tone}
+- Formality: ${profile.formality}
+- Humor level: ${profile.humorLevel}
+- Emoji usage: ${profile.emojiUsage}
+- Topics: ${profile.topicPreferences?.join(', ') || 'general'}
+
+Match the style of the example tweets provided.`
+}
+
+function buildFewShotMessages(examples: string[]): Array<{role: 'user' | 'assistant', content: string}> {
+  if (!examples?.length) return []
+
+  return examples.flatMap((tweet, i) => [
+    { role: 'user' as const, content: `Example of my writing style ${i + 1}:` },
+    { role: 'assistant' as const, content: tweet }
+  ])
 }
 
 const client = new OpenAI({
@@ -113,7 +150,7 @@ Bun.serve({
           return createErrorResponse('Invalid JSON in request body')
         }
 
-        const { topic } = body
+        const { topic, voiceProfile, exampleTweets } = body
 
         if (!topic || typeof topic !== 'string') {
           return createErrorResponse('Topic is required and must be a string')
@@ -127,14 +164,29 @@ Bun.serve({
           return createErrorResponse(`Topic must be ${MAX_TOPIC_LENGTH} characters or less`)
         }
 
+        const messages: Array<{role: 'system' | 'user' | 'assistant', content: string}> = []
+
+        if (voiceProfile) {
+          messages.push({
+            role: 'system',
+            content: buildVoiceSystemPrompt(voiceProfile)
+          })
+        }
+
+        if (exampleTweets && Array.isArray(exampleTweets) && exampleTweets.length > 0) {
+          messages.push(...buildFewShotMessages(exampleTweets))
+        }
+
+        messages.push({
+          role: 'user',
+          content: `${HOOK_PROMPT}\n\nTopic: "${topic}"`
+        })
+
         const completion = await client.chat.completions.create({
           model: ZAI_MODEL,
           max_tokens: 2048,
           temperature: 0.7,
-          messages: [{
-            role: 'user',
-            content: `${HOOK_PROMPT}\n\nTopic: "${topic}"`,
-          }],
+          messages,
         })
 
         const message = completion.choices[0]?.message

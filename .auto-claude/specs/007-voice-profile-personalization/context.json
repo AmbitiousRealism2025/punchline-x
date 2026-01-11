@@ -1,0 +1,39 @@
+{
+  "task_description": "Voice Profile & Personalization - Enable AI content suggestions to match individual user writing styles and brand voices",
+  "scoped_services": ["frontend", "ai-proxy"],
+  "files_to_modify": {
+    "frontend": [
+      "app/src/lib/store/index.ts",
+      "app/src/App.tsx",
+      "app/src/lib/ai/hooks.ts",
+      "app/src/components/scorer/TweetInput.tsx",
+      "app/package.json"
+    ],
+    "ai-proxy": [
+      "app/src/server/ai-proxy.ts"
+    ]
+  },
+  "files_to_reference": [
+    "app/src/lib/store/index.ts",
+    "app/src/components/ai/HookGenerator.tsx",
+    "app/src/lib/ai/hooks.ts",
+    "app/src/server/ai-proxy.ts",
+    "app/src/components/scorer/MediaToggles.tsx",
+    "app/src/App.tsx"
+  ],
+  "patterns": {
+    "tinybase_pattern": "Use store.setRow(table, id, data) for writes, useCell/useSetCellCallback for React integration, auto-persistence already configured",
+    "ai_api_pattern": "Client calls localhost:3001/api/* endpoints, server uses OpenAI SDK with ZAI base URL, use system role messages for voice persona",
+    "component_pattern": "Card-based UI with loading/error states, TinyBase hooks for state management, Radix UI primitives for controls",
+    "voice_prompt_strategy": "Use system message for voice persona, include few-shot examples as message pairs, temperature 0.8 for natural variation"
+  },
+  "existing_implementations": {
+    "description": "TinyBase store with settings, currentTweet, and tweetLog tables. AI hook generation via /api/generate-hooks endpoint. Auto-persistence to localStorage already configured.",
+    "relevant_files": [
+      "app/src/lib/store/index.ts",
+      "app/src/server/ai-proxy.ts",
+      "app/src/components/ai/HookGenerator.tsx"
+    ]
+  },
+  "created_at": "2026-01-06T22:39:11.694634"
+}

@@ -15,6 +15,7 @@ import { useRewriteTweet } from '@/hooks/useRewriteTweet'
 import type { Alternative } from '@/lib/store'
 import { TemplateGrid, TemplateEditor, TimingAdvisor } from '@/components/templates'
 import { AnalyticsDashboard, TweetHistory, DataExport } from '@/components/analytics'
+import { VoiceProfileForm } from '@/components/settings/VoiceProfileForm'
 import { ThreadBuilder, ThreadScoreDisplay, ThreadSuggestions } from '@/components/threads'
 import { CommandPalette } from '@/components/CommandPalette'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
@@ -57,6 +58,7 @@ function App() {
             <TabsTrigger value="threads">Threads</TabsTrigger>
             <TabsTrigger value="templates">Templates</TabsTrigger>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
+            <TabsTrigger value="settings">Settings</TabsTrigger>
           </TabsList>
 
           <TabsContent value="compose">
@@ -121,6 +123,12 @@ function App() {
                 <TweetHistory />
                 <DataExport />
               </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="settings">
+            <div className="space-y-6">
+              <VoiceProfileForm />
             </div>
           </TabsContent>
         </Tabs>

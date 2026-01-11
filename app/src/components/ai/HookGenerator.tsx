@@ -5,7 +5,13 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Badge } from '@/components/ui/badge'
 import { generateHooks, type GeneratedHook } from '@/lib/ai/hooks'
+import { getVoiceProfile, getExampleTweets } from '@/lib/store'
+import { calculateVoiceMatchScore } from '@/lib/ai/voiceMatch'
 import { cn } from '@/lib/utils'
+
+interface HookWithScore extends GeneratedHook {
+  voiceMatchScore?: number
+}
 
 const styleColors: Record<GeneratedHook['style'], string> = {
   contrarian: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
@@ -17,7 +23,7 @@ const styleColors: Record<GeneratedHook['style'], string> = {
 
 export function HookGenerator() {
   const [topic, setTopic] = useState('')
-  const [hooks, setHooks] = useState<GeneratedHook[]>([])
+  const [hooks, setHooks] = useState<HookWithScore[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -38,8 +44,29 @@ export function HookGenerator() {
     setError(null)
 
     try {
-      const generatedHooks = await generateHooks(topic)
-      setHooks(generatedHooks)
+      const voiceProfile = getVoiceProfile()
+      const exampleTweets = getExampleTweets()
+      const exampleTexts = exampleTweets.map((tweet) => tweet.text)
+
+      const generatedHooks = await generateHooks(
+        topic,
+        voiceProfile ?? undefined,
+        exampleTexts.length > 0 ? exampleTexts : undefined
+      )
+
+      const hooksWithScores: HookWithScore[] = generatedHooks.map((hook) => {
+        const scoreResult = calculateVoiceMatchScore(
+          hook.hook,
+          exampleTexts,
+          voiceProfile ?? undefined
+        )
+        return {
+          ...hook,
+          voiceMatchScore: scoreResult.total,
+        }
+      })
+
+      setHooks(hooksWithScores)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to generate hooks')
     } finally {
@@ -90,6 +117,14 @@ export function HookGenerator() {
                     {hook.style}
                   </Badge>
                   <p className="text-sm text-foreground flex-1">{hook.hook}</p>
+                  {hook.voiceMatchScore !== undefined && (
+                    <Badge
+                      variant="outline"
+                      className="shrink-0 bg-primary/10 text-primary border-primary/30"
+                    >
+                      {Math.round(hook.voiceMatchScore)}%
+                    </Badge>
+                  )}
                 </div>
                 <p className="text-xs text-muted-foreground mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
                   Click to use this hook

@@ -1,0 +1,73 @@
+{
+  "complexity": "complex",
+  "workflow_type": "feature",
+  "confidence": 0.85,
+  "reasoning": "Voice profile personalization requires database schema changes, AI prompt engineering research, cross-cutting integration affecting all AI generations, and a novel voice matching scoring system. Multiple architectural components need coordination.",
+
+  "analysis": {
+    "scope": {
+      "estimated_files": 12,
+      "estimated_services": 1,
+      "is_cross_cutting": true,
+      "notes": "Affects UI (profile settings), database (voice profiles table), AI integration layer (prompt adaptation), and scoring algorithm. Cross-cutting because it modifies all AI suggestion flows."
+    },
+    "integrations": {
+      "external_services": ["AI/LLM API (OpenAI/Anthropic/similar)"],
+      "new_dependencies": [],
+      "research_needed": true,
+      "notes": "AI likely already integrated, but requires research for prompt engineering techniques to adapt suggestions to voice profiles and calculate voice match scores."
+    },
+    "infrastructure": {
+      "docker_changes": false,
+      "database_changes": true,
+      "config_changes": true,
+      "notes": "New database tables for voice profiles and example tweets. Possible new environment variables for AI feature flags or tuning parameters."
+    },
+    "knowledge": {
+      "patterns_exist": false,
+      "research_required": true,
+      "unfamiliar_tech": ["Voice matching algorithms", "Style-based prompt engineering", "Voice match scoring methodology"],
+      "notes": "Voice profile system is a new architectural pattern. Requires research for: (1) prompt engineering to incorporate multi-dimensional voice parameters, (2) scoring algorithm for voice match percentage, (3) example-based learning techniques."
+    },
+    "risk": {
+      "level": "high",
+      "concerns": [
+        "AI prompt engineering quality affects user experience",
+        "Voice match scoring accuracy and reliability",
+        "Performance impact on AI generation latency",
+        "User data privacy (storing example tweets)",
+        "Balance between comprehensive customization and UX simplicity"
+      ],
+      "notes": "High-visibility feature addressing major competitor pain point. Quality of voice matching directly impacts product differentiation and user satisfaction."
+    }
+  },
+
+  "recommended_phases": [
+    "discovery",
+    "requirements",
+    "research",
+    "context",
+    "spec_writing",
+    "self_critique",
+    "planning",
+    "validation"
+  ],
+
+  "flags": {
+    "needs_research": true,
+    "needs_self_critique": true,
+    "needs_infrastructure_setup": false
+  },
+
+  "validation_recommendations": {
+    "risk_level": "high",
+    "skip_validation": false,
+    "minimal_mode": false,
+    "test_types_required": ["unit", "integration", "e2e"],
+    "security_scan_required": false,
+    "staging_deployment_required": false,
+    "reasoning": "High-impact feature affecting all AI outputs requires comprehensive testing. E2E tests needed to verify voice matching works end-to-end. User data involved but not payment/auth level, so no security scan required."
+  },
+
+  "created_at": "2026-01-06T00:00:00Z"
+}
